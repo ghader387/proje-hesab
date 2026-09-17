@@ -1,0 +1,2271 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#6d28d9">
+<title>حساب روزانه تبریزکابین</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#f0e8ff;
+--bg-2:#e4d4ff;
+--card:#ffffff;
+--primary:#7c3aed;
+--primary-2:#6d28d9;
+--primary-3:#5b21b6;
+--primary-4:#4c1d95;
+--primary-dark:#4c1d95;
+--primary-light:#a78bfa;
+--accent:#c026d3;
+--income:#059669;
+--income-soft:#d1fae5;
+--expense:#dc2626;
+--expense-soft:#fee2e2;
+--pay:#ea580c;
+--pay-soft:#ffedd5;
+--check:#d97706;
+--check-soft:#fef3c7;
+--text:#1a1730;
+--text-2:#4b4a63;
+--muted:#8b8aa3;
+--border:#e4d4ff;
+--star:#fbbf24;
+--nav-h:68px;
+--app-h:100dvh;
+--shadow-sm:0 2px 8px rgba(76,29,149,.12);
+--shadow-md:0 8px 24px rgba(76,29,149,.18);
+--shadow-glow:0 12px 30px rgba(76,29,149,.45);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;height:100dvh;}
+body{
+margin:0;
+font-family:'Vazirmatn',-apple-system,BlinkMacSystemFont,'Segoe UI',Tahoma,sans-serif;
+background:
+radial-gradient(900px 500px at 100% -5%, #d8b4fe 0%, transparent 55%),
+radial-gradient(800px 500px at -10% 10%, #f0abfc 0%, transparent 50%),
+linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%);
+background-attachment:fixed;
+color:var(--text);
+overscroll-behavior-y:none;
+-webkit-font-smoothing:antialiased;
+height:100dvh;
+overflow-x:hidden;
+}
+body.locked{overflow:hidden;}
+.app{
+max-width:520px;
+width:100%;
+margin:0 auto;
+min-height:100dvh;
+padding-bottom:calc(var(--nav-h) + 20px);
+position:relative;
+overflow-x:hidden;
+}
+@media (max-width:520px){
+.app{max-width:100%;}
+}
+
+.page{display:none;animation:fade .28s cubic-bezier(.2,.8,.3,1);}
+.page.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+.help-btn{
+width:38px;height:38px;border-radius:12px;border:none;
+background:linear-gradient(135deg,#7c3aed,#6d28d9);
+color:#fff;font-size:17px;cursor:pointer;flex-shrink:0;
+display:grid;place-items:center;line-height:1;
+box-shadow:0 4px 12px rgba(76,29,149,.35);
+transition:transform .15s;
+}
+.help-btn:active{transform:scale(.9);}
+
+.header-inner .save-btn{
+width:38px;height:38px;border-radius:12px;border:none;
+background:linear-gradient(135deg,#059669,#10b981);
+color:#fff;font-size:16px;cursor:pointer;flex-shrink:0;
+display:grid;place-items:center;line-height:1;
+box-shadow:0 4px 12px rgba(5,150,105,.35);
+transition:transform .15s;
+}
+.header-inner .save-btn:active{transform:scale(.9);}
+
+.topbar{padding:18px 18px 4px;background:transparent;}
+.header-inner{
+display:flex;align-items:center;gap:12px;
+background:#ffffff;border-radius:22px;padding:14px 16px;
+box-shadow:0 8px 26px rgba(76,29,149,.2);
+border:1.5px solid var(--border);
+position:relative;overflow:hidden;
+}
+.header-inner::before{
+content:'';position:absolute;top:-60px;left:-60px;
+width:160px;height:160px;border-radius:50%;
+background:radial-gradient(circle,#e9d5ff 0%, transparent 70%);
+pointer-events:none;
+}
+.logo-badge{
+width:60px;height:60px;flex-shrink:0;border-radius:16px;
+background:#ffffff;display:grid;place-items:center;
+border:1.5px solid var(--border);
+box-shadow:0 4px 12px rgba(76,29,149,.18);
+position:relative;overflow:hidden;
+}
+.logo-badge svg{width:100%;height:100%;display:block;}
+.brand{flex:1;min-width:0;position:relative;z-index:1;}
+.brand-name{font-size:15.5px;font-weight:900;letter-spacing:-.3px;line-height:1.3;color:var(--text);}
+.brand-name .tabriz{
+background:linear-gradient(135deg,#7c3aed,#c026d3);
+-webkit-background-clip:text;background-clip:text;
+-webkit-text-fill-color:transparent;color:#7c3aed;font-weight:900;
+}
+.brand-name .project{color:var(--primary-dark);font-weight:900;}
+.brand-name small{
+display:block;font-size:9.5px;font-weight:700;color:var(--muted);
+letter-spacing:1.5px;margin-top:3px;text-transform:uppercase;
+}
+.jalali-date{
+display:flex;flex-direction:column;align-items:center;justify-content:center;
+background:linear-gradient(135deg,#ede9fe,#ddd6fe);
+border:1.5px solid var(--border);
+border-radius:14px;padding:8px 10px;min-width:68px;flex-shrink:0;
+}
+.jalali-date .jd-day{font-size:20px;font-weight:900;color:var(--primary-dark);line-height:1;letter-spacing:-1px;}
+.jalali-date .jd-info{font-size:9px;font-weight:800;color:var(--primary-2);margin-top:3px;text-align:center;line-height:1.25;white-space:nowrap;}
+
+.balance-wrap{padding:14px 16px 0;}
+.balance-card{
+border-radius:26px;padding:22px 22px 20px;
+background:
+radial-gradient(120% 120% at 100% 0%, rgba(255,255,255,.28) 0%, transparent 45%),
+radial-gradient(120% 120% at 0% 100%, rgba(192,38,211,.35) 0%, transparent 45%),
+linear-gradient(135deg, #6d28d9 0%, #7c3aed 50%, #a855f7 100%);
+color:#fff;position:relative;overflow:hidden;
+box-shadow:0 18px 40px rgba(76,29,149,.5), inset 0 1px 0 rgba(255,255,255,.25);
+}
+.balance-card::after{content:'';position:absolute;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.09);top:-110px;left:-60px;}
+.balance-card::before{content:'';position:absolute;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.07);bottom:-70px;right:-30px;}
+.bc-top{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2;margin-bottom:14px;}
+.bc-label{font-size:12px;opacity:.95;font-weight:700;}
+.bc-chip{font-size:10px;font-weight:800;background:rgba(255,255,255,.22);padding:5px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(6px);}
+.bc-value{font-size:34px;font-weight:900;letter-spacing:-.8px;position:relative;z-index:2;line-height:1.15;direction:ltr;text-align:right;}
+.bc-value .cur{font-size:14px;font-weight:700;opacity:.9;margin-right:8px;letter-spacing:0;}
+.bc-bottom{display:flex;gap:14px;margin-top:16px;position:relative;z-index:2;}
+.bc-mini{flex:1;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);border-radius:14px;padding:10px 12px;backdrop-filter:blur(8px);}
+.bc-mini .l{font-size:10px;opacity:.9;font-weight:700;margin-bottom:3px;}
+.bc-mini .v{font-size:14px;font-weight:800;direction:ltr;text-align:right;}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;padding:14px 16px 0;}
+.stat{
+background:var(--card);border-radius:18px;padding:13px 10px;text-align:center;
+box-shadow:var(--shadow-sm);border:1px solid rgba(124,58,237,.1);
+transition:transform .15s;
+}
+.stat:active{transform:scale(.97);}
+.stat-ic{width:34px;height:34px;border-radius:11px;margin:0 auto 8px;display:grid;place-items:center;font-size:16px;}
+.stat-ic.buy{background:var(--expense-soft);}
+.stat-ic.pay{background:var(--pay-soft);}
+.stat-ic.rec{background:var(--income-soft);}
+.stat-l{font-size:9.5px;color:var(--muted);margin-bottom:4px;font-weight:800;}
+.stat-v{font-size:12px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;direction:ltr;text-align:center;}
+.stat-v.expense{color:var(--expense);}
+.stat-v.pay{color:var(--pay);}
+.stat-v.income{color:var(--income);}
+
+.page-head{
+display:flex;align-items:center;gap:12px;
+padding:18px;background:#fff;margin:0 16px 4px;border-radius:20px;
+box-shadow:0 6px 20px rgba(76,29,149,.15);
+border:1.5px solid var(--border);
+}
+.page-head .logo-badge{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);}
+.page-head h2{margin:0;font-size:17px;font-weight:900;letter-spacing:-.2px;color:var(--primary-dark);}
+.page-head .sub{font-size:10.5px;color:var(--muted);font-weight:700;margin-top:3px;}
+.page-head .head-text{flex:1;min-width:0;}
+
+.sec{padding:22px 16px 0;}
+.sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding:0 4px;}
+.sec-head h3{margin:0;font-size:14.5px;font-weight:800;letter-spacing:-.1px;}
+.sec-head h3 span{font-size:16px;margin-left:5px;}
+.sec-head a{font-size:11.5px;color:var(--primary-2);font-weight:800;text-decoration:none;cursor:pointer;padding:5px 10px;border-radius:9px;background:#ede9fe;}
+
+.filters{display:flex;gap:7px;overflow-x:auto;padding:6px 16px 14px;scrollbar-width:none;}
+.filters::-webkit-scrollbar{display:none;}
+.fbtn{
+flex-shrink:0;padding:8px 14px;border-radius:11px;
+border:1.5px solid var(--border);background:#fff;
+font-size:12px;font-weight:700;color:var(--text-2);cursor:pointer;transition:.2s;white-space:nowrap;
+}
+.fbtn:active{transform:scale(.96);}
+.fbtn.active{background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;border-color:transparent;box-shadow:0 6px 16px rgba(76,29,149,.4);}
+
+.list{padding:0 16px;}
+.day{margin-bottom:6px;}
+.day-head{display:flex;justify-content:space-between;align-items:center;padding:14px 6px 9px;font-size:12px;color:var(--muted);font-weight:700;}
+.day-net{font-size:11.5px;font-weight:800;direction:ltr;}
+
+.item{
+display:flex;align-items:flex-start;gap:12px;
+background:var(--card);border-radius:18px;padding:13px;margin-bottom:9px;
+box-shadow:var(--shadow-sm);border:1px solid rgba(124,58,237,.1);
+position:relative;transition:transform .15s;
+animation:pop .3s cubic-bezier(.2,.8,.3,1);
+}
+@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.98);}to{opacity:1;transform:none;}}
+.item.starred{background:linear-gradient(135deg,#fffcf2,#fff);border-color:#fde68a;}
+.item-icon{
+width:44px;height:44px;border-radius:14px;
+display:grid;place-items:center;font-size:20px;flex-shrink:0;
+background:linear-gradient(135deg,#ede9fe,#ddd6fe);border:1px solid var(--border);
+}
+.item-body{flex:1;min-width:0;padding-top:1px;}
+.item-title{font-size:13.5px;font-weight:800;letter-spacing:-.1px;display:flex;align-items:center;gap:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.item-title .st{font-size:11px;flex-shrink:0;}
+.item-meta{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;align-items:center;}
+.badge{font-size:9.5px;font-weight:800;padding:3.5px 8px;border-radius:7px;display:inline-flex;align-items:center;gap:3px;white-space:nowrap;}
+.badge.cash{background:#ede9fe;color:#5b21b6;}
+.badge.check{background:var(--check-soft);color:#92400e;}
+.badge.daily{background:#dbeafe;color:#1e40af;}
+.badge.special{background:#fce7f3;color:#9d174d;}
+.badge.due{background:var(--expense-soft);color:#991b1b;}
+.badge.soon{background:var(--check-soft);color:#92400e;}
+.badge.paid{background:var(--income-soft);color:#065f46;}
+.badge.pending{background:#e5e7eb;color:#374151;}
+.badge.pay-type{background:var(--pay-soft);color:#9a3412;}
+.badge.rec-type{background:var(--income-soft);color:#065f46;}
+.item-date{font-size:10.5px;color:var(--muted);font-weight:600;direction:ltr;}
+.item-person{font-size:11px;color:var(--text-2);margin-top:5px;font-weight:600;opacity:.85;}
+.item-right{text-align:left;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+.item-amount{font-size:13.5px;font-weight:800;white-space:nowrap;direction:ltr;}
+.item-amount.income{color:var(--income);}
+.item-amount.expense{color:var(--expense);}
+.item-amount.pay{color:var(--pay);}
+.actions-row{display:flex;gap:0px;align-items:center;}
+.del{background:none;border:none;color:#d0cee0;font-size:14px;padding:4px 5px;cursor:pointer;line-height:1;border-radius:7px;transition:.15s;}
+.del:active{background:var(--expense-soft);color:var(--expense);}
+.star-btn{background:none;border:none;font-size:14px;padding:4px 3px;cursor:pointer;line-height:1;filter:grayscale(1);opacity:.35;transition:.2s;}
+.star-btn.on{filter:none;opacity:1;transform:scale(1.1);}
+
+.empty{text-align:center;padding:54px 20px;color:var(--muted);}
+.empty-icon{font-size:48px;margin-bottom:14px;opacity:.45;}
+.empty p{margin:0 0 6px;font-size:14.5px;font-weight:800;color:var(--text-2);}
+.empty span{font-size:12px;font-weight:600;}
+
+.card{background:var(--card);border-radius:22px;padding:18px;box-shadow:var(--shadow-md);border:1px solid rgba(124,58,237,.1);margin-bottom:14px;}
+.card h4{margin:0 0 4px;font-size:14px;font-weight:900;letter-spacing:-.1px;color:var(--primary-dark);}
+.card .hint{font-size:11px;color:var(--muted);margin-bottom:16px;font-weight:700;}
+
+.chart-row{display:flex;align-items:center;gap:9px;margin-bottom:10px;font-size:11px;}
+.chart-label{width:72px;flex-shrink:0;color:var(--text-2);font-weight:700;font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.chart-track{flex:1;display:flex;height:16px;border-radius:8px;overflow:hidden;background:#f0e8ff;min-width:0;}
+.chart-bar{height:100%;transition:width .6s cubic-bezier(.2,.8,.3,1);min-width:0;}
+.chart-bar.cash{background:linear-gradient(90deg,#7c3aed,#5b21b6);}
+.chart-bar.check{background:linear-gradient(90deg,#fbbf24,#d97706);}
+.chart-bar.income{background:linear-gradient(90deg,#34d399,#059669);}
+.chart-bar.expense{background:linear-gradient(90deg,#fb7185,#dc2626);}
+.chart-val{width:66px;flex-shrink:0;text-align:left;font-weight:800;font-size:10.5px;color:var(--text-2);direction:ltr;}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);}
+.legend span{font-size:10.5px;color:var(--muted);font-weight:700;display:flex;align-items:center;gap:6px;}
+.dot{width:9px;height:9px;border-radius:3px;display:inline-block;}
+
+.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.sum-box{background:var(--card);border-radius:18px;padding:15px;box-shadow:var(--shadow-sm);border:1px solid rgba(124,58,237,.1);position:relative;overflow:hidden;}
+.sum-box::before{content:'';position:absolute;top:0;right:0;width:4px;height:100%;background:linear-gradient(180deg,#7c3aed,#6d28d9);border-radius:0 18px 18px 0;}
+.sum-box:nth-child(2)::before{background:linear-gradient(180deg,#ea580c,#f97316);}
+.sum-box:nth-child(3)::before{background:linear-gradient(180deg,#059669,#34d399);}
+.sum-box:nth-child(4)::before{background:linear-gradient(180deg,#c026d3,#e879f9);}
+.sum-box .l{font-size:10.5px;color:var(--muted);font-weight:700;margin-bottom:7px;}
+.sum-box .v{font-size:15px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;direction:ltr;text-align:right;}
+.sum-box .v.g{color:var(--income);}
+.sum-box .v.r{color:var(--expense);}
+.sum-box .v.o{color:var(--pay);}
+.sum-box .v.p{color:var(--primary-dark);}
+
+.save-overlay{
+position:fixed;inset:0;background:rgba(35,10,70,.6);
+-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+opacity:0;pointer-events:none;transition:.28s;z-index:80;
+display:flex;align-items:center;justify-content:center;padding:18px;
+}
+.save-overlay.open{opacity:1;pointer-events:auto;}
+.save-card{
+width:100%;max-width:440px;background:#fff;border-radius:24px;
+padding:20px;box-shadow:0 30px 70px rgba(35,10,70,.5);
+transform:scale(.94);transition:transform .3s cubic-bezier(.2,.8,.3,1);
+max-height:88vh;overflow-y:auto;
+}
+.save-overlay.open .save-card{transform:scale(1);}
+.save-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;padding-bottom:14px;border-bottom:1.5px solid var(--border);}
+.save-head h3{margin:0;font-size:17px;font-weight:900;color:var(--primary-dark);letter-spacing:-.2px;}
+.save-head .close{
+width:34px;height:34px;border-radius:50%;border:none;
+background:#ede9fe;color:var(--primary-2);font-size:15px;
+cursor:pointer;display:grid;place-items:center;line-height:1;transition:.2s;
+}
+.save-head .close:active{background:#ddd6fe;transform:scale(.92);}
+.save-sec{margin-bottom:16px;}
+.save-sec-title{
+font-size:11.5px;font-weight:900;color:var(--primary-2);
+margin-bottom:9px;padding:0 3px;letter-spacing:.3px;
+display:flex;align-items:center;gap:6px;
+}
+.save-sec-title::before{
+content:'';width:3px;height:14px;border-radius:2px;
+background:linear-gradient(180deg,#7c3aed,#c026d3);
+}
+.save-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.save-grid .full{grid-column:1/-1;}
+.save-item{
+padding:13px 10px;border-radius:14px;border:1.5px solid var(--border);
+background:#fafbff;font-family:inherit;
+font-size:12px;font-weight:800;color:var(--text-2);
+cursor:pointer;transition:.2s;
+display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;
+line-height:1.3;
+}
+.save-item:active{background:#ede9fe;border-color:var(--primary);transform:scale(.96);}
+.save-item .ic{font-size:20px;line-height:1;}
+.save-item small{font-size:9.5px;color:var(--muted);font-weight:700;}
+.save-item.grad{
+background:linear-gradient(135deg,#7c3aed,#6d28d9 60%,#c026d3 130%);
+color:#fff;border:none;box-shadow:0 8px 20px rgba(76,29,149,.4);
+}
+.save-item.grad small{color:rgba(255,255,255,.85);}
+.save-item.danger{color:var(--expense);border-color:#fecaca;}
+.save-item.danger:active{background:#fee2e2;border-color:var(--expense);}
+
+.fab{
+position:fixed;bottom:calc(var(--nav-h) + 18px);left:50%;transform:translateX(-50%);
+padding:0 26px;height:56px;border-radius:28px;
+background:linear-gradient(135deg,#7c3aed 0%,#6d28d9 55%,#c026d3 130%);
+color:#fff;border:none;font-size:15px;font-weight:800;
+box-shadow:0 14px 32px rgba(76,29,149,.6), inset 0 1px 0 rgba(255,255,255,.25);
+display:flex;align-items:center;gap:8px;cursor:pointer;z-index:20;transition:transform .15s;
+}
+.fab:active{transform:translateX(-50%) scale(.93);}
+.fab i{font-style:normal;font-size:22px;line-height:1;margin-top:-3px;}
+
+.bnav{
+position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);
+background:rgba(255,255,255,.95);
+backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);
+border-top:1px solid rgba(124,58,237,.15);
+display:flex;z-index:30;padding-bottom:env(safe-area-inset-bottom);
+max-width:520px;margin:0 auto;box-shadow:0 -8px 30px rgba(76,29,149,.1);
+}
+.bnav button{
+flex:1;border:none;background:none;
+display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+font-size:9.5px;font-weight:800;color:var(--muted);
+cursor:pointer;padding:0;transition:.2s;position:relative;
+}
+.bnav button .ic{font-size:20px;line-height:1;filter:grayscale(1);opacity:.5;transition:.25s;}
+.bnav button.active{color:var(--primary-dark);}
+.bnav button.active .ic{filter:none;opacity:1;transform:translateY(-2px) scale(1.1);}
+.bnav button.active::before{
+content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+width:26px;height:3px;border-radius:0 0 4px 4px;
+background:linear-gradient(90deg,#7c3aed,#c026d3);
+}
+.bnav .dotb{
+position:absolute;top:10px;right:calc(50% - 16px);
+width:8px;height:8px;border-radius:50%;background:var(--expense);
+display:none;box-shadow:0 0 0 2px #fff;
+}
+.bnav button.has-alert .dotb{display:block;animation:pulse 1.8s infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.25);}}
+
+.overlay{
+position:fixed;inset:0;background:rgba(35,10,70,.55);
+-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+opacity:0;pointer-events:none;transition:.28s;z-index:50;
+display:flex;align-items:flex-end;justify-content:center;
+}
+.overlay.open{opacity:1;pointer-events:auto;}
+.sheet{
+width:100%;max-width:520px;background:#fff;border-radius:28px 28px 0 0;
+padding:18px 18px calc(22px + env(safe-area-inset-bottom));
+transform:translateY(100%);transition:transform .35s cubic-bezier(.2,.8,.3,1);
+max-height:calc(100dvh - 40px);overflow-y:auto;
+box-shadow:0 -20px 50px rgba(35,10,70,.3);
+}
+.overlay.open .sheet{transform:translateY(0);}
+.sheet::before{content:'';display:block;width:38px;height:4px;border-radius:2px;background:#ddd6fe;margin:-4px auto 14px;}
+.sheet-head{
+display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;
+position:sticky;top:-18px;background:#fff;padding:4px 0 12px;z-index:5;
+border-bottom:1px solid var(--border);
+}
+.sheet-head h3{margin:0;font-size:16.5px;font-weight:900;letter-spacing:-.2px;color:var(--primary-dark);}
+.close{
+width:34px;height:34px;border-radius:50%;border:none;
+background:#ede9fe;color:var(--primary-2);font-size:15px;
+cursor:pointer;display:grid;place-items:center;line-height:1;transition:.2s;
+}
+.close:active{background:#ddd6fe;transform:scale(.92);}
+
+.seg{display:flex;background:#ede9fe;border-radius:15px;padding:4px;margin-bottom:16px;gap:3px;border:1px solid var(--border);}
+.seg button{
+flex:1;padding:11px 6px;border:none;background:none;border-radius:12px;
+font-size:13px;font-weight:800;color:var(--muted);cursor:pointer;
+transition:.22s;white-space:nowrap;
+}
+.seg button.active{background:#fff;box-shadow:0 3px 10px rgba(76,29,149,.18);}
+.seg button.active[data-type="purchase"]{color:#9d174d;}
+.seg button.active[data-type="payment"]{color:#9a3412;}
+.seg button.active[data-type="receipt"]{color:#065f46;}
+.seg button.active[data-sub]{color:var(--primary-dark);}
+.seg button.active[data-pay="cash"]{color:var(--primary-dark);}
+.seg button.active[data-pay="check"]{color:var(--check);}
+.seg.sm button{font-size:12px;padding:10px 4px;}
+
+.amount-wrap{
+display:flex;align-items:center;justify-content:center;gap:10px;
+border-bottom:2px solid var(--border);padding:8px 0 15px;margin-bottom:18px;transition:border-color .25s;
+}
+.amount-wrap.error{border-color:var(--expense);animation:shake .4s;}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-7px);}75%{transform:translateX(7px);}}
+.amount-wrap input{
+border:none;outline:none;font-size:28px;font-weight:900;text-align:center;
+width:100%;color:var(--text);background:transparent;min-width:0;letter-spacing:-.5px;
+}
+.amount-wrap input::placeholder{color:#ddd6fe;font-weight:800;}
+.amount-wrap .unit{color:var(--muted);font-size:13px;font-weight:800;flex-shrink:0;}
+
+.field{margin-bottom:15px;}
+.field label{display:block;font-size:12px;font-weight:800;color:var(--text-2);margin-bottom:8px;letter-spacing:-.1px;}
+.field input[type=text],.field input[type=number],.field input[type=time],.field input[type=date]{
+width:100%;padding:13px 14px;border-radius:14px;border:1.5px solid var(--border);
+font-size:14px;outline:none;background:#fafbff;color:var(--text);transition:.2s;font-weight:600;
+}
+.field input:focus{border-color:var(--primary);background:#fff;box-shadow:0 0 0 4px rgba(124,58,237,.15);}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.hidden{display:none !important;}
+
+.date-field{position:relative;cursor:pointer;}
+.date-field input{cursor:pointer;padding-left:42px !important;background:#fafbff !important;}
+.date-field::after{content:'📅';position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;opacity:.7;}
+
+.chips{display:flex;gap:7px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;}
+.chips::-webkit-scrollbar{display:none;}
+.chip{
+flex-shrink:0;padding:9px 14px;border-radius:12px;
+border:1.5px solid var(--border);background:#fff;
+font-size:12.5px;font-weight:800;color:var(--text-2);cursor:pointer;
+display:flex;align-items:center;gap:5px;transition:.2s;white-space:nowrap;
+}
+.chip:active{transform:scale(.95);}
+.chip.active{border-color:transparent;background:linear-gradient(135deg,#ede9fe,#ddd6fe);color:var(--primary-dark);box-shadow:0 3px 10px rgba(76,29,149,.25);}
+
+.imp-check{
+display:flex;align-items:center;gap:10px;padding:13px 14px;border-radius:14px;
+background:linear-gradient(135deg,#fffbeb,#fef3c7);
+border:1.5px solid #fde68a;margin-bottom:16px;cursor:pointer;transition:.2s;
+}
+.imp-check:active{transform:scale(.98);}
+.imp-check input{width:19px;height:19px;accent-color:var(--star);cursor:pointer;margin:0;}
+.imp-check span{font-size:12.5px;font-weight:800;color:#78350f;}
+
+.submit{
+width:100%;padding:16px;border-radius:17px;border:none;
+background:linear-gradient(135deg,#7c3aed,#6d28d9 60%,#c026d3 130%);
+color:#fff;font-size:15.5px;font-weight:800;cursor:pointer;
+box-shadow:var(--shadow-glow);transition:transform .15s;
+}
+.submit:active{transform:scale(.97);}
+
+.toast{
+position:fixed;bottom:calc(var(--nav-h) + 84px);left:50%;transform:translate(-50%,20px);
+background:linear-gradient(135deg,#2e1065,#4c1d95);
+color:#fff;padding:13px 18px;border-radius:15px;
+font-size:13px;font-weight:700;display:flex;align-items:center;gap:16px;
+opacity:0;pointer-events:none;transition:.28s;z-index:60;
+box-shadow:0 14px 36px rgba(0,0,0,.4);white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto;}
+.toast button{background:none;border:none;color:#c4b5fd;font-size:13px;font-weight:800;cursor:pointer;padding:0;}
+
+.dp-overlay{
+position:fixed;inset:0;background:rgba(35,10,70,.55);
+-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);
+opacity:0;pointer-events:none;transition:.25s;z-index:70;
+display:flex;align-items:center;justify-content:center;padding:20px;
+}
+.dp-overlay.open{opacity:1;pointer-events:auto;}
+.dp-card{
+width:100%;max-width:360px;background:#fff;border-radius:24px;padding:20px;
+box-shadow:0 30px 70px rgba(35,10,70,.4);
+transform:scale(.94);transition:transform .28s cubic-bezier(.2,.8,.3,1);
+}
+.dp-overlay.open .dp-card{transform:scale(1);}
+.dp-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.dp-title{font-size:15px;font-weight:900;color:var(--text);letter-spacing:-.2px;}
+.dp-nav{
+width:36px;height:36px;border-radius:12px;border:none;
+background:#ede9fe;color:var(--primary-2);font-size:17px;font-weight:900;
+cursor:pointer;display:grid;place-items:center;line-height:1;transition:.2s;
+}
+.dp-nav:active{background:#ddd6fe;transform:scale(.92);}
+.dp-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:8px;}
+.dp-weekdays span{text-align:center;font-size:10.5px;font-weight:800;color:var(--muted);padding:6px 0;}
+.dp-weekdays span:last-child{color:var(--expense);}
+.dp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+.dp-day{
+aspect-ratio:1;border:none;background:none;border-radius:11px;
+font-family:inherit;font-size:13px;font-weight:700;color:var(--text);
+cursor:pointer;display:grid;place-items:center;transition:.15s;position:relative;
+}
+.dp-day:hover{background:#ede9fe;}
+.dp-day.empty{cursor:default;}
+.dp-day.empty:hover{background:none;}
+.dp-day.other{color:#d0cee0;font-weight:600;}
+.dp-day.today{color:var(--primary-dark);font-weight:900;background:#ede9fe;}
+.dp-day.today::after{content:'';position:absolute;bottom:4px;width:4px;height:4px;border-radius:50%;background:var(--primary);}
+.dp-day.selected{background:linear-gradient(135deg,#7c3aed,#6d28d9) !important;color:#fff !important;font-weight:900;box-shadow:0 6px 16px rgba(76,29,149,.5);}
+.dp-day.selected::after{background:#fff;}
+.dp-day.friday{color:var(--expense);}
+.dp-day.selected.friday{color:#fff;}
+.dp-actions{display:flex;gap:8px;margin-top:18px;padding-top:14px;border-top:1px solid var(--border);}
+.dp-actions button{flex:1;padding:12px;border-radius:13px;border:none;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;transition:.2s;}
+.dp-actions button:first-child{background:#ede9fe;color:var(--primary-dark);}
+.dp-actions button:last-child{background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;box-shadow:0 6px 16px rgba(76,29,149,.4);}
+.dp-actions button:active{transform:scale(.96);}
+
+.help-overlay{
+position:fixed;inset:0;background:rgba(35,10,70,.65);
+-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+opacity:0;pointer-events:none;transition:.28s;z-index:85;
+display:flex;align-items:center;justify-content:center;padding:16px;
+}
+.help-overlay.open{opacity:1;pointer-events:auto;}
+.help-card{
+width:100%;max-width:460px;background:#fff;border-radius:24px;
+box-shadow:0 30px 80px rgba(35,10,70,.55);
+transform:scale(.94);transition:transform .3s cubic-bezier(.2,.8,.3,1);
+max-height:90vh;overflow-y:auto;
+border:1.5px solid var(--border);
+}
+.help-overlay.open .help-card{transform:scale(1);}
+
+.help-hero{
+padding:22px 20px 18px;
+background:
+radial-gradient(120% 120% at 100% 0%, rgba(255,255,255,.25) 0%, transparent 45%),
+radial-gradient(120% 120% at 0% 100%, rgba(192,38,211,.3) 0%, transparent 45%),
+linear-gradient(135deg,#7c3aed 0%,#6d28d9 50%,#5b21b6 100%);
+color:#fff;position:relative;overflow:hidden;
+border-radius:23px 23px 0 0;
+display:flex;align-items:center;gap:14px;
+}
+.help-hero::after{
+content:'';position:absolute;width:180px;height:180px;border-radius:50%;
+background:rgba(255,255,255,.08);top:-90px;left:-50px;
+}
+.help-hero .icon-wrap{
+width:52px;height:52px;border-radius:16px;
+background:rgba(255,255,255,.2);
+border:1px solid rgba(255,255,255,.3);
+display:grid;place-items:center;font-size:26px;flex-shrink:0;
+backdrop-filter:blur(6px);position:relative;z-index:2;
+}
+.help-hero .hero-text{flex:1;position:relative;z-index:2;min-width:0;}
+.help-hero h2{margin:0;font-size:17px;font-weight:900;letter-spacing:-.2px;}
+.help-hero p{margin:3px 0 0;font-size:11px;opacity:.9;font-weight:600;}
+.help-hero .close-x{
+position:absolute;top:14px;left:14px;z-index:3;
+width:32px;height:32px;border-radius:50%;border:none;
+background:rgba(255,255,255,.2);color:#fff;font-size:14px;
+cursor:pointer;display:grid;place-items:center;line-height:1;
+transition:.2s;
+}
+.help-hero .close-x:active{background:rgba(255,255,255,.35);transform:scale(.92);}
+
+.help-body{padding:18px 20px 22px;}
+
+.help-sec{margin-bottom:18px;}
+.help-sec:last-child{margin-bottom:0;}
+.help-sec-title{
+font-size:12px;font-weight:900;color:var(--primary-dark);
+margin-bottom:10px;padding:0 3px;letter-spacing:.2px;
+display:flex;align-items:center;gap:7px;
+}
+.help-sec-title::before{
+content:'';width:3px;height:15px;border-radius:2px;
+background:linear-gradient(180deg,#7c3aed,#c026d3);
+}
+.help-sec-title .ico{font-size:15px;}
+
+.help-list{
+background:#fafbff;border-radius:14px;padding:12px 14px;
+border:1px solid var(--border);
+}
+.help-list .row{
+display:flex;gap:10px;padding:9px 0;
+border-bottom:1px dashed var(--border);
+align-items:flex-start;
+}
+.help-list .row:last-child{border-bottom:none;}
+.help-list .row .em{font-size:16px;flex-shrink:0;line-height:1.4;}
+.help-list .row .txt{flex:1;min-width:0;}
+.help-list .row .ttl{
+font-size:12.5px;font-weight:800;color:var(--text);
+margin-bottom:3px;
+}
+.help-list .row .desc{
+font-size:11px;color:var(--text-2);font-weight:600;
+line-height:1.6;
+}
+
+.contact-box{
+background:linear-gradient(135deg,#faf5ff,#f3e8ff);
+border:1.5px solid var(--border);
+border-radius:16px;padding:14px;
+display:flex;flex-direction:column;gap:10px;
+}
+.contact-email{
+display:flex;align-items:center;gap:10px;
+background:#fff;border-radius:12px;padding:11px 13px;
+border:1px solid var(--border);
+}
+.contact-email .ic{font-size:18px;flex-shrink:0;}
+.contact-email .mail{
+flex:1;min-width:0;
+font-size:12.5px;font-weight:800;color:var(--primary-dark);
+direction:ltr;text-align:left;
+font-family:'Courier New',monospace;
+letter-spacing:.2px;
+word-break:break-all;
+}
+.contact-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.contact-btn{
+padding:11px 8px;border-radius:12px;border:none;
+font-size:12px;font-weight:800;cursor:pointer;
+display:flex;align-items:center;justify-content:center;gap:6px;
+transition:.2s;
+}
+.contact-btn.mail{
+background:linear-gradient(135deg,#7c3aed,#6d28d9);
+color:#fff;box-shadow:0 6px 16px rgba(76,29,149,.35);
+text-decoration:none;
+}
+.contact-btn.copy{
+background:#fff;color:var(--primary-dark);
+border:1.5px solid var(--border);
+}
+.contact-btn:active{transform:scale(.96);}
+
+.designer-box{
+background:linear-gradient(135deg,#fef3c7,#fde68a);
+border:1.5px solid #fcd34d;
+border-radius:16px;padding:14px;
+display:flex;align-items:center;gap:12px;
+}
+.designer-box .av{
+width:44px;height:44px;border-radius:13px;
+background:linear-gradient(135deg,#7c3aed,#c026d3);
+display:grid;place-items:center;font-size:20px;color:#fff;
+flex-shrink:0;
+box-shadow:0 6px 16px rgba(124,58,237,.35);
+}
+.designer-box .info{flex:1;min-width:0;}
+.designer-box .name{
+font-size:13.5px;font-weight:900;color:#78350f;
+letter-spacing:-.2px;
+}
+.designer-box .role{
+font-size:10.5px;font-weight:700;color:#92400e;
+margin-top:3px;opacity:.85;
+}
+
+.copyright-box{
+background:#f8f7fd;
+border:1.5px solid var(--border);
+border-radius:16px;padding:14px;
+text-align:center;
+}
+.copyright-box .copy-symbol{
+font-size:22px;margin-bottom:6px;
+}
+.copyright-box .copy-txt{
+font-size:11px;font-weight:700;color:var(--text-2);
+line-height:1.8;
+}
+.copyright-box .copy-txt b{color:var(--primary-dark);}
+
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-thumb{background:#c4b5fd;border-radius:3px;}
+::-webkit-scrollbar-track{background:transparent;}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<!-- DASHBOARD -->
+<div class="page active" id="page-dashboard">
+<div class="topbar">
+<div class="header-inner">
+<div class="logo-badge">
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<rect width="100" height="100" fill="#ffffff"/>
+<rect x="8" y="8" width="18" height="84" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+<rect x="30" y="8" width="18" height="84" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+<circle cx="18" cy="50" r="2.6" fill="#7c3aed"/>
+<circle cx="40" cy="50" r="2.6" fill="#7c3aed"/>
+<rect x="54" y="8" width="42" height="38" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+<line x1="68" y1="8" x2="68" y2="46" stroke="#1a1730" stroke-width="2"/>
+<line x1="82" y1="8" x2="82" y2="46" stroke="#1a1730" stroke-width="2"/>
+<line x1="54" y1="27" x2="96" y2="27" stroke="#1a1730" stroke-width="2"/>
+<circle cx="61" cy="17.5" r="1.9" fill="#7c3aed"/>
+<circle cx="75" cy="17.5" r="1.9" fill="#7c3aed"/>
+<circle cx="89" cy="17.5" r="1.9" fill="#7c3aed"/>
+<circle cx="61" cy="36.5" r="1.9" fill="#7c3aed"/>
+<circle cx="75" cy="36.5" r="1.9" fill="#7c3aed"/>
+<circle cx="89" cy="36.5" r="1.9" fill="#7c3aed"/>
+<rect x="54" y="54" width="42" height="38" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+<rect x="60" y="62" width="30" height="22" rx="1" fill="none" stroke="#1a1730" stroke-width="1.6"/>
+<rect x="79" y="66" width="7" height="11" rx="1" fill="none" stroke="#7c3aed" stroke-width="1.6"/>
+<line x1="80.5" y1="69" x2="84.5" y2="69" stroke="#7c3aed" stroke-width="1"/>
+<line x1="80.5" y1="71.5" x2="84.5" y2="71.5" stroke="#7c3aed" stroke-width="1"/>
+<line x1="80.5" y1="74" x2="84.5" y2="74" stroke="#7c3aed" stroke-width="1"/>
+<circle cx="65" cy="90" r="1.9" fill="#7c3aed"/>
+<circle cx="85" cy="90" r="1.9" fill="#7c3aed"/>
+</svg>
+</div>
+<div class="brand">
+<div class="brand-name">
+<span class="project">حساب روزانه</span>
+<span class="tabriz"> تبریزکابین</span>
+</div>
+<small>TABRIZ CABIN • DAILY ACCOUNTING</small>
+</div>
+<div class="jalali-date">
+<div class="jd-day" id="jdDay">—</div>
+<div class="jd-info" id="jdInfo">—</div>
+</div>
+<button class="save-btn" id="headerSaveBtn" title="ذخیره گزارش">💾</button>
+<button class="help-btn" id="helpBtn" title="راهنما و پشتیبانی">❓</button>
+</div>
+</div>
+
+<div class="balance-wrap">
+<div class="balance-card">
+<div class="bc-top">
+<div class="bc-label">موجودی کل</div>
+<div class="bc-chip">💰 حساب</div>
+</div>
+<div class="bc-value" id="balanceValue">۰ <span class="cur">تومان</span></div>
+<div class="bc-bottom">
+<div class="bc-mini"><div class="l">📥 دریافت‌ها</div><div class="v" id="bcRec">۰</div></div>
+<div class="bc-mini"><div class="l">💸 پرداخت‌ها</div><div class="v" id="bcPay">۰</div></div>
+</div>
+</div>
+</div>
+
+<div class="stats">
+<div class="stat"><div class="stat-ic buy">🛍️</div><div class="stat-l">خرید امروز</div><div class="stat-v expense" id="sTodayBuy">۰</div></div>
+<div class="stat"><div class="stat-ic pay">💸</div><div class="stat-l">پرداخت امروز</div><div class="stat-v pay" id="sTodayPay">۰</div></div>
+<div class="stat"><div class="stat-ic rec">📥</div><div class="stat-l">دریافت امروز</div><div class="stat-v income" id="sTodayRec">۰</div></div>
+</div>
+
+<div class="sec">
+<div class="sec-head"><h3><span>⏰</span>هشدار چک‌ها</h3><a onclick="go('checks')">همه</a></div>
+<div id="dashChecks"></div>
+</div>
+
+<div class="sec">
+<div class="sec-head"><h3><span>🕐</span>آخرین تراکنش‌ها</h3><a onclick="go('purchases')">همه</a></div>
+<div id="dashRecent"></div>
+</div>
+</div>
+
+<!-- PURCHASES -->
+<div class="page" id="page-purchases">
+<div class="page-head">
+<div class="logo-badge">
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<rect width="100" height="100" fill="#ede9fe"/>
+<rect x="8" y="8" width="18" height="84" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+<rect x="30" y="8" width="18" height="84" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+<circle cx="18" cy="50" r="2.6" fill="#7c3aed"/>
+<circle cx="40" cy="50" r="2.6" fill="#7c3aed"/>
+<rect x="54" y="8" width="42" height="38" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+<line x1="68" y1="8" x2="68" y2="46" stroke="#1a1730" stroke-width="2"/>
+<line x1="82" y1="8" x2="82" y2="46" stroke="#1a1730" stroke-width="2"/>
+<line x1="54" y1="27" x2="96" y2="27" stroke="#1a1730" stroke-width="2"/>
+<rect x="54" y="54" width="42" height="38" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+</svg>
+</div>
+<div class="head-text"><h2>خریدها</h2><div class="sub" id="purchSub">خریدهای روزانه و خاص</div></div>
+<button class="save-btn" onclick="openSaveModal()" title="ذخیره گزارش">💾</button>
+<button class="help-btn" onclick="openHelp()" title="راهنما و پشتیبانی">❓</button>
+</div>
+<div class="filters" id="purchFilters">
+<button class="fbtn active" data-f="all">همه</button>
+<button class="fbtn" data-f="daily">روزانه</button>
+<button class="fbtn" data-f="special">خاص</button>
+<button class="fbtn" data-f="check">چکی</button>
+<button class="fbtn" data-f="cash">نقدی</button>
+<button class="fbtn" data-f="star">⭐ مهم</button>
+</div>
+<div class="list" id="purchList"></div>
+</div>
+
+<!-- FLOW -->
+<div class="page" id="page-flow">
+<div class="page-head">
+<div class="logo-badge">
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<rect width="100" height="100" fill="#ede9fe"/>
+<rect x="8" y="8" width="18" height="84" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+<rect x="30" y="8" width="18" height="84" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+<circle cx="18" cy="50" r="2.6" fill="#7c3aed"/>
+<circle cx="40" cy="50" r="2.6" fill="#7c3aed"/>
+<rect x="54" y="8" width="42" height="38" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+<line x1="68" y1="8" x2="68" y2="46" stroke="#1a1730" stroke-width="2"/>
+<line x1="82" y1="8" x2="82" y2="46" stroke="#1a1730" stroke-width="2"/>
+<line x1="54" y1="27" x2="96" y2="27" stroke="#1a1730" stroke-width="2"/>
+<rect x="54" y="54" width="42" height="38" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+</svg>
+</div>
+<div class="head-text"><h2>پرداخت و دریافت</h2><div class="sub">نقدی و چکی</div></div>
+<button class="save-btn" onclick="openSaveModal()" title="ذخیره گزارش">💾</button>
+<button class="help-btn" onclick="openHelp()" title="راهنما و پشتیبانی">❓</button>
+</div>
+<div class="filters" id="flowFilters">
+<button class="fbtn active" data-f="all">همه</button>
+<button class="fbtn" data-f="payment">پرداخت</button>
+<button class="fbtn" data-f="receipt">دریافت</button>
+<button class="fbtn" data-f="check">چکی</button>
+<button class="fbtn" data-f="cash">نقدی</button>
+<button class="fbtn" data-f="star">⭐ مهم</button>
+</div>
+<div class="list" id="flowList"></div>
+</div>
+
+<!-- CHECKS -->
+<div class="page" id="page-checks">
+<div class="page-head">
+<div class="logo-badge">
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<rect width="100" height="100" fill="#ede9fe"/>
+<rect x="8" y="8" width="18" height="84" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+<rect x="30" y="8" width="18" height="84" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+<circle cx="18" cy="50" r="2.6" fill="#7c3aed"/>
+<circle cx="40" cy="50" r="2.6" fill="#7c3aed"/>
+<rect x="54" y="8" width="42" height="38" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+<line x1="68" y1="8" x2="68" y2="46" stroke="#1a1730" stroke-width="2"/>
+<line x1="82" y1="8" x2="82" y2="46" stroke="#1a1730" stroke-width="2"/>
+<line x1="54" y1="27" x2="96" y2="27" stroke="#1a1730" stroke-width="2"/>
+<rect x="54" y="54" width="42" height="38" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+</svg>
+</div>
+<div class="head-text"><h2>چک‌ها</h2><div class="sub" id="checksSub">—</div></div>
+<button class="save-btn" onclick="openSaveModal()" title="ذخیره گزارش">💾</button>
+<button class="help-btn" onclick="openHelp()" title="راهنما و پشتیبانی">❓</button>
+</div>
+<div class="filters" id="checkFilters">
+<button class="fbtn active" data-f="all">همه</button>
+<button class="fbtn" data-f="overdue">سررسید گذشته</button>
+<button class="fbtn" data-f="soon">نزدیک سررسید</button>
+<button class="fbtn" data-f="pending">در انتظار</button>
+<button class="fbtn" data-f="paid">پاس‌شده</button>
+</div>
+<div class="list" id="checksList"></div>
+</div>
+
+<!-- REPORTS -->
+<div class="page" id="page-reports">
+<div class="page-head">
+<div class="logo-badge">
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<rect width="100" height="100" fill="#ede9fe"/>
+<rect x="8" y="8" width="18" height="84" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+<rect x="30" y="8" width="18" height="84" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+<circle cx="18" cy="50" r="2.6" fill="#7c3aed"/>
+<circle cx="40" cy="50" r="2.6" fill="#7c3aed"/>
+<rect x="54" y="8" width="42" height="38" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+<line x1="68" y1="8" x2="68" y2="46" stroke="#1a1730" stroke-width="2"/>
+<line x1="82" y1="8" x2="82" y2="46" stroke="#1a1730" stroke-width="2"/>
+<line x1="54" y1="27" x2="96" y2="27" stroke="#1a1730" stroke-width="2"/>
+<rect x="54" y="54" width="42" height="38" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+</svg>
+</div>
+<div class="head-text"><h2>گزارش‌ها</h2><div class="sub">نمودار و خروجی</div></div>
+<button class="save-btn" onclick="openSaveModal()" title="ذخیره گزارش">💾</button>
+<button class="help-btn" onclick="openHelp()" title="راهنما و پشتیبانی">❓</button>
+</div>
+
+<div class="sec" style="padding-top:4px;">
+<div class="card" style="text-align:center;padding:14px;margin-bottom:14px;background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:1.5px solid #6ee7b7;">
+<div style="font-size:12px;font-weight:800;color:#065f46;">💾 برای ذخیره گزارش، از دکمه سبز بالای صفحه استفاده کنید</div>
+</div>
+
+<div class="sum-grid">
+<div class="sum-box"><div class="l">جمع خریدها</div><div class="v r" id="rBuy">۰</div></div>
+<div class="sum-box"><div class="l">جمع پرداخت‌ها</div><div class="v o" id="rPay">۰</div></div>
+<div class="sum-box"><div class="l">جمع دریافت‌ها</div><div class="v g" id="rRec">۰</div></div>
+<div class="sum-box"><div class="l">مانده</div><div class="v p" id="rBal">۰</div></div>
+</div>
+
+<div class="card">
+<h4>📊 خریدهای ماهانه</h4>
+<div class="hint">۱۲ ماه اخیر — تفکیک نقدی و چکی</div>
+<div id="chartMonthly"></div>
+<div class="legend"><span><i class="dot" style="background:#7c3aed"></i>نقدی</span><span><i class="dot" style="background:#d97706"></i>چکی</span></div>
+</div>
+
+<div class="card">
+<h4>📈 خریدهای سالانه</h4>
+<div class="hint">۵ سال اخیر — تفکیک نقدی و چکی</div>
+<div id="chartYearly"></div>
+<div class="legend"><span><i class="dot" style="background:#7c3aed"></i>نقدی</span><span><i class="dot" style="background:#d97706"></i>چکی</span></div>
+</div>
+
+<div class="card">
+<h4>💹 دریافت و پرداخت</h4>
+<div class="hint">۶ ماه اخیر</div>
+<div id="chartFlow"></div>
+<div class="legend"><span><i class="dot" style="background:#059669"></i>دریافت</span><span><i class="dot" style="background:#dc2626"></i>پرداخت</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<button class="fab" id="fab"><i>+</i> ثبت</button>
+
+<nav class="bnav" id="bnav">
+<button class="active" data-page="dashboard"><span class="ic">🏠</span>خانه</button>
+<button data-page="purchases"><span class="ic">🛍️</span>خریدها</button>
+<button data-page="flow"><span class="ic">💳</span>پرداخت</button>
+<button data-page="checks"><span class="ic">🧾</span>چک‌ها<span class="dotb"></span></button>
+<button data-page="reports"><span class="ic">📊</span>گزارش</button>
+</nav>
+
+<!-- SAVE MODAL -->
+<div class="save-overlay" id="saveOverlay">
+<div class="save-card">
+<div class="save-head">
+<h3>💾 ذخیره گزارش</h3>
+<button class="close" id="saveClose">✕</button>
+</div>
+
+<div class="save-sec">
+<div class="save-sec-title">خروجی PDF (هر بخش در جدول جداگانه)</div>
+<div class="save-grid">
+<button class="save-item grad full" data-pdf="all">
+<span class="ic">📊</span>
+<span>گزارش کامل PDF</span>
+<small>همه جدول‌ها با هم</small>
+</button>
+<button class="save-item" data-pdf="daily"><span class="ic">🛒</span><span>خریدهای روزانه</span><small>جدول مستقل</small></button>
+<button class="save-item" data-pdf="special"><span class="ic">⭐</span><span>خریدهای خاص</span><small>جدول مستقل</small></button>
+<button class="save-item" data-pdf="payments"><span class="ic">💸</span><span>پرداخت‌ها</span><small>جدول مستقل</small></button>
+<button class="save-item" data-pdf="receipts"><span class="ic">📥</span><span>دریافت‌ها</span><small>جدول مستقل</small></button>
+<button class="save-item full" data-pdf="checks"><span class="ic">🧾</span><span>چک‌ها</span><small>جدول مستقل</small></button>
+</div>
+</div>
+
+<div class="save-sec">
+<div class="save-sec-title">خروجی متنی (.txt)</div>
+<div class="save-grid">
+<button class="save-item full" data-txt="all"><span class="ic">📝</span><span>گزارش متنی</span><small>متن ساده برای اشتراک‌گذاری</small></button>
+</div>
+</div>
+
+<div class="save-sec">
+<div class="save-sec-title">پشتیبان‌گیری و بازگردانی</div>
+<div class="save-grid">
+<button class="save-item" id="bkJsonBtn"><span class="ic">💾</span><span>پشتیبان JSON</span><small>فایل پشتیبان</small></button>
+<button class="save-item danger" id="restoreBtn"><span class="ic">📂</span><span>بازگردانی</span><small>از فایل پشتیبان</small></button>
+</div>
+<input type="file" id="restoreFile" accept=".json" class="hidden">
+</div>
+</div>
+</div>
+
+<!-- HELP MODAL -->
+<div class="help-overlay" id="helpOverlay">
+<div class="help-card">
+<div class="help-hero">
+<button class="close-x" id="helpClose" title="بستن">✕</button>
+<div class="icon-wrap">❓</div>
+<div class="hero-text">
+<h2>راهنما و پشتیبانی</h2>
+<p>حساب روزانه تبریزکابین</p>
+</div>
+</div>
+
+<div class="help-body">
+
+<div class="help-sec">
+<div class="help-sec-title"><span class="ico">📖</span> راهنمای استفاده</div>
+<div class="help-list">
+<div class="row">
+<span class="em">➕</span>
+<div class="txt">
+<div class="ttl">ثبت تراکنش جدید</div>
+<div class="desc">با دکمه <b>+ ثبت</b> در پایین صفحه، تراکنش جدید اضافه کنید.</div>
+</div>
+</div>
+<div class="row">
+<span class="em">💾</span>
+<div class="txt">
+<div class="ttl">ذخیره گزارش</div>
+<div class="desc">دکمه سبز <b>💾</b> در بالای همه صفحات — خروجی PDF، متنی و پشتیبان.</div>
+</div>
+</div>
+<div class="row">
+<span class="em">🛍️</span>
+<div class="txt">
+<div class="ttl">خرید روزانه</div>
+<div class="desc">برای خریدهای معمول و روزمره — با دسته‌بندی (خوراک، حمل‌ونقل، خانه و...)</div>
+</div>
+</div>
+<div class="row">
+<span class="em">⭐</span>
+<div class="txt">
+<div class="ttl">خرید خاص</div>
+<div class="desc">برای خریدهای مهم با جزئیات کامل: نام کالا، تعداد، آیکون اختصاصی</div>
+</div>
+</div>
+<div class="row">
+<span class="em">💸</span>
+<div class="txt">
+<div class="ttl">پرداخت</div>
+<div class="desc">پرداخت به دیگران — ثبت نام دریافت‌کننده و شرح پرداخت</div>
+</div>
+</div>
+<div class="row">
+<span class="em">📥</span>
+<div class="txt">
+<div class="ttl">دریافت</div>
+<div class="desc">دریافت وجه از دیگران — ثبت نام پرداخت‌کننده و شرح دریافت</div>
+</div>
+</div>
+<div class="row">
+<span class="em">🧾</span>
+<div class="txt">
+<div class="ttl">روش پرداخت (نقدی / چک)</div>
+<div class="desc">در حالت چک: شماره سری، تاریخ سررسید (شمسی) و نام بانک ثبت می‌شود.</div>
+</div>
+</div>
+<div class="row">
+<span class="em">⭐</span>
+<div class="txt">
+<div class="ttl">علامت‌گذاری مهم</div>
+<div class="desc">با کلیک روی ستاره کنار هر تراکنش، آن را به عنوان مهم علامت‌گذاری کنید.</div>
+</div>
+</div>
+<div class="row">
+<span class="em">📊</span>
+<div class="txt">
+<div class="ttl">گزارش‌ها و خروجی</div>
+<div class="desc">در تب «گزارش» می‌توانید نمودارها را ببینید و از دکمه سبز 💾 خروجی PDF یا متنی بگیرید.</div>
+</div>
+</div>
+<div class="row">
+<span class="em">💾</span>
+<div class="txt">
+<div class="ttl">پشتیبان‌گیری</div>
+<div class="desc">از منوی ذخیره → پشتیبان JSON برای نگهداری امن اطلاعات استفاده کنید.</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="help-sec">
+<div class="help-sec-title"><span class="ico">📞</span> پشتیبانی</div>
+<div class="contact-box">
+<div class="contact-email">
+<span class="ic">✉️</span>
+<div class="mail">projehesab405@gmail.com</div>
+</div>
+<div class="contact-actions">
+<a class="contact-btn mail" href="mailto:projehesab405@gmail.com?subject=پشتیبانی حساب روزانه تبریزکابین">
+<span>✉️</span> ارسال ایمیل
+</a>
+<button class="contact-btn copy" id="copyEmailBtn" type="button">
+<span>📋</span> کپی ایمیل
+</button>
+</div>
+</div>
+</div>
+
+<div class="help-sec">
+<div class="help-sec-title"><span class="ico">👨‍💻</span> طراحی و اجرا</div>
+<div class="designer-box">
+<div class="av">ق</div>
+<div class="info">
+<div class="name">قادر صمدی</div>
+<div class="role">طراحی و اجرای پروژه «حساب روزانه تبریزکابین»</div>
+</div>
+</div>
+</div>
+
+<div class="help-sec">
+<div class="help-sec-title"><span class="ico">⚖️</span> حق کپی‌رایت</div>
+<div class="copyright-box">
+<div class="copy-symbol">©</div>
+<div class="copy-txt">
+تمامی حقوق مادی و معنوی این برنامه محفوظ است.<br>
+<b>هرگونه کپی‌برداری، بازنشر یا استفاده تجاری از این برنامه</b><br>
+بدون اجازه کتبی طراح، طبق قوانین جمهوری اسلامی ایران پیگرد قانونی دارد.
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- SHEET -->
+<div class="overlay" id="overlay">
+<div class="sheet" id="sheet">
+<div class="sheet-head">
+<h3 id="sheetTitle">ثبت جدید</h3>
+<button class="close" id="closeBtn">✕</button>
+</div>
+
+<div class="seg" id="typeSeg">
+<button data-type="purchase" class="active">🛍️ خرید</button>
+<button data-type="payment">💸 پرداخت</button>
+<button data-type="receipt">📥 دریافت</button>
+</div>
+
+<div class="seg sm" id="subSeg">
+<button data-sub="daily" class="active">خرید روزانه</button>
+<button data-sub="special">خرید خاص</button>
+</div>
+
+<div class="amount-wrap" id="amountWrap">
+<input type="text" id="amountInput" inputmode="numeric" placeholder="۰" autocomplete="off">
+<span class="unit">تومان</span>
+</div>
+
+<div class="field">
+<label id="titleLabel">نام کالا / شرح</label>
+<input type="text" id="titleInput" placeholder="مثلاً برنج، ناهار، حقوق..." autocomplete="off">
+</div>
+
+<div class="field" id="qtyField">
+<label>تعداد / مقدار</label>
+<input type="text" id="qtyInput" placeholder="مثلاً ۲ عدد" autocomplete="off">
+</div>
+
+<div class="field" id="catField">
+<label>دسته‌بندی</label>
+<div class="chips" id="chips"></div>
+</div>
+
+<div class="field">
+<label id="personLabel">نام دریافت‌کننده</label>
+<input type="text" id="personInput" placeholder="نام شخص" autocomplete="off">
+</div>
+
+<div class="field">
+<label>روش پرداخت / دریافت</label>
+<div class="seg sm" id="paySeg">
+<button data-pay="cash" class="active">💵 نقدی</button>
+<button data-pay="check">🧾 چک</button>
+</div>
+</div>
+
+<div id="checkFields" class="hidden">
+<div class="field"><label>شماره سری چک</label><input type="text" id="serialInput" placeholder="مثلاً ۱۲۳۴۵۶" autocomplete="off"></div>
+<div class="field"><label>تاریخ سررسید چک (شمسی)</label><div class="date-field"><input type="text" id="dueDisplay" placeholder="انتخاب تاریخ" readonly autocomplete="off"></div></div>
+<div class="field"><label>نام بانک</label><input type="text" id="bankInput" placeholder="مثلاً ملت" autocomplete="off"></div>
+</div>
+
+<div class="field-row">
+<div class="field"><label>تاریخ (شمسی)</label><div class="date-field"><input type="text" id="dateDisplay" placeholder="انتخاب تاریخ" readonly autocomplete="off"></div></div>
+<div class="field"><label>ساعت</label><input type="time" id="timeInput"></div>
+</div>
+
+<label class="imp-check">
+<input type="checkbox" id="importantInput">
+<span>⭐ این مورد مهم است</span>
+</label>
+
+<button class="submit" id="submitBtn">ذخیره</button>
+</div>
+</div>
+
+<!-- DATE PICKER -->
+<div class="dp-overlay" id="dpOverlay">
+<div class="dp-card">
+<div class="dp-head">
+<button class="dp-nav" id="dpPrev">‹</button>
+<div class="dp-title" id="dpTitle">—</div>
+<button class="dp-nav" id="dpNext">›</button>
+</div>
+<div class="dp-weekdays"><span>ش</span><span>ی</span><span>د</span><span>س</span><span>چ</span><span>پ</span><span>ج</span></div>
+<div class="dp-grid" id="dpGrid"></div>
+<div class="dp-actions"><button id="dpToday">امروز</button><button id="dpClose">تأیید</button></div>
+</div>
+</div>
+
+<div class="toast" id="toast"><span>حذف شد</span><button id="undoBtn">بازگرداندن</button></div>
+
+<script>
+/* ========================================================
+JALALI CONVERSION
+======================================================== */
+function _div(a,b){return ~~(a/b);}
+function _mod(a,b){return a - ~~(a/b)*b;}
+function _jalCal(jy){
+const breaks=[-61,9,38,199,426,686,756,818,1111,1181,1210,1635,2060,2097,2192,2262,2324,2394,2456,3178];
+let bl=breaks.length, gy=jy+621, leapJ=-14, jp=breaks[0], jm, jump, leap, n;
+for(let i=1;i<bl;i++){jm=breaks[i];jump=jm-jp;if(jy<jm)break;leapJ=leapJ+_div(jump,33)*8+_div(_mod(jump,33),4);jp=jm;}
+n=jy-jp;leapJ=leapJ+_div(n,33)*8+_div(_mod(n,33)+3,4);
+if(_mod(jump,33)===4 && jump-n===4) leapJ+=1;
+const leapG=_div(gy,4)-_div((_div(gy,100)+1)*3,4)-150;
+const march=20+leapJ-leapG;
+if(jump-n<6) n=n-jump+_div(jump+4,33)*33;
+leap=_mod(_mod(n+1,33)-1,4);
+if(leap===-1) leap=4;
+return {leap, gy, march};
+}
+function _g2d(gy,gm,gd){
+let d=_div((gy+_div(gm-8,6)+100100)*1461,4)+_div(153*_mod(gm+9,12)+2,5)+gd-34840408;
+d=d-_div(_div(gy+100100+_div(gm-8,6),100)*3,4)+752;
+return d;
+}
+function _d2g(jdn){
+let j=4*jdn+139361631;
+j=j+_div(_div(4*jdn+183187720,146097)*3,4)*4-3908;
+const i=_div(_mod(j,1461),4)*5+308;
+const gd=_div(_mod(i,153),5)+1;
+const gm=_mod(_div(i,153),12)+1;
+const gy=_div(j,1461)-100100+_div(8-gm,6);
+return {gy,gm,gd};
+}
+function _j2d(jy,jm,jd){const r=_jalCal(jy);return _g2d(r.gy,3,r.march)+(jm-1)*31-_div(jm,7)*(jm-7)+jd-1;}
+function _d2j(jdn){
+let gy=_d2g(jdn).gy, jy=gy-621, jd, jm;
+const r=_jalCal(jy);
+const jdn1f=_g2d(gy,3,r.march);
+let k=jdn-jdn1f;
+if(k>=0){if(k<=185){jm=1+_div(k,31);jd=_mod(k,31)+1;return {jy,jm,jd};}else k-=186;}
+else {jy-=1;k+=179;if(r.leap===1) k+=1;}
+jm=7+_div(k,30);jd=_mod(k,30)+1;
+return {jy,jm,jd};
+}
+function toJalali(gy,gm,gd){return _d2j(_g2d(gy,gm,gd));}
+function toGregorian(jy,jm,jd){return _d2g(_j2d(jy,jm,jd));}
+function jMonthLen(jy,jm){if(jm<=6)return 31;if(jm<=11)return 30;return _jalCal(jy).leap===0?30:29;}
+const J_MONTHS=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+const FA_D='۰۱۲۳۴۵۶۷۸۹';
+const AR_D='٠١٢٣٤٥٦٧٨٩';
+
+/* ========================================================
+HELPERS
+======================================================== */
+const $=id=>document.getElementById(id);
+function toEn(s){return String(s).replace(/[۰-۹]/g,c=>FA_D.indexOf(c)).replace(/[٠-٩]/g,c=>AR_D.indexOf(c));}
+function toFa(s){return String(s).replace(/\d/g,d=>FA_D[+d]);}
+function fmt(n){return Number(n).toLocaleString('fa-IR');}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function pad2(n){return String(n).padStart(2,'0');}
+function todayISO(){const d=new Date();return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());}
+function yesterdayISO(){const d=new Date();d.setDate(d.getDate()-1);return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());}
+function nowTime(){const d=new Date();return pad2(d.getHours())+':'+pad2(d.getMinutes());}
+function isoToJalali(iso){if(!iso)return null;const [y,m,d]=iso.split('-').map(Number);return toJalali(y,m,d);}
+function jalaliToISO(jy,jm,jd){const g=toGregorian(jy,jm,jd);return g.gy+'-'+pad2(g.gm)+'-'+pad2(g.gd);}
+function faDateShort(iso){if(!iso)return '';const j=isoToJalali(iso);if(!j)return '';return toFa(j.jy)+'/'+toFa(pad2(j.jm))+'/'+toFa(pad2(j.jd));}
+function faDateFull(iso){if(!iso)return '';const j=isoToJalali(iso);if(!j)return '';return toFa(j.jd)+' '+J_MONTHS[j.jm-1]+' '+toFa(j.jy);}
+function faDateLong(iso){if(!iso)return '';const j=isoToJalali(iso);if(!j)return '';const d=new Date(iso+'T00:00:00');const wd=new Intl.DateTimeFormat('fa-IR',{weekday:'long'}).format(d);return wd+' '+toFa(j.jd)+' '+J_MONTHS[j.jm-1];}
+function dayLabel(iso){if(iso===todayISO())return 'امروز';if(iso===yesterdayISO())return 'دیروز';return faDateLong(iso);}
+function jMonthKey(iso){const j=isoToJalali(iso);if(!j)return null;return j.jy*100+j.jm;}
+function jMonthLabel(key){const y=Math.floor(key/100),m=key%100;return J_MONTHS[m-1]+' '+toFa(y);}
+
+/* ========================================================
+CONSTANTS
+======================================================== */
+const KEY='daily-accounting-tabriz-cabin-v4';
+const SUPPORT_EMAIL='projehesab405@gmail.com';
+const DESIGNER_NAME='قادر صمدی';
+const CATS={
+expense:[
+{id:'food',icon:'🍔',name:'خوراک'},
+{id:'transport',icon:'🚕',name:'حمل‌ونقل'},
+{id:'shopping',icon:'🛍️',name:'خرید'},
+{id:'bills',icon:'🧾',name:'قبض'},
+{id:'health',icon:'💊',name:'سلامت'},
+{id:'fun',icon:'🎮',name:'سرگرمی'},
+{id:'home',icon:'🏠',name:'خانه'},
+{id:'car',icon:'🚗',name:'خودرو'},
+{id:'edu',icon:'📚',name:'آموزش'},
+{id:'other',icon:'📌',name:'سایر'}
+]
+};
+const SPECIAL_ICONS=['💎','🏆','⭐','🎁','🖥️','📱','🛋️','⌚','🎒','🔧'];
+const TYPE_LABEL={purchase:'خرید',payment:'پرداخت',receipt:'دریافت'};
+const TYPE_ICON={purchase:'🛍️',payment:'💸',receipt:'📥'};
+const STATUS_LABEL={paid:'پاس‌شده',overdue:'سررسید گذشته',soon:'نزدیک سررسید',pending:'در انتظار'};
+
+let tx=[];
+let lastDeleted=null;
+let toastTimer=null;
+let purchFilter='all';
+let flowFilter='all';
+let checkFilter='all';
+let fType='purchase';
+let fSub='daily';
+let fPay='cash';
+let fCat='food';
+let fIcon='💎';
+let formDate=todayISO();
+let formDue=null;
+
+function load(){try{const raw=localStorage.getItem(KEY);tx=raw?JSON.parse(raw):[];if(!Array.isArray(tx))tx=[];}catch(e){tx=[];}}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(tx));}catch(e){}}
+
+function catOf(t){
+if(t.type==='purchase'&&t.sub==='special')return {icon:t.icon||'💎',name:'خرید خاص'};
+return CATS.expense.find(c=>c.id===t.cat)||{icon:TYPE_ICON[t.type],name:TYPE_LABEL[t.type]};
+}
+function itemIcon(t){
+if(t.type==='purchase'&&t.sub==='special')return t.icon||'💎';
+if(t.type==='payment')return '💸';
+if(t.type==='receipt')return '📥';
+return catOf(t).icon;
+}
+function itemTitle(t){return t.title||(t.type==='purchase'&&t.sub==='special'?'خرید خاص':catOf(t).name);}
+function checkStatus(t){
+if(t.paid)return 'paid';
+if(!t.due)return 'pending';
+const today=todayISO();
+if(t.due<today)return 'overdue';
+const days=Math.ceil((new Date(t.due+'T00:00:00')-new Date(today+'T00:00:00'))/86400000);
+if(days<=7)return 'soon';
+return 'pending';
+}
+
+/* ========================================================
+RENDER
+======================================================== */
+function renderDashboard(){
+let balance=0,todayBuy=0,todayPay=0,todayRec=0,totalRec=0,totalPay=0;
+const t0=todayISO();
+for(const t of tx){
+if(t.type==='receipt'){balance+=t.amount;totalRec+=t.amount;}
+else{balance-=t.amount;if(t.type==='payment')totalPay+=t.amount;}
+if(t.date===t0){
+if(t.type==='purchase')todayBuy+=t.amount;
+else if(t.type==='payment')todayPay+=t.amount;
+else todayRec+=t.amount;
+}
+}
+$('balanceValue').innerHTML=(balance<0?'−':'')+fmt(Math.abs(balance))+' <span class="cur">تومان</span>';
+$('bcRec').textContent=fmt(totalRec)+' تومان';
+$('bcPay').textContent=fmt(totalPay)+' تومان';
+$('sTodayBuy').textContent=fmt(todayBuy);
+$('sTodayPay').textContent=fmt(todayPay);
+$('sTodayRec').textContent=fmt(todayRec);
+
+const j=toJalali(...todayISO().split('-').map(Number));
+$('jdDay').textContent=toFa(j.jd);
+$('jdInfo').textContent=J_MONTHS[j.jm-1]+' '+toFa(j.jy);
+
+const alerts=tx.filter(t=>t.pay==='check'&&checkStatus(t)!=='paid')
+.sort((a,b)=>(a.due||'9999')<(b.due||'9999')?-1:1).slice(0,3);
+$('dashChecks').innerHTML=alerts.length
+? alerts.map(t=>checkItemHTML(t)).join('')
+: `<div class="card" style="text-align:center;color:var(--muted);font-size:12.5px;font-weight:700;padding:24px;">چک در انتظاری وجود ندارد ✅</div>`;
+
+const recent=tx.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,4);
+$('dashRecent').innerHTML=recent.length
+? recent.map(t=>itemHTML(t)).join('')
+: `<div class="card" style="text-align:center;color:var(--muted);font-size:12.5px;font-weight:700;padding:24px;">هنوز چیزی ثبت نشده</div>`;
+}
+
+function itemHTML(t){
+const icon=itemIcon(t);
+const sign=t.type==='receipt'?'+':'−';
+const cls=t.type==='receipt'?'income':(t.type==='payment'?'pay':'expense');
+const timeStr=t.time?' • '+toFa(t.time):'';
+const badges=[];
+if(t.type==='purchase')badges.push(`<span class="badge ${t.sub==='special'?'special':'daily'}">${t.sub==='special'?'⭐ خاص':'روزانه'}</span>`);
+if(t.type==='payment')badges.push(`<span class="badge pay-type">پرداخت</span>`);
+if(t.type==='receipt')badges.push(`<span class="badge rec-type">دریافت</span>`);
+badges.push(`<span class="badge ${t.pay==='check'?'check':'cash'}">${t.pay==='check'?'🧾 چک':'💵 نقدی'}</span>`);
+if(t.pay==='check'){const st=checkStatus(t);if(st!=='pending')badges.push(`<span class="badge ${st}">${STATUS_LABEL[st]}</span>`);}
+const qtyLine=t.qty?`<div class="item-person">📦 ${esc(t.qty)}</div>`:'';
+const personRole=t.type==='purchase'?'فروشنده':(t.type==='payment'?'دریافت‌کننده':'پرداخت‌کننده');
+const personLine=t.person?`<div class="item-person">👤 ${esc(t.person)} <span style="opacity:.6;">(${personRole})</span></div>`:'';
+const checkLine=t.pay==='check'?`<div class="item-person">🧾 سری: ${esc(t.serial||'—')}${t.due?' • سررسید: '+faDateShort(t.due):''}${t.bank?' • '+esc(t.bank):''}</div>`:'';
+return `<div class="item ${t.important?'starred':''}">
+<div class="item-icon">${icon}</div>
+<div class="item-body">
+<div class="item-title">${esc(itemTitle(t))}${t.important?' <span class="st">⭐</span>':''}</div>
+<div class="item-meta">${badges.join('')}<span class="item-date">${faDateShort(t.date)}${timeStr}</span></div>
+${qtyLine}${personLine}${checkLine}
+</div>
+<div class="item-right">
+<div class="item-amount ${cls}">${sign}${fmt(t.amount)}</div>
+<div class="actions-row">
+<button class="star-btn ${t.important?'on':''}" data-star="${t.id}" title="مهم">⭐</button>
+<button class="del" data-del="${t.id}">✕</button>
+</div>
+</div>
+</div>`;
+}
+
+function checkItemHTML(t){
+const st=checkStatus(t);
+const isPay=t.type!=='receipt';
+return `<div class="item ${t.important?'starred':''}">
+<div class="item-icon" style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#fcd34d;">🧾</div>
+<div class="item-body">
+<div class="item-title">${esc(itemTitle(t))}${t.important?' <span class="st">⭐</span>':''}</div>
+<div class="item-meta">
+<span class="badge ${st}">${STATUS_LABEL[st]}</span>
+<span class="badge ${isPay?'cash':'rec-type'}">${isPay?'پرداختی':'دریافتی'}</span>
+<span class="item-date">سررسید: ${t.due?faDateShort(t.due):'—'}</span>
+</div>
+<div class="item-person">🧾 سری: ${esc(t.serial||'—')}${t.bank?' • بانک '+esc(t.bank):''}</div>
+${t.person?`<div class="item-person">👤 ${esc(t.person)}</div>`:''}
+</div>
+<div class="item-right">
+<div class="item-amount ${isPay?'expense':'income'}">${isPay?'−':'+'}${fmt(t.amount)}</div>
+<div class="actions-row">
+${!t.paid?`<button class="star-btn" data-paid="${t.id}" style="filter:none;opacity:.9;font-size:13px;" title="پاس شد">✅</button>`:''}
+<button class="del" data-del="${t.id}">✕</button>
+</div>
+</div>
+</div>`;
+}
+
+function renderPurchases(){
+let items=tx.filter(t=>t.type==='purchase');
+if(purchFilter==='daily')items=items.filter(t=>t.sub==='daily');
+if(purchFilter==='special')items=items.filter(t=>t.sub==='special');
+if(purchFilter==='check')items=items.filter(t=>t.pay==='check');
+if(purchFilter==='cash')items=items.filter(t=>t.pay==='cash');
+if(purchFilter==='star')items=items.filter(t=>t.important);
+const total=items.reduce((s,t)=>s+t.amount,0);
+$('purchSub').textContent=fmt(items.length)+' مورد • جمع '+fmt(total)+' تومان';
+$('purchList').innerHTML=renderGrouped(items);
+}
+function renderFlow(){
+let items=tx.filter(t=>t.type==='payment'||t.type==='receipt');
+if(flowFilter==='payment')items=items.filter(t=>t.type==='payment');
+if(flowFilter==='receipt')items=items.filter(t=>t.type==='receipt');
+if(flowFilter==='check')items=items.filter(t=>t.pay==='check');
+if(flowFilter==='cash')items=items.filter(t=>t.pay==='cash');
+if(flowFilter==='star')items=items.filter(t=>t.important);
+$('flowList').innerHTML=renderGrouped(items);
+}
+function renderChecks(){
+let items=tx.filter(t=>t.pay==='check');
+if(checkFilter!=='all')items=items.filter(t=>checkStatus(t)===checkFilter);
+items=items.slice().sort((a,b)=>(a.due||'9999-99-99')<(b.due||'9999-99-99')?-1:1);
+const pending=tx.filter(t=>t.pay==='check'&&checkStatus(t)!=='paid');
+const totalPending=pending.reduce((s,t)=>s+t.amount,0);
+$('checksSub').textContent=fmt(pending.length)+' چک در انتظار • '+fmt(totalPending)+' تومان';
+const overdue=tx.filter(t=>t.pay==='check'&&(checkStatus(t)==='overdue'||checkStatus(t)==='soon'));
+document.querySelector('.bnav button[data-page="checks"]').classList.toggle('has-alert',overdue.length>0);
+$('checksList').innerHTML=items.length
+? items.map(t=>checkItemHTML(t)).join('')
+: `<div class="empty"><div class="empty-icon">🧾</div><p>چکی یافت نشد</p><span>چک‌های ثبت‌شده اینجا نمایش داده می‌شوند</span></div>`;
+}
+function renderGrouped(items){
+if(!items.length)return `<div class="empty"><div class="empty-icon">🧾</div><p>موردی یافت نشد</p><span>با دکمه «ثبت» شروع کنید</span></div>`;
+const sorted=items.slice().sort((a,b)=>b.createdAt-a.createdAt);
+const groups={};
+for(const t of sorted)(groups[t.date]=groups[t.date]||[]).push(t);
+const dates=Object.keys(groups).sort((a,b)=>a<b?1:-1);
+return dates.map(date=>{
+const dayItems=groups[date];
+let net=0;
+for(const t of dayItems)net+=(t.type==='receipt'?t.amount:-t.amount);
+const cls=net>=0?'income':'expense';
+return `<div class="day">
+<div class="day-head"><span>${dayLabel(date)}</span><span class="day-net ${cls}">${net>=0?'+':'−'}${fmt(Math.abs(net))}</span></div>
+${dayItems.map(t=>itemHTML(t)).join('')}
+</div>`;
+}).join('');
+}
+
+function renderReports(){
+let buy=0,pay=0,rec=0;
+for(const t of tx){
+if(t.type==='purchase')buy+=t.amount;
+else if(t.type==='payment')pay+=t.amount;
+else rec+=t.amount;
+}
+$('rBuy').textContent=fmt(buy);
+$('rPay').textContent=fmt(pay);
+$('rRec').textContent=fmt(rec);
+const bal=rec-buy-pay;
+$('rBal').innerHTML=(bal<0?'−':'')+fmt(Math.abs(bal));
+
+const now=toJalali(...todayISO().split('-').map(Number));
+let y=now.jy,m=now.jm;
+const mKeys=[];
+for(let i=0;i<12;i++){mKeys.unshift(y*100+m);m--;if(m===0){m=12;y--;}}
+const mData={};
+mKeys.forEach(k=>mData[k]={cash:0,check:0});
+for(const t of tx){
+if(t.type!=='purchase')continue;
+const k=jMonthKey(t.date);
+if(mData[k])mData[k][t.pay==='check'?'check':'cash']+=t.amount;
+}
+$('chartMonthly').innerHTML=buildStackChart(mKeys,mData,jMonthLabel);
+
+const nowY=now.jy;
+const yKeys=[];
+for(let i=4;i>=0;i--)yKeys.push(nowY-i);
+const yData={};
+yKeys.forEach(k=>yData[k]={cash:0,check:0});
+for(const t of tx){
+if(t.type!=='purchase')continue;
+const k=isoToJalali(t.date).jy;
+if(yData[k])yData[k][t.pay==='check'?'check':'cash']+=t.amount;
+}
+$('chartYearly').innerHTML=buildStackChart(yKeys,yData,k=>toFa(k));
+
+const fKeys=mKeys.slice(-6);
+const fData={};
+fKeys.forEach(k=>fData[k]={income:0,expense:0});
+for(const t of tx){
+const k=jMonthKey(t.date);
+if(!fData[k])continue;
+if(t.type==='receipt')fData[k].income+=t.amount;
+else fData[k].expense+=t.amount;
+}
+$('chartFlow').innerHTML=buildFlowChart(fKeys,fData,jMonthLabel);
+}
+
+function buildStackChart(keys,data,labelFn){
+let max=0;
+keys.forEach(k=>{const v=data[k].cash+data[k].check;if(v>max)max=v;});
+if(!max)return `<div style="text-align:center;color:var(--muted);font-size:12px;font-weight:700;padding:26px 0;">داده‌ای موجود نیست</div>`;
+return keys.map(k=>{
+const {cash,check}=data[k];
+const total=cash+check;
+const wc=max?(cash/max*100):0;
+const wk=max?(check/max*100):0;
+return `<div class="chart-row">
+<div class="chart-label">${labelFn(k)}</div>
+<div class="chart-track">
+<div class="chart-bar cash" style="width:${wc}%"></div>
+<div class="chart-bar check" style="width:${wk}%"></div>
+</div>
+<div class="chart-val">${total?fmt(total):'—'}</div>
+</div>`;
+}).join('');
+}
+function buildFlowChart(keys,data,labelFn){
+let max=0;
+keys.forEach(k=>{const v=Math.max(data[k].income,data[k].expense);if(v>max)max=v;});
+if(!max)return `<div style="text-align:center;color:var(--muted);font-size:12px;font-weight:700;padding:26px 0;">داده‌ای موجود نیست</div>`;
+return keys.map(k=>{
+const {income,expense}=data[k];
+const wi=max?(income/max*100):0;
+const we=max?(expense/max*100):0;
+return `<div class="chart-row" style="margin-bottom:14px;">
+<div class="chart-label">${labelFn(k)}</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px;min-width:0;">
+<div class="chart-track" style="height:11px;"><div class="chart-bar income" style="width:${wi}%"></div></div>
+<div class="chart-track" style="height:11px;"><div class="chart-bar expense" style="width:${we}%"></div></div>
+</div>
+<div class="chart-val" style="line-height:1.9;">${income?'+'+fmt(income):'—'}<br>${expense?'−'+fmt(expense):'—'}</div>
+</div>`;
+}).join('');
+}
+
+function render(){
+renderDashboard();
+renderPurchases();
+renderFlow();
+renderChecks();
+renderReports();
+}
+
+/* ========================================================
+DATE PICKER
+======================================================== */
+let dpTarget=null,dpView=null,dpSelected=null;
+function openDatePicker(target){
+dpTarget=target;
+const currentISO=target==='due'?formDue:formDate;
+const j=isoToJalali(currentISO||todayISO());
+dpView={jy:j.jy,jm:j.jm};
+dpSelected=currentISO||todayISO();
+renderDP();
+$('dpOverlay').classList.add('open');
+}
+function closeDatePicker(){$('dpOverlay').classList.remove('open');}
+function renderDP(){
+const {jy,jm}=dpView;
+$('dpTitle').textContent=J_MONTHS[jm-1]+' '+toFa(jy);
+const firstDay=_j2d(jy,jm,1);
+const greg=_d2g(firstDay);
+const wd=new Date(greg.gy,greg.gm-1,greg.gd).getDay();
+const startCol=(wd+1)%7;
+const len=jMonthLen(jy,jm);
+const todayJ=toJalali(...todayISO().split('-').map(Number));
+let html='';
+for(let i=0;i<startCol;i++)html+=`<button class="dp-day empty" disabled></button>`;
+for(let d=1;d<=len;d++){
+const col=(startCol+d-1)%7;
+const isFriday=(col===6);
+const iso=jalaliToISO(jy,jm,d);
+const isToday=(todayJ.jy===jy&&todayJ.jm===jm&&todayJ.jd===d);
+const isSel=(iso===dpSelected);
+const cls=['dp-day',isToday?'today':'',isSel?'selected':'',isFriday?'friday':''].filter(Boolean).join(' ');
+html+=`<button class="${cls}" data-date="${iso}">${toFa(d)}</button>`;
+}
+$('dpGrid').innerHTML=html;
+}
+function dpNav(dir){
+let {jy,jm}=dpView;
+jm+=dir;
+if(jm>12){jm=1;jy++;}
+if(jm<1){jm=12;jy--;}
+dpView={jy,jm};
+renderDP();
+}
+function dpPick(iso){
+dpSelected=iso;
+if(dpTarget==='due'){formDue=iso;$('dueDisplay').value=faDateFull(iso);}
+else{formDate=iso;$('dateDisplay').value=faDateFull(iso);}
+closeDatePicker();
+}
+
+/* ========================================================
+FORM
+======================================================== */
+function renderChips(){
+if(fType!=='purchase'||fSub!=='daily'){
+$('chips').innerHTML=SPECIAL_ICONS.map(ic=>`<button type="button" class="chip ${ic===fIcon?'active':''}" data-icon="${ic}"><span>${ic}</span></button>`).join('');
+return;
+}
+$('chips').innerHTML=CATS.expense.map(c=>`<button type="button" class="chip ${c.id===fCat?'active':''}" data-cat="${c.id}"><span>${c.icon}</span>${c.name}</button>`).join('');
+}
+function syncForm(){
+document.querySelectorAll('#typeSeg button').forEach(b=>b.classList.toggle('active',b.dataset.type===fType));
+$('subSeg').classList.toggle('hidden',fType!=='purchase');
+document.querySelectorAll('#subSeg button').forEach(b=>b.classList.toggle('active',b.dataset.sub===fSub));
+document.querySelectorAll('#paySeg button').forEach(b=>b.classList.toggle('active',b.dataset.pay===fPay));
+$('checkFields').classList.toggle('hidden',fPay!=='check');
+if(fType==='purchase'){
+$('titleLabel').textContent=fSub==='special'?'نام کالا':'شرح خرید';
+$('personLabel').textContent='نام فروشنده / دریافت‌کننده';
+$('qtyField').classList.toggle('hidden',fSub!=='special');
+$('catField').classList.toggle('hidden',false);
+}else if(fType==='payment'){
+$('titleLabel').textContent='بابت / شرح';
+$('personLabel').textContent='نام دریافت‌کننده';
+$('qtyField').classList.add('hidden');
+$('catField').classList.add('hidden');
+}else{
+$('titleLabel').textContent='بابت / شرح';
+$('personLabel').textContent='نام پرداخت‌کننده';
+$('qtyField').classList.add('hidden');
+$('catField').classList.add('hidden');
+}
+$('sheetTitle').textContent='ثبت '+TYPE_LABEL[fType];
+renderChips();
+}
+function openSheet(){
+fType='purchase';fSub='daily';fPay='cash';fCat='food';fIcon='💎';
+formDate=todayISO();formDue=null;
+$('amountInput').value='';$('titleInput').value='';$('qtyInput').value='';
+$('personInput').value='';$('serialInput').value='';$('bankInput').value='';
+$('dueDisplay').value='';$('dateDisplay').value=faDateFull(formDate);
+$('importantInput').checked=false;
+$('timeInput').value=nowTime();
+$('amountWrap').classList.remove('error');
+syncForm();
+$('overlay').classList.add('open');
+document.body.classList.add('locked');
+}
+function closeSheet(){$('overlay').classList.remove('open');if(!$('helpOverlay').classList.contains('open')&&!$('saveOverlay').classList.contains('open'))document.body.classList.remove('locked');}
+
+function saveTx(){
+const raw=toEn($('amountInput').value).replace(/[^\d]/g,'');
+const amount=Number(raw);
+if(!amount||amount<=0){
+const w=$('amountWrap');
+w.classList.add('error');
+setTimeout(()=>w.classList.remove('error'),600);
+return;
+}
+const rec={
+id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),
+type:fType,sub:fType==='purchase'?fSub:null,pay:fPay,amount,
+title:$('titleInput').value.trim(),
+qty:(fType==='purchase'&&fSub==='special')?$('qtyInput').value.trim():'',
+cat:(fType==='purchase'&&fSub==='daily')?fCat:null,
+icon:(fType==='purchase'&&fSub==='special')?fIcon:null,
+person:$('personInput').value.trim(),
+serial:fPay==='check'?$('serialInput').value.trim():'',
+due:fPay==='check'?formDue:'',
+bank:fPay==='check'?$('bankInput').value.trim():'',
+paid:false,important:$('importantInput').checked,
+date:formDate||todayISO(),time:$('timeInput').value||nowTime(),createdAt:Date.now()
+};
+tx.push(rec);
+persist();render();closeSheet();
+}
+
+function deleteTx(id){
+const i=tx.findIndex(t=>t.id===id);
+if(i<0)return;
+lastDeleted={item:tx[i],index:i};
+tx.splice(i,1);
+persist();render();showToast('حذف شد');
+}
+function undoDelete(){
+if(!lastDeleted)return;
+tx.splice(lastDeleted.index,0,lastDeleted.item);
+lastDeleted=null;
+persist();render();
+clearTimeout(toastTimer);
+$('toast').classList.remove('show');
+}
+function showToast(msg){
+$('toast').querySelector('span').textContent=msg||'حذف شد';
+$('toast').classList.add('show');
+clearTimeout(toastTimer);
+toastTimer=setTimeout(()=>{$('toast').classList.remove('show');lastDeleted=null;},4200);
+}
+function toggleStar(id){const t=tx.find(x=>x.id===id);if(!t)return;t.important=!t.important;persist();render();}
+function markPaid(id){const t=tx.find(x=>x.id===id);if(!t)return;t.paid=true;persist();render();showToast('چک پاس شد ✅');}
+
+function go(page){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+$('page-'+page).classList.add('active');
+document.querySelectorAll('.bnav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ========================================================
+PDF EXPORT
+======================================================== */
+function dailyRows(arr){
+if(!arr.length)return '<tr><td colspan="8" style="text-align:center;color:#999;">موردی ثبت نشده است</td></tr>';
+return arr.map((t,i)=>`<tr>
+<td>${fmt(i+1)}</td>
+<td>${faDateShort(t.date)}${t.time?' - '+toFa(t.time):''}</td>
+<td>${esc(t.title||'—')}${t.important?' ⭐':''}</td>
+<td>${esc(catOf(t).name)}</td>
+<td>${esc(t.person||'—')}</td>
+<td>${t.pay==='check'?'چک':'نقدی'}</td>
+<td>${t.bank?esc(t.bank):'—'}</td>
+<td style="color:#dc2626;font-weight:700;">${fmt(t.amount)}</td>
+</tr>`).join('');
+}
+function specialRows(arr){
+if(!arr.length)return '<tr><td colspan="9" style="text-align:center;color:#999;">موردی ثبت نشده است</td></tr>';
+return arr.map((t,i)=>`<tr>
+<td>${fmt(i+1)}</td>
+<td>${faDateShort(t.date)}${t.time?' - '+toFa(t.time):''}</td>
+<td>${esc(t.title||'—')}${t.important?' ⭐':''}</td>
+<td>${esc(t.qty||'—')}</td>
+<td>${esc(t.person||'—')}</td>
+<td>${t.pay==='check'?'چک':'نقدی'}</td>
+<td>${esc(t.serial||'—')}</td>
+<td>${t.due?faDateShort(t.due):'—'}</td>
+<td style="color:#dc2626;font-weight:700;">${fmt(t.amount)}</td>
+</tr>`).join('');
+}
+function flowRows(arr,isPayment){
+if(!arr.length)return '<tr><td colspan="8" style="text-align:center;color:#999;">موردی ثبت نشده است</td></tr>';
+return arr.map((t,i)=>`<tr>
+<td>${fmt(i+1)}</td>
+<td>${faDateShort(t.date)}${t.time?' - '+toFa(t.time):''}</td>
+<td>${esc(t.title||'—')}${t.important?' ⭐':''}</td>
+<td>${esc(t.person||'—')}</td>
+<td>${t.pay==='check'?'چک':'نقدی'}</td>
+<td>${esc(t.serial||'—')}</td>
+<td>${t.due?faDateShort(t.due):'—'}${t.bank?' / '+esc(t.bank):''}</td>
+<td style="color:${isPayment?'#dc2626':'#059669'};font-weight:700;">${isPayment?'−':'+'}${fmt(t.amount)}</td>
+</tr>`).join('');
+}
+function checkRows(arr){
+if(!arr.length)return '<tr><td colspan="9" style="text-align:center;color:#999;">موردی ثبت نشده است</td></tr>';
+return arr.map((t,i)=>`<tr>
+<td>${fmt(i+1)}</td>
+<td>${faDateShort(t.date)}</td>
+<td>${esc(itemTitle(t))}</td>
+<td>${esc(t.person||'—')}</td>
+<td>${esc(t.serial||'—')}</td>
+<td>${esc(t.bank||'—')}</td>
+<td>${t.due?faDateShort(t.due):'—'}</td>
+<td>${STATUS_LABEL[checkStatus(t)]}</td>
+<td style="font-weight:700;">${fmt(t.amount)}</td>
+</tr>`).join('');
+}
+
+function buildReportHTML(section){
+const all=tx.slice().sort((a,b)=>a.date<b.date?1:(a.date>b.date?-1:b.createdAt-a.createdAt));
+const daily=all.filter(t=>t.type==='purchase'&&t.sub==='daily');
+const special=all.filter(t=>t.type==='purchase'&&t.sub==='special');
+const payments=all.filter(t=>t.type==='payment');
+const receipts=all.filter(t=>t.type==='receipt');
+const checks=all.filter(t=>t.pay==='check');
+const sum=arr=>arr.reduce((s,t)=>s+t.amount,0);
+const totalBuy=sum(daily)+sum(special);
+const totalPay=sum(payments);
+const totalRec=sum(receipts);
+const bal=totalRec-totalBuy-totalPay;
+
+let body='';
+if(section==='all'||section==='daily'){
+body+=`<h2>🛒 جدول ۱: خریدهای روزانه</h2>
+<table>
+<thead><tr><th>#</th><th>تاریخ / ساعت</th><th>شرح</th><th>دسته</th><th>فروشنده</th><th>روش</th><th>بانک</th><th>مبلغ (تومان)</th></tr></thead>
+<tbody>${dailyRows(daily)}</tbody>
+<tfoot><tr><td colspan="7">جمع خریدهای روزانه</td><td>${fmt(sum(daily))}</td></tr></tfoot>
+</table>`;
+}
+if(section==='all'||section==='special'){
+body+=`<h2>⭐ جدول ۲: خریدهای خاص</h2>
+<table>
+<thead><tr><th>#</th><th>تاریخ / ساعت</th><th>نام کالا</th><th>تعداد</th><th>فروشنده</th><th>روش</th><th>سری چک</th><th>سررسید</th><th>مبلغ</th></tr></thead>
+<tbody>${specialRows(special)}</tbody>
+<tfoot><tr><td colspan="8">جمع خریدهای خاص</td><td>${fmt(sum(special))}</td></tr></tfoot>
+</table>`;
+}
+if(section==='all'||section==='payments'){
+body+=`<h2>💸 جدول ۳: پرداخت‌ها</h2>
+<table>
+<thead><tr><th>#</th><th>تاریخ / ساعت</th><th>بابت</th><th>دریافت‌کننده</th><th>روش</th><th>سری چک</th><th>سررسید / بانک</th><th>مبلغ</th></tr></thead>
+<tbody>${flowRows(payments,true)}</tbody>
+<tfoot><tr><td colspan="7">جمع پرداخت‌ها</td><td>${fmt(totalPay)}</td></tr></tfoot>
+</table>`;
+}
+if(section==='all'||section==='receipts'){
+body+=`<h2>📥 جدول ۴: دریافت‌ها</h2>
+<table>
+<thead><tr><th>#</th><th>تاریخ / ساعت</th><th>بابت</th><th>پرداخت‌کننده</th><th>روش</th><th>سری چک</th><th>سررسید / بانک</th><th>مبلغ</th></tr></thead>
+<tbody>${flowRows(receipts,false)}</tbody>
+<tfoot><tr><td colspan="7">جمع دریافت‌ها</td><td>${fmt(totalRec)}</td></tr></tfoot>
+</table>`;
+}
+if(section==='all'||section==='checks'){
+body+=`<h2>🧾 جدول ۵: چک‌ها</h2>
+<table>
+<thead><tr><th>#</th><th>تاریخ ثبت</th><th>شرح</th><th>نام شخص</th><th>سری چک</th><th>بانک</th><th>سررسید</th><th>وضعیت</th><th>مبلغ</th></tr></thead>
+<tbody>${checkRows(checks)}</tbody>
+</table>`;
+}
+
+const summaryBox=section==='all'?`
+<div class="summary">
+<div><span>جمع کل خریدها</span><b>${fmt(totalBuy)} تومان</b></div>
+<div><span>جمع کل پرداخت‌ها</span><b>${fmt(totalPay)} تومان</b></div>
+<div><span>جمع کل دریافت‌ها</span><b>${fmt(totalRec)} تومان</b></div>
+<div><span>مانده نهایی</span><b style="color:${bal>=0?'#059669':'#dc2626'}">${fmt(Math.abs(bal))} تومان${bal<0?' بدهکار':''}</b></div>
+</div>`:'';
+
+const titleMap={all:'گزارش کامل حساب',daily:'خریدهای روزانه',special:'خریدهای خاص',
+payments:'پرداخت‌ها',receipts:'دریافت‌ها',checks:'چک‌ها'};
+
+const j=toJalali(...todayISO().split('-').map(Number));
+const nowStr=toFa(j.jd)+' '+J_MONTHS[j.jm-1]+' '+toFa(j.jy);
+const nowT=new Date().toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});
+
+return `<!DOCTYPE html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8">
+<title>${titleMap[section]} — تبریزکابین</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800;900&display=swap');
+*{box-sizing:border-box;}
+body{font-family:'Vazirmatn',Tahoma,sans-serif;margin:0;padding:28px 20px;color:#1a1730;background:#fff;}
+.header{display:flex;align-items:center;gap:14px;margin-bottom:18px;padding-bottom:16px;border-bottom:3px solid #7c3aed;}
+.header .logo{width:52px;height:52px;}
+h1{font-size:20px;margin:0 0 4px;color:#4c1d95;font-weight:900;}
+.subtitle{font-size:11px;color:#8b8aa3;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;}
+.meta{font-size:11.5px;color:#4b4a63;margin-bottom:20px;background:#f5f3ff;padding:10px 14px;border-radius:10px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+h2{font-size:15px;margin:24px 0 10px;padding:10px 14px;background:linear-gradient(90deg,#ede9fe,#f5f3ff);border-right:4px solid #7c3aed;border-radius:8px;page-break-after:avoid;color:#4c1d95;font-weight:900;}
+table{width:100%;border-collapse:collapse;font-size:10.5px;margin-bottom:8px;page-break-inside:auto;}
+th{background:linear-gradient(180deg,#7c3aed,#6d28d9);color:#fff;padding:9px 6px;text-align:right;font-weight:800;font-size:10px;}
+td{padding:7px 6px;border-bottom:1px solid #ede9fe;text-align:right;vertical-align:top;}
+tbody tr:nth-child(even){background:#fafafd;}
+tfoot td{background:#ede9fe;font-weight:900;color:#4c1d95;border-top:2px solid #7c3aed;font-size:11px;}
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:22px 0;padding:16px;background:#f5f3ff;border-radius:14px;border:1px solid #ddd6fe;}
+.summary div{background:#fff;border-radius:10px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;border-right:3px solid #7c3aed;}
+.summary span{font-size:11px;color:#4b4a63;font-weight:700;}
+.summary b{font-size:12.5px;font-weight:900;color:#4c1d95;}
+.footer{margin-top:30px;padding-top:16px;border-top:1px solid #ede9fe;font-size:10.5px;color:#8b8aa3;text-align:center;font-weight:600;line-height:1.9;}
+.footer .credit{color:#6d28d9;font-weight:800;}
+.footer .rights{color:#4b4a63;font-size:10px;margin-top:4px;}
+@media print{body{padding:12px;} h2{page-break-after:avoid;} tr{page-break-inside:avoid;} table{font-size:10px;}}
+</style></head><body>
+<div class="header">
+<svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<rect x="8" y="8" width="18" height="84" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+<rect x="30" y="8" width="18" height="84" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+<circle cx="18" cy="50" r="2.6" fill="#7c3aed"/>
+<circle cx="40" cy="50" r="2.6" fill="#7c3aed"/>
+<rect x="54" y="8" width="42" height="38" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+<line x1="68" y1="8" x2="68" y2="46" stroke="#1a1730" stroke-width="2"/>
+<line x1="82" y1="8" x2="82" y2="46" stroke="#1a1730" stroke-width="2"/>
+<line x1="54" y1="27" x2="96" y2="27" stroke="#1a1730" stroke-width="2"/>
+<rect x="54" y="54" width="42" height="38" rx="1" fill="none" stroke="#1a1730" stroke-width="2.2"/>
+</svg>
+<div>
+<h1>${titleMap[section]} — تبریزکابین</h1>
+<div class="subtitle">TABRIZ CABIN · DAILY ACCOUNTING</div>
+</div>
+</div>
+<div class="meta">
+<span>📅 تاریخ گزارش: ${nowStr}</span>
+<span>🕐 ساعت: ${nowT}</span>
+<span>📋 تعداد تراکنش‌ها: ${fmt(all.length)}</span>
+</div>
+${summaryBox}
+${body}
+<div class="footer">
+<div class="credit">طراحی و اجرا شده توسط: ${DESIGNER_NAME}</div>
+<div>📧 پشتیبانی: ${SUPPORT_EMAIL}</div>
+<div class="rights">© تمامی حقوق محفوظ است — هرگونه کپی‌برداری طبق قوانین جمهوری اسلامی ایران پیگرد قانونی دارد.</div>
+</div>
+<script>window.onload=function(){setTimeout(function(){window.print();},700);};<\/script>
+</body></html>`;
+}
+
+function exportPDF(section){
+const html=buildReportHTML(section);
+const w=window.open('','_blank');
+if(!w){alert('برای خروجی PDF، لطفاً اجازه باز شدن پنجره جدید را در مرورگر فعال کنید.');return;}
+w.document.open(); w.document.write(html); w.document.close();
+}
+
+/* ========================================================
+TEXT EXPORT
+======================================================== */
+function buildReportTXT(){
+const all=tx.slice().sort((a,b)=>a.date<b.date?1:(a.date>b.date?-1:b.createdAt-a.createdAt));
+const daily=all.filter(t=>t.type==='purchase'&&t.sub==='daily');
+const special=all.filter(t=>t.type==='purchase'&&t.sub==='special');
+const payments=all.filter(t=>t.type==='payment');
+const receipts=all.filter(t=>t.type==='receipt');
+const checks=all.filter(t=>t.pay==='check');
+const sum=arr=>arr.reduce((s,t)=>s+t.amount,0);
+const totalBuy=sum(daily)+sum(special);
+const totalPay=sum(payments);
+const totalRec=sum(receipts);
+const bal=totalRec-totalBuy-totalPay;
+
+const j=toJalali(...todayISO().split('-').map(Number));
+const nowStr=toFa(j.jd)+' '+J_MONTHS[j.jm-1]+' '+toFa(j.jy);
+const nowT=new Date().toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});
+
+const sep='═══════════════════════════════════════';
+const thin='───────────────────────────────────────';
+
+let out='';
+out+=sep+'\n';
+out+=' 📊 حساب روزانه تبریزکابین\n';
+out+=' TABRIZ CABIN · DAILY ACCOUNTING\n';
+out+=sep+'\n';
+out+='📅 تاریخ گزارش: '+nowStr+'\n';
+out+='🕐 ساعت: '+nowT+'\n';
+out+='📋 تعداد کل تراکنش‌ها: '+fmt(all.length)+'\n\n';
+
+out+='┌─── خلاصه مالی ───┐\n';
+out+='جمع خریدهای روزانه: '+fmt(sum(daily))+' تومان\n';
+out+='جمع خریدهای خاص: '+fmt(sum(special))+' تومان\n';
+out+='جمع کل خریدها: '+fmt(totalBuy)+' تومان\n';
+out+='جمع پرداخت‌ها: '+fmt(totalPay)+' تومان\n';
+out+='جمع دریافت‌ها: '+fmt(totalRec)+' تومان\n';
+out+='مانده نهایی: '+fmt(Math.abs(bal))+' تومان'+(bal<0?' (بدهکار)':'')+'\n';
+out+='└──────────────────┘\n\n';
+
+out+=sep+'\n🛒 جدول ۱: خریدهای روزانه ('+fmt(daily.length)+' مورد)\n'+sep+'\n';
+if(daily.length){
+daily.forEach((t,i)=>{
+out+=fmt(i+1)+'. '+faDateShort(t.date)+(t.time?' - '+toFa(t.time):'')+'\n';
+out+=' شرح: '+(t.title||'—')+(t.important?' ⭐':'')+'\n';
+out+=' دسته: '+catOf(t).name+'\n';
+out+=' فروشنده: '+(t.person||'—')+'\n';
+out+=' روش: '+(t.pay==='check'?'چک':'نقدی')+(t.bank?' - '+t.bank:'')+'\n';
+out+=' مبلغ: '+fmt(t.amount)+' تومان\n';
+out+=thin+'\n';
+});
+out+='🔹 جمع خریدهای روزانه: '+fmt(sum(daily))+' تومان\n\n';
+} else out+='— موردی ثبت نشده —\n\n';
+
+out+=sep+'\n⭐ جدول ۲: خریدهای خاص ('+fmt(special.length)+' مورد)\n'+sep+'\n';
+if(special.length){
+special.forEach((t,i)=>{
+out+=fmt(i+1)+'. '+faDateShort(t.date)+(t.time?' - '+toFa(t.time):'')+'\n';
+out+=' نام کالا: '+(t.title||'—')+(t.important?' ⭐':'')+'\n';
+out+=' تعداد: '+(t.qty||'—')+'\n';
+out+=' فروشنده: '+(t.person||'—')+'\n';
+out+=' روش: '+(t.pay==='check'?'چک':'نقدی');
+if(t.serial) out+=' - سری: '+t.serial;
+if(t.due) out+=' - سررسید: '+faDateShort(t.due);
+out+='\n';
+out+=' مبلغ: '+fmt(t.amount)+' تومان\n';
+out+=thin+'\n';
+});
+out+='🔹 جمع خریدهای خاص: '+fmt(sum(special))+' تومان\n\n';
+} else out+='— موردی ثبت نشده —\n\n';
+
+out+=sep+'\n💸 جدول ۳: پرداخت‌ها ('+fmt(payments.length)+' مورد)\n'+sep+'\n';
+if(payments.length){
+payments.forEach((t,i)=>{
+out+=fmt(i+1)+'. '+faDateShort(t.date)+(t.time?' - '+toFa(t.time):'')+'\n';
+out+=' بابت: '+(t.title||'—')+(t.important?' ⭐':'')+'\n';
+out+=' دریافت‌کننده: '+(t.person||'—')+'\n';
+out+=' روش: '+(t.pay==='check'?'چک':'نقدی');
+if(t.serial) out+=' - سری: '+t.serial;
+if(t.due) out+=' - سررسید: '+faDateShort(t.due);
+if(t.bank) out+=' - بانک: '+t.bank;
+out+='\n';
+out+=' مبلغ: −'+fmt(t.amount)+' تومان\n';
+out+=thin+'\n';
+});
+out+='🔹 جمع پرداخت‌ها: '+fmt(totalPay)+' تومان\n\n';
+} else out+='— موردی ثبت نشده —\n\n';
+
+out+=sep+'\n📥 جدول ۴: دریافت‌ها ('+fmt(receipts.length)+' مورد)\n'+sep+'\n';
+if(receipts.length){
+receipts.forEach((t,i)=>{
+out+=fmt(i+1)+'. '+faDateShort(t.date)+(t.time?' - '+toFa(t.time):'')+'\n';
+out+=' بابت: '+(t.title||'—')+(t.important?' ⭐':'')+'\n';
+out+=' پرداخت‌کننده: '+(t.person||'—')+'\n';
+out+=' روش: '+(t.pay==='check'?'چک':'نقدی');
+if(t.serial) out+=' - سری: '+t.serial;
+if(t.due) out+=' - سررسید: '+faDateShort(t.due);
+if(t.bank) out+=' - بانک: '+t.bank;
+out+='\n';
+out+=' مبلغ: +'+fmt(t.amount)+' تومان\n';
+out+=thin+'\n';
+});
+out+='🔹 جمع دریافت‌ها: '+fmt(totalRec)+' تومان\n\n';
+} else out+='— موردی ثبت نشده —\n\n';
+
+out+=sep+'\n🧾 جدول ۵: چک‌ها ('+fmt(checks.length)+' مورد)\n'+sep+'\n';
+if(checks.length){
+checks.forEach((t,i)=>{
+out+=fmt(i+1)+'. '+itemTitle(t)+' — '+(t.person||'—')+'\n';
+out+=' سری: '+(t.serial||'—')+' | بانک: '+(t.bank||'—')+'\n';
+out+=' سررسید: '+(t.due?faDateShort(t.due):'—')+' | وضعیت: '+STATUS_LABEL[checkStatus(t)]+'\n';
+out+=' مبلغ: '+fmt(t.amount)+' تومان\n';
+out+=thin+'\n';
+});
+} else out+='— موردی ثبت نشده —\n\n';
+
+out+=sep+'\n';
+out+='طراحی و اجرا شده توسط: '+DESIGNER_NAME+'\n';
+out+='📧 پشتیبانی: '+SUPPORT_EMAIL+'\n';
+out+='© تمامی حقوق محفوظ است — هرگونه کپی‌برداری طبق قوانین\n';
+out+='جمهوری اسلامی ایران پیگرد قانونی دارد.\n';
+out+=sep+'\n';
+
+return out;
+}
+
+function exportTXT(){
+const txt=buildReportTXT();
+const blob=new Blob(['\uFEFF'+txt],{type:'text/plain;charset=utf-8'});
+const url=URL.createObjectURL(blob);
+const a=document.createElement('a');
+const j=toJalali(...todayISO().split('-').map(Number));
+a.href=url;
+a.download=`tabriz-cabin-report-${j.jy}-${pad2(j.jm)}-${pad2(j.jd)}.txt`;
+document.body.appendChild(a); a.click(); document.body.removeChild(a);
+setTimeout(()=>URL.revokeObjectURL(url),1500);
+showToast('فایل متنی ذخیره شد 📝');
+}
+
+/* ========================================================
+SAVE MODAL
+======================================================== */
+function openSaveModal(){
+$('saveOverlay').classList.add('open');
+document.body.classList.add('locked');
+}
+function closeSaveModal(){
+$('saveOverlay').classList.remove('open');
+if(!$('overlay').classList.contains('open')&&!$('helpOverlay').classList.contains('open'))
+document.body.classList.remove('locked');
+}
+
+/* ========================================================
+HELP MODAL
+======================================================== */
+function openHelp(){
+$('helpOverlay').classList.add('open');
+document.body.classList.add('locked');
+}
+function closeHelp(){
+$('helpOverlay').classList.remove('open');
+if(!$('overlay').classList.contains('open')&&!$('saveOverlay').classList.contains('open'))
+document.body.classList.remove('locked');
+}
+function copyEmail(){
+const email=SUPPORT_EMAIL;
+const done=()=>showToast('ایمیل کپی شد 📋');
+if(navigator.clipboard&&navigator.clipboard.writeText){
+navigator.clipboard.writeText(email).then(done).catch(()=>fallbackCopy(email,done));
+} else fallbackCopy(email,done);
+}
+function fallbackCopy(text,cb){
+const ta=document.createElement('textarea');
+ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+document.body.appendChild(ta);ta.select();
+try{document.execCommand('copy');cb();}catch(e){alert('ایمیل: '+text);}
+document.body.removeChild(ta);
+}
+
+/* ========================================================
+BACKUP / RESTORE
+======================================================== */
+function backupJSON(){
+const data={app:'daily-accounting-tabriz-cabin',version:4,designer:DESIGNER_NAME,support:SUPPORT_EMAIL,exportedAt:new Date().toISOString(),count:tx.length,transactions:tx};
+const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+const url=URL.createObjectURL(blob);
+const a=document.createElement('a');
+const j=toJalali(...todayISO().split('-').map(Number));
+a.href=url;
+a.download=`tabriz-cabin-${j.jy}-${pad2(j.jm)}-${pad2(j.jd)}.json`;
+document.body.appendChild(a); a.click(); document.body.removeChild(a);
+setTimeout(()=>URL.revokeObjectURL(url),1500);
+showToast('پشتیبان JSON ذخیره شد 💾');
+}
+function restoreJSON(file){
+const reader=new FileReader();
+reader.onload=e=>{
+try{
+const data=JSON.parse(e.target.result);
+const list=Array.isArray(data)?data:data.transactions;
+if(!Array.isArray(list)) throw new Error('bad');
+if(!confirm('بازگردانی '+list.length+' تراکنش؟ داده‌های فعلی جایگزین می‌شوند.')) return;
+tx=list;persist();render();
+showToast('بازگردانی انجام شد ✅');
+closeSaveModal();
+go('dashboard');
+}catch(err){alert('فایل معتبر نیست.');}
+};
+reader.readAsText(file);
+}
+
+/* ========================================================
+EVENTS
+======================================================== */
+$('amountInput').addEventListener('input',e=>{
+const digits=toEn(e.target.value).replace(/[^\d]/g,'').replace(/^0+/,'');
+e.target.value=digits?Number(digits).toLocaleString('fa-IR'):'';
+$('amountWrap').classList.remove('error');
+});
+
+$('typeSeg').addEventListener('click',e=>{
+const b=e.target.closest('button[data-type]');if(!b)return;
+fType=b.dataset.type;
+if(fType==='purchase'){fSub='daily';fCat='food';}
+syncForm();
+});
+$('subSeg').addEventListener('click',e=>{
+const b=e.target.closest('button[data-sub]');if(!b)return;
+fSub=b.dataset.sub;syncForm();
+});
+$('paySeg').addEventListener('click',e=>{
+const b=e.target.closest('button[data-pay]');if(!b)return;
+fPay=b.dataset.pay;
+if(fPay==='check'&&!formDue){formDue=todayISO();$('dueDisplay').value=faDateFull(formDue);}
+syncForm();
+});
+$('chips').addEventListener('click',e=>{
+const b=e.target.closest('.chip');if(!b)return;
+if(b.dataset.cat) fCat=b.dataset.cat;
+if(b.dataset.icon) fIcon=b.dataset.icon;
+renderChips();
+});
+
+$('dateDisplay').addEventListener('click',()=>openDatePicker('date'));
+$('dueDisplay').addEventListener('click',()=>openDatePicker('due'));
+$('dpPrev').addEventListener('click',()=>dpNav(-1));
+$('dpNext').addEventListener('click',()=>dpNav(1));
+$('dpClose').addEventListener('click',closeDatePicker);
+$('dpToday').addEventListener('click',()=>dpPick(todayISO()));
+$('dpGrid').addEventListener('click',e=>{
+const b=e.target.closest('.dp-day');if(!b||b.disabled)return;
+const iso=b.dataset.date;if(iso) dpPick(iso);
+});
+$('dpOverlay').addEventListener('click',e=>{if(e.target===$('dpOverlay')) closeDatePicker();});
+
+$('bnav').addEventListener('click',e=>{
+const b=e.target.closest('button[data-page]');if(b) go(b.dataset.page);
+});
+
+function bindFilters(id,setter){
+$(id).addEventListener('click',e=>{
+const b=e.target.closest('.fbtn');if(!b)return;
+$(id).querySelectorAll('.fbtn').forEach(x=>x.classList.remove('active'));
+b.classList.add('active');
+setter(b.dataset.f);
+render();
+});
+}
+bindFilters('purchFilters',v=>purchFilter=v);
+bindFilters('flowFilters',v=>flowFilter=v);
+bindFilters('checkFilters',v=>checkFilter=v);
+
+document.addEventListener('click',e=>{
+const del=e.target.closest('[data-del]');if(del){deleteTx(del.dataset.del);return;}
+const star=e.target.closest('[data-star]');if(star){toggleStar(star.dataset.star);return;}
+const paid=e.target.closest('[data-paid]');if(paid){markPaid(paid.dataset.paid);return;}
+});
+
+$('fab').addEventListener('click',openSheet);
+$('closeBtn').addEventListener('click',closeSheet);
+$('submitBtn').addEventListener('click',saveTx);
+$('overlay').addEventListener('click',e=>{if(e.target===$('overlay')) closeSheet();});
+
+$('undoBtn').addEventListener('click',undoDelete);
+
+$('headerSaveBtn').addEventListener('click',openSaveModal);
+$('saveClose').addEventListener('click',closeSaveModal);
+$('saveOverlay').addEventListener('click',e=>{if(e.target===$('saveOverlay')) closeSaveModal();});
+
+document.querySelectorAll('[data-pdf]').forEach(btn=>{
+btn.addEventListener('click',()=>{exportPDF(btn.dataset.pdf);closeSaveModal();});
+});
+document.querySelectorAll('[data-txt]').forEach(btn=>{
+btn.addEventListener('click',()=>{exportTXT();closeSaveModal();});
+});
+$('bkJsonBtn').addEventListener('click',backupJSON);
+$('restoreBtn').addEventListener('click',()=>$('restoreFile').click());
+$('restoreFile').addEventListener('change',e=>{
+const f=e.target.files[0];if(f) restoreJSON(f);
+e.target.value='';
+});
+
+$('helpBtn').addEventListener('click',openHelp);
+$('helpClose').addEventListener('click',closeHelp);
+$('helpOverlay').addEventListener('click',e=>{if(e.target===$('helpOverlay')) closeHelp();});
+$('copyEmailBtn').addEventListener('click',copyEmail);
+
+document.addEventListener('keydown',e=>{
+if(e.key==='Escape'){
+if($('helpOverlay').classList.contains('open')) closeHelp();
+else if($('saveOverlay').classList.contains('open')) closeSaveModal();
+else if($('dpOverlay').classList.contains('open')) closeDatePicker();
+else closeSheet();
+}
+if(e.key==='Enter'&&$('overlay').classList.contains('open')){
+const a=document.activeElement;
+if(a&&a.tagName!=='BUTTON'&&a.type!=='checkbox'&&a.readOnly!==true) saveTx();
+}
+});
+
+/* INIT */
+load();
+render();
+syncForm();
+$('dateDisplay').value=faDateFull(todayISO());
+</script>
+</body>
+</html>
