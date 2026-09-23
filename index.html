@@ -46,7 +46,6 @@
 --shadow-md:0 8px 24px rgba(76,29,149,.18);
 --shadow-glow:0 12px 30px rgba(76,29,149,.45);
 }
-/* حالت شب */
 html.dark{
 --bg:#141021;
 --bg-2:#1c1533;
@@ -93,12 +92,13 @@ overflow-x:hidden;
 transition:background .3s, color .3s;
 }
 body.locked{overflow:hidden;}
+/* فضای پایین اپلیکیشن برای نمایش کامل کارت‌های تبلیغاتی */
 .app{
 max-width:520px;
 width:100%;
 margin:0 auto;
 min-height:100dvh;
-padding-bottom:calc(var(--nav-h) + 20px);
+padding-bottom:calc(var(--nav-h) + 180px);
 position:relative;
 overflow-x:hidden;
 }
@@ -110,7 +110,6 @@ overflow-x:hidden;
 .page.active{display:block;}
 @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
 
-/* --- Compact Header Overrides --- */
 .help-btn{
 width:32px;height:32px;border-radius:10px;border:none;
 background:linear-gradient(135deg,#7c3aed,#6d28d9);
@@ -256,10 +255,10 @@ transition:background .3s, border-color .3s;
 .sec-head h3 span{font-size:16px;margin-left:5px;}
 .sec-head a{font-size:11.5px;color:var(--primary-2);font-weight:800;text-decoration:none;cursor:pointer;padding:5px 10px;border-radius:9px;background:var(--bg-2);}
 
-/* --- Ads Section CSS --- */
+/* ===== بخش تبلیغات (4 کارت، 2x2) ===== */
 .ads-grid {
 display: grid;
-grid-template-columns: repeat(3, 1fr);
+grid-template-columns: repeat(2, 1fr);
 gap: 10px;
 padding: 0 4px;
 }
@@ -271,10 +270,10 @@ justify-content: center;
 background: var(--card);
 border: 1.5px solid var(--border);
 border-radius: 16px;
-padding: 12px 4px;
+padding: 14px 6px;
 text-decoration: none;
 color: var(--text);
-font-size: 10.5px;
+font-size: 11.5px;
 font-weight: 800;
 box-shadow: var(--shadow-sm);
 transition: transform 0.2s, background 0.2s;
@@ -285,25 +284,26 @@ transform: scale(0.95);
 background: var(--bg-2);
 }
 .ad-icon {
-width: 38px;
-height: 38px;
+width: 46px;
+height: 46px;
 border-radius: 50%;
 display: flex;
 align-items: center;
 justify-content: center;
-font-size: 18px;
+font-size: 22px;
 margin-bottom: 8px;
 color: #fff;
 }
 .insta-icon { background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045); }
-.hesab-icon { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
-.cabinet-icon { background: linear-gradient(135deg, #0284c7, #38bdf8); }
+.cabin-icon { background: linear-gradient(135deg, #6d28d9, #a855f7); }
+.hesab-icon { background: linear-gradient(135deg, #0284c7, #38bdf8); }
+.design-icon { background: linear-gradient(135deg, #c026d3, #e879f9); }
 .ad-card small {
-font-size: 8.5px;
+font-size: 9px;
 color: var(--muted);
 font-weight: 700;
 direction: ltr;
-margin-top: 3px;
+margin-top: 4px;
 }
 
 .filters{display:flex;gap:7px;overflow-x:auto;padding:6px 16px 14px;scrollbar-width:none;}
@@ -462,15 +462,16 @@ color:#fff;border:none;box-shadow:0 8px 20px rgba(76,29,149,.4);
 html.dark .save-item.danger{border-color:#7f1d1d;}
 .save-item.danger:active{background:var(--expense-soft);border-color:var(--expense);}
 
+/* ====== دکمه شناور ثبت: به سمت راست منتقل شد تا وسط صفحه را نپوشاند ====== */
 .fab{
-position:fixed;bottom:calc(var(--nav-h) + 18px);left:50%;transform:translateX(-50%);
-padding:0 26px;height:56px;border-radius:28px;
+position:fixed;bottom:calc(var(--nav-h) + 18px);right:20px;left:auto;
+padding:0 22px;height:56px;border-radius:28px;
 background:linear-gradient(135deg,#7c3aed 0%,#6d28d9 55%,#c026d3 130%);
 color:#fff;border:none;font-size:15px;font-weight:800;
 box-shadow:0 14px 32px rgba(76,29,149,.6), inset 0 1px 0 rgba(255,255,255,.25);
 display:flex;align-items:center;gap:8px;cursor:pointer;z-index:20;transition:transform .15s;
 }
-.fab:active{transform:translateX(-50%) scale(.93);}
+.fab:active{transform:scale(.93);}
 .fab i{font-style:normal;font-size:22px;line-height:1;margin-top:-3px;}
 
 .bnav{
@@ -893,37 +894,44 @@ line-height:1.8;
 </div>
 
 <!-- ============================================== -->
-<!-- بخش تبلیغات سه گانه -->
+<!-- بخش تبلیغات (4 کارت): اینستاگرام + تبریزکابین + پروژه‌حساب + طراحی کابینت -->
 <!-- ============================================== -->
 <div class="sec" style="margin-top: 10px;">
 <div class="sec-head"><h3><span>🌟</span>سایر خدمات و محصولات ما</h3></div>
 <div class="ads-grid">
-<!-- تبلیغ ۱: اپ حساب روزانه (لینک به گیت‌هاب) -->
-<a href="https://ghader387.github.io/proje-hesab/" target="_blank" class="ad-card">
+<!-- ۱. اینستاگرام تبریزکابین -->
+<!-- ⚠️ توجه: لطفاً نام کاربری اینستاگرام خود را در این خط جایگزین کنید -->
+<a href="https://instagram.com/tabrizcabin.ir" target="_blank" class="ad-card">
 <div class="ad-icon insta-icon">
-<!-- آیکون اینستاگرام -->
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
 </svg>
 </div>
-<span>اپ حساب روزانه</span>
-<small>Mobile App</small>
+<span>اینستاگرام</span>
+<small>TabrizCabin</small>
 </a>
 
-<!-- تبلیغ ۲: حسابداری پروژه -->
+<!-- ۲. سایت تبریزکابین -->
+<a href="https://tabrizcabin.ir" target="_blank" class="ad-card">
+<div class="ad-icon cabin-icon">🏠</div>
+<span>تبریز کابین</span>
+<small>tabrizcabin.ir</small>
+</a>
+
+<!-- ۳. پروژه حساب -->
 <a href="https://projehesab.ir" target="_blank" class="ad-card">
 <div class="ad-icon hesab-icon">📊</div>
-<span>نرم‌افزار حسابداری</span>
-<small>ProjeHesab.ir</small>
+<span>حسابداری پروژه</span>
+<small>projehesab.ir</small>
 </a>
 
-<!-- تبلیغ ۳: طراحی کابینت -->
+<!-- ۴. طراحی آنلاین کابینت -->
 <a href="https://cabinetsoz.ir" target="_blank" class="ad-card">
-<div class="ad-icon cabinet-icon">📐</div>
+<div class="ad-icon design-icon">📐</div>
 <span>طراحی آنلاین کابینت</span>
-<small>CabinetSoz.ir</small>
+<small>cabinetsoz.ir</small>
 </a>
 </div>
 </div>
@@ -1204,7 +1212,6 @@ line-height:1.8;
 </div>
 </div>
 
-<!-- بخش هدیه و QR Code -->
 <div class="help-sec">
 <div class="help-sec-title"><span class="ico">🎁</span> هدیه به دوستان</div>
 <div style="background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:1.5px solid #ddd6fe;border-radius:16px;padding:16px;text-align:center;">
@@ -1224,7 +1231,6 @@ https://ghader387.github.io/proje-hesab/
 </div>
 </div>
 
-<!-- بخش راهنمای نصب اپ -->
 <div class="help-sec">
 <div class="help-sec-title"><span class="ico">📲</span> راهنمای نصب اپ روی موبایل</div>
 <div class="help-list">
@@ -1494,7 +1500,6 @@ if(el) el.innerHTML = logoSVG(bg, ic, ac);
 });
 }
 
-/* ساخت آیکون اپ (SVG دیتا URI) */
 function makeAppIcon(size){
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="${size}" height="${size}">
 <defs>
@@ -2563,7 +2568,6 @@ $('helpClose').addEventListener('click',closeHelp);
 $('helpOverlay').addEventListener('click',e=>{if(e.target===$('helpOverlay')) closeHelp();});
 $('copyEmailBtn').addEventListener('click',copyEmail);
 
-/* دکمه اشتراک‌گذاری اپ */
 const shareBtn = $('shareBtn');
 if(shareBtn){
 shareBtn.addEventListener('click', async function(){
@@ -2574,7 +2578,7 @@ url: 'https://ghader387.github.io/proje-hesab/'
 };
 if(navigator.share){
 try{ await navigator.share(shareData); }
-catch(e){ /* کاربر لغو کرد */ }
+catch(e){}
 } else {
 fallbackCopy('https://ghader387.github.io/proje-hesab/', ()=>showToast('لینک کپی شد 📋'));
 }
