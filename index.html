@@ -167,6 +167,7 @@ box-shadow:0 4px 12px rgba(76,29,149,.18);
 position:relative;overflow:hidden;
 }
 .logo-badge svg{width:100%;height:100%;display:block;}
+.logo-badge img{width:100%;height:100%;object-fit:contain;display:block;}
 .brand{flex:1;min-width:0;position:relative;z-index:1;}
 .brand-name{font-size:15.5px;font-weight:900;letter-spacing:-.3px;line-height:1.3;color:var(--text);}
 .brand-name .tabriz{
@@ -254,6 +255,59 @@ transition:background .3s, border-color .3s;
 .sec-head h3{margin:0;font-size:14.5px;font-weight:800;letter-spacing:-.1px;}
 .sec-head h3 span{font-size:16px;margin-left:5px;}
 .sec-head a{font-size:11.5px;color:var(--primary-2);font-weight:800;text-decoration:none;cursor:pointer;padding:5px 10px;border-radius:9px;background:var(--bg-2);}
+
+/* ===== بخش تبلیغات (5 کارت) ===== */
+.ads-grid {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 10px;
+padding: 0 4px;
+}
+.ad-card {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+background: var(--card);
+border: 1.5px solid var(--border);
+border-radius: 16px;
+padding: 14px 6px;
+text-decoration: none;
+color: var(--text);
+font-size: 11.5px;
+font-weight: 800;
+box-shadow: var(--shadow-sm);
+transition: transform 0.2s, background 0.2s;
+text-align: center;
+}
+.ad-card:active {
+transform: scale(0.95);
+background: var(--bg-2);
+}
+.ad-icon {
+width: 46px;
+height: 46px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 22px;
+margin-bottom: 8px;
+color: #fff;
+overflow: hidden;
+}
+.insta-icon { background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045); }
+.cabin-icon { background: linear-gradient(135deg, #6d28d9, #a855f7); }
+.hesab-icon { background: linear-gradient(135deg, #0284c7, #38bdf8); }
+.design-icon { background: linear-gradient(135deg, #c026d3, #e879f9); }
+.samadiyeh-icon { background: #ffffff; padding: 0; overflow: hidden; }
+.ad-card small {
+font-size: 9px;
+color: var(--muted);
+font-weight: 700;
+direction: ltr;
+margin-top: 4px;
+}
 
 .filters{display:flex;gap:7px;overflow-x:auto;padding:6px 16px 14px;scrollbar-width:none;}
 .filters::-webkit-scrollbar{display:none;}
@@ -789,7 +843,7 @@ line-height:1.8;
 
 <div class="app">
 
-<!-- DASHBOARD -->
+<!-- ============ DASHBOARD ============ -->
 <div class="page active" id="page-dashboard">
 <div class="topbar">
 <div class="header-inner">
@@ -840,7 +894,7 @@ line-height:1.8;
 <div class="sec-head"><h3><span>🕐</span>آخرین تراکنش‌ها</h3><a onclick="go('purchases')">همه</a></div>
 <div id="dashRecent"></div>
 </div>
-</div>
+
 <!-- ============================================== -->
 <!-- بخش تبلیغات (5 کارت): اینستاگرام + تبریزکابین + پروژه‌حساب + طراحی + صمدیه -->
 <!-- ============================================== -->
@@ -882,14 +936,10 @@ line-height:1.8;
       <small>cabinetsoz.ir</small>
     </a>
 
-    <!-- ۵. صمدیه ۱۴۰۵ (جدید - در امتداد بقیه) -->
+    <!-- ۵. صمدیه ۱۴۰۵ -->
     <a href="https://ghader387.github.io/samadiyeh-1405/" target="_blank" class="ad-card">
       <div class="ad-icon samadiyeh-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M10.5 20.5a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z"></path>
-          <path d="M10.5 8v5"></path>
-          <path d="M8 10.5h5"></path>
-        </svg>
+        <img src="samadiyeh-logo.png" style="width:100%;height:100%;object-fit:contain;border-radius:50%;display:block;" alt="صمدیه" onerror="this.style.display='none';this.parentElement.innerHTML='💊';">
       </div>
       <span>صمدیه ۱۴۰۵</span>
       <small>مرجع جامع دارویی</small>
@@ -898,8 +948,11 @@ line-height:1.8;
   </div>
 </div>
 <!-- پایان بخش تبلیغات -->
-</div>  
-<!-- PURCHASES -->
+
+</div>
+<!-- ============ END DASHBOARD ============ -->
+
+<!-- ============ PURCHASES ============ -->
 <div class="page" id="page-purchases">
 <div class="page-head">
 <div class="logo-badge" id="purchLogo"></div>
@@ -919,7 +972,7 @@ line-height:1.8;
 <div class="list" id="purchList"></div>
 </div>
 
-<!-- FLOW -->
+<!-- ============ FLOW ============ -->
 <div class="page" id="page-flow">
 <div class="page-head">
 <div class="logo-badge" id="flowLogo"></div>
@@ -939,7 +992,7 @@ line-height:1.8;
 <div class="list" id="flowList"></div>
 </div>
 
-<!-- CHECKS -->
+<!-- ============ CHECKS ============ -->
 <div class="page" id="page-checks">
 <div class="page-head">
 <div class="logo-badge" id="checksLogo"></div>
@@ -958,7 +1011,7 @@ line-height:1.8;
 <div class="list" id="checksList"></div>
 </div>
 
-<!-- REPORTS -->
+<!-- ============ REPORTS ============ -->
 <div class="page" id="page-reports">
 <div class="page-head">
 <div class="logo-badge" id="reportsLogo"></div>
@@ -1362,31 +1415,7 @@ function jMonthLabel(key){const y=Math.floor(key/100),m=key%100;return J_MONTHS[
 SVG LOGO (آیکون کابین)
 ======================================================== */
 function logoSVG(bgColor, iconColor, accentColor){
-return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-<rect width="100" height="100" fill="${bgColor}"/>
-<rect x="8" y="8" width="18" height="84" rx="1" fill="none" stroke="${iconColor}" stroke-width="2.4"/>
-<rect x="30" y="8" width="18" height="84" rx="1" fill="none" stroke="${iconColor}" stroke-width="2.4"/>
-<circle cx="18" cy="50" r="2.8" fill="${accentColor}"/>
-<circle cx="40" cy="50" r="2.8" fill="${accentColor}"/>
-<rect x="54" y="8" width="42" height="38" rx="1" fill="none" stroke="${iconColor}" stroke-width="2.4"/>
-<line x1="68" y1="8" x2="68" y2="46" stroke="${iconColor}" stroke-width="2.2"/>
-<line x1="82" y1="8" x2="82" y2="46" stroke="${iconColor}" stroke-width="2.2"/>
-<line x1="54" y1="27" x2="96" y2="27" stroke="${iconColor}" stroke-width="2.2"/>
-<circle cx="61" cy="17.5" r="2.1" fill="${accentColor}"/>
-<circle cx="75" cy="17.5" r="2.1" fill="${accentColor}"/>
-<circle cx="89" cy="17.5" r="2.1" fill="${accentColor}"/>
-<circle cx="61" cy="36.5" r="2.1" fill="${accentColor}"/>
-<circle cx="75" cy="36.5" r="2.1" fill="${accentColor}"/>
-<circle cx="89" cy="36.5" r="2.1" fill="${accentColor}"/>
-<rect x="54" y="54" width="42" height="38" rx="1" fill="none" stroke="${iconColor}" stroke-width="2.4"/>
-<rect x="60" y="62" width="30" height="22" rx="1" fill="none" stroke="${iconColor}" stroke-width="1.8"/>
-<rect x="79" y="66" width="7" height="11" rx="1" fill="none" stroke="${accentColor}" stroke-width="1.8"/>
-<line x1="80.5" y1="69" x2="84.5" y2="69" stroke="${accentColor}" stroke-width="1.2"/>
-<line x1="80.5" y1="71.5" x2="84.5" y2="71.5" stroke="${accentColor}" stroke-width="1.2"/>
-<line x1="80.5" y1="74" x2="84.5" y2="74" stroke="${accentColor}" stroke-width="1.2"/>
-<circle cx="65" cy="90" r="2.1" fill="${accentColor}"/>
-<circle cx="85" cy="90" r="2.1" fill="${accentColor}"/>
-</svg>`;
+return `<img src="tabrizcabin-logo.png" style="width:100%;height:100%;object-fit:contain;display:block;" alt="تبریزکابین" onerror="this.outerHTML=\`<svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><rect width='100' height='100' fill='${bgColor}'/><rect x='8' y='8' width='18' height='84' rx='1' fill='none' stroke='${iconColor}' stroke-width='2.4'/><rect x='30' y='8' width='18' height='84' rx='1' fill='none' stroke='${iconColor}' stroke-width='2.4'/></svg>\`;">`;
 }
 
 function renderLogos(){
@@ -1401,71 +1430,6 @@ const ac = isDark ? darkAccent : lightAccent;
 const el=$(id);
 if(el) el.innerHTML = logoSVG(bg, ic, ac);
 });
-}
-
-/* ساخت آیکون اپ (SVG دیتا URI) */
-function makeAppIcon(size){
-const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="${size}" height="${size}">
-<defs>
-<linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-<stop offset="0%" stop-color="#7c3aed"/>
-<stop offset="100%" stop-color="#6d28d9"/>
-</linearGradient>
-</defs>
-<rect width="100" height="100" rx="22" fill="url(#bg)"/>
-<g transform="translate(14 14) scale(0.72)">
-<rect x="8" y="8" width="18" height="84" rx="1.5" fill="none" stroke="#ffffff" stroke-width="3"/>
-<rect x="30" y="8" width="18" height="84" rx="1.5" fill="none" stroke="#ffffff" stroke-width="3"/>
-<circle cx="18" cy="50" r="3" fill="#c4b5fd"/>
-<circle cx="40" cy="50" r="3" fill="#c4b5fd"/>
-<rect x="54" y="8" width="42" height="38" rx="1.5" fill="none" stroke="#ffffff" stroke-width="3"/>
-<line x1="68" y1="8" x2="68" y2="46" stroke="#ffffff" stroke-width="2.8"/>
-<line x1="82" y1="8" x2="82" y2="46" stroke="#ffffff" stroke-width="2.8"/>
-<line x1="54" y1="27" x2="96" y2="27" stroke="#ffffff" stroke-width="2.8"/>
-<circle cx="61" cy="17.5" r="2.3" fill="#c4b5fd"/>
-<circle cx="75" cy="17.5" r="2.3" fill="#c4b5fd"/>
-<circle cx="89" cy="17.5" r="2.3" fill="#c4b5fd"/>
-<circle cx="61" cy="36.5" r="2.3" fill="#c4b5fd"/>
-<circle cx="75" cy="36.5" r="2.3" fill="#c4b5fd"/>
-<circle cx="89" cy="36.5" r="2.3" fill="#c4b5fd"/>
-<rect x="54" y="54" width="42" height="38" rx="1.5" fill="none" stroke="#ffffff" stroke-width="3"/>
-<rect x="60" y="62" width="30" height="22" rx="1.5" fill="none" stroke="#ffffff" stroke-width="2.2"/>
-<rect x="79" y="66" width="7" height="11" rx="1.5" fill="none" stroke="#c4b5fd" stroke-width="2.2"/>
-<circle cx="65" cy="90" r="2.3" fill="#c4b5fd"/>
-<circle cx="85" cy="90" r="2.3" fill="#c4b5fd"/>
-</g>
-</svg>`;
-return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
-}
-
-function injectAppIcons(){
-const iconURL = makeAppIcon(512);
-const apple = $('appleIconLink');
-const fav = $('faviconLink');
-if(apple) apple.setAttribute('href', iconURL);
-if(fav) fav.setAttribute('href', iconURL);
-
-const manifest = {
-name: "حساب روزانه تبریزکابین",
-short_name: "تبریزکابین",
-description: "اپلیکیشن حساب روزانه تبریزکابین — مدیریت خرید، پرداخت، دریافت و چک",
-start_url: ".",
-display: "standalone",
-orientation: "portrait",
-background_color: "#f0e8ff",
-theme_color: "#6d28d9",
-lang: "fa",
-dir: "rtl",
-icons: [
-{ src: iconURL, sizes: "192x192", type: "image/svg+xml", purpose: "any" },
-{ src: iconURL, sizes: "512x512", type: "image/svg+xml", purpose: "any" },
-{ src: iconURL, sizes: "any", type: "image/svg+xml", purpose: "any" }
-]
-};
-const blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
-const url = URL.createObjectURL(blob);
-const link = $('manifestLink');
-if(link) link.setAttribute('href', url);
 }
 
 /* ========================================================
@@ -2489,7 +2453,6 @@ if(a&&a.tagName!=='BUTTON'&&a.type!=='checkbox'&&a.readOnly!==true) saveTx();
 initTheme();
 load();
 renderLogos();
-injectAppIcons();
 render();
 syncForm();
 $('dateDisplay').value=faDateFull(todayISO());
