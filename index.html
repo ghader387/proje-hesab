@@ -467,52 +467,102 @@ html.dark .designer-box .role{color:#fcd34d;}
 <div id="dashRecent"></div>
 </div>
 
-<!-- ============================================== -->
-<!-- بخش تبلیغات + QR سایت -->
-<!-- ============================================== -->
-<div class="sec" style="margin-top: 10px;">
-  <div class="sec-head"><h3><span>🌟</span>سایر خدمات و محصولات ما</h3></div>
-  <div class="ads-grid">
-    
-    <a href="https://instagram.com/tabrizcabin.ir" target="_blank" class="ad-card">
-      <div class="ad-icon insta-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-        </svg>
-      </div>
-      <span>اینستاگرام</span>
-      <small>TabrizCabin</small>
-    </a>
+<div class="services-overlay" id="servicesOverlay">
+<div class="services-card">
+<div class="services-hero">
+<button class="close-x" id="servicesClose">✕</button>
+<div class="icon-wrap">🌟</div>
+<div>
+<h2>خدمات و محصولات ما</h2>
+<p>سرویس‌کار · تبریزکابین · پروژه‌حساب</p>
+</div>
+</div>
+<div class="services-body">
+<div class="services-grid">
 
-    <a href="https://tabrizcabin.ir" target="_blank" class="ad-card">
-      <div class="ad-icon cabin-icon">🏠</div>
-      <span>تبریز کابین</span>
-      <small>tabrizcabin.ir</small>
-    </a>
+  <!-- ۱. سرویس‌کار (بنفش - آیکون کابینت) -->
+  <a href="https://ghader387.github.io/serviskar/" target="_blank" class="service-card" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa);border:none;">
+    <div class="service-icon" style="background:rgba(255,255,255,.25);border:1.5px solid rgba(255,255,255,.4);">
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="8" y="8" width="18" height="84" rx="1" fill="none" stroke="#fff"/>
+        <rect x="30" y="8" width="18" height="84" rx="1" fill="none" stroke="#fff"/>
+        <circle cx="18" cy="50" r="2.6" fill="#fff" stroke="none"/>
+        <circle cx="40" cy="50" r="2.6" fill="#fff" stroke="none"/>
+        <rect x="54" y="8" width="42" height="38" rx="1" fill="none" stroke="#fff"/>
+        <line x1="68" y1="8" x2="68" y2="46" stroke="#fff"/>
+        <line x1="82" y1="8" x2="82" y2="46" stroke="#fff"/>
+        <line x1="54" y1="27" x2="96" y2="27" stroke="#fff"/>
+        <rect x="54" y="54" width="42" height="38" rx="1" fill="none" stroke="#fff"/>
+      </svg>
+    </div>
+    <span style="color:#fff;">سرویس‌کار</span>
+    <small style="color:rgba(255,255,255,.9);">خدمات فنی</small>
+  </a>
 
-    <a href="https://ghader387.github.io/proje-hesab/" target="_blank" class="ad-card">
-      <div class="ad-icon hesab-icon">📊</div>
-      <span>حساب روزانه</span>
-      <small>ghader387.github.io</small>
-    </a>
+  <!-- ۲. اینستاگرام (رنگ اینستاگرام - لوگو SVG) -->
+  <a href="https://instagram.com/tabrizcabin.ir" target="_blank" class="service-card" style="background:linear-gradient(45deg,#833ab4,#fd1d1d,#fcb045);border:none;">
+    <div class="service-icon" style="background:rgba(255,255,255,.25);border:1.5px solid rgba(255,255,255,.4);">
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+      </svg>
+    </div>
+    <span style="color:#fff;">اینستاگرام</span>
+    <small style="color:rgba(255,255,255,.9);">TabrizCabin</small>
+  </a>
 
-    <a href="https://cabinetsoz.ir" target="_blank" class="ad-card">
-      <div class="ad-icon design-icon">📐</div>
-      <span>طراحی آنلاین کابینت</span>
-      <small>cabinetsoz.ir</small>
-    </a>
+  <!-- ۳. تبریزکابین (آبی - آیکون کابینت) -->
+  <a href="https://tabrizcabin.ir" target="_blank" class="service-card" style="background:linear-gradient(135deg,#0284c7,#06b6d4);border:none;">
+    <div class="service-icon" style="background:rgba(255,255,255,.25);border:1.5px solid rgba(255,255,255,.4);">
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="8" y="8" width="18" height="84" rx="1" fill="none" stroke="#fff"/>
+        <rect x="30" y="8" width="18" height="84" rx="1" fill="none" stroke="#fff"/>
+        <circle cx="18" cy="50" r="2.6" fill="#fff" stroke="none"/>
+        <circle cx="40" cy="50" r="2.6" fill="#fff" stroke="none"/>
+        <rect x="54" y="8" width="42" height="38" rx="1" fill="none" stroke="#fff"/>
+        <line x1="68" y1="8" x2="68" y2="46" stroke="#fff"/>
+        <line x1="82" y1="8" x2="82" y2="46" stroke="#fff"/>
+        <line x1="54" y1="27" x2="96" y2="27" stroke="#fff"/>
+        <rect x="54" y="54" width="42" height="38" rx="1" fill="none" stroke="#fff"/>
+      </svg>
+    </div>
+    <span style="color:#fff;">تبریزکابین</span>
+    <small style="color:rgba(255,255,255,.9);">tabrizcabin.ir</small>
+  </a>
 
-    <a href="https://ghader387.github.io/samadiyeh-1405/" target="_blank" class="ad-card">
-      <div class="ad-icon samadiyeh-icon">
-        <img src="samadiyeh-logo.png" style="width:100%;height:100%;object-fit:contain;border-radius:50%;display:block;" alt="صمدیه" onerror="this.style.display='none';this.parentElement.innerHTML='💊';">
-      </div>
-      <span>صمدیه ۱۴۰۵</span>
-      <small>مرجع جامع دارویی</small>
-    </a>
-    
-  </div>
+  <!-- ۴. طراحی کابینت (صورتی - لوگو متر و گونیا) -->
+  <a href="https://cabinetsoz.ir" target="_blank" class="service-card" style="background:linear-gradient(135deg,#c026d3,#e879f9);border:none;">
+    <div class="service-icon" style="background:rgba(255,255,255,.25);border:1.5px solid rgba(255,255,255,.4);">
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 20h20"></path>
+        <path d="M5 20V8l7-5 7 5v12"></path>
+        <path d="M9 20v-6h6v6"></path>
+        <path d="M12 8v2"></path>
+        <path d="M14 8h2"></path>
+      </svg>
+    </div>
+    <span style="color:#fff;">طراحی کابینت</span>
+    <small style="color:rgba(255,255,255,.9);">cabinetsoz.ir</small>
+  </a>
+
+  <!-- ۵. صمدیه ۱۴۰۵ (سبز - لوگو دارو) -->
+  <a href="https://ghader387.github.io/samadiyeh-1405/" target="_blank" class="service-card" style="background:linear-gradient(135deg,#059669,#10b981);border:none;">
+    <div class="service-icon" style="background:rgba(255,255,255,.25);border:1.5px solid rgba(255,255,255,.4);">
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.5 20.5a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z"></path>
+        <path d="M10.5 8v5"></path>
+        <path d="M8 10.5h5"></path>
+      </svg>
+    </div>
+    <span style="color:#fff;">صمدیه ۱۴۰۵</span>
+    <small style="color:rgba(255,255,255,.9);">مرجع دارویی</small>
+  </a>
+
+</div>
+</div>
+</div>
+</div>
   
   <!-- QR کد سایت -->
   <div class="qr-box" style="margin-top:12px;">
