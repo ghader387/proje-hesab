@@ -63,6 +63,11 @@ body.locked{overflow:hidden;}
 .header-inner .theme-btn:active{transform:scale(.9);}
 html.dark .header-inner .theme-btn{background:linear-gradient(135deg,#6366f1,#8b5cf6);box-shadow:0 4px 12px rgba(99,102,241,.45);}
 
+/* دکمهٔ خدمات در هدر */
+.header-inner .services-btn{width:38px;height:38px;border-radius:12px;border:none;background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;font-size:17px;cursor:pointer;flex-shrink:0;display:grid;place-items:center;line-height:1;box-shadow:0 4px 12px rgba(14,165,233,.35);transition:transform .15s;}
+.header-inner .services-btn:active{transform:scale(.9);}
+html.dark .header-inner .services-btn{background:linear-gradient(135deg,#0891b2,#06b6d4);box-shadow:0 4px 12px rgba(8,145,178,.5);}
+
 .topbar{padding:18px 18px 4px;background:transparent;}
 .header-inner{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:22px;padding:14px 16px;box-shadow:0 8px 26px rgba(76,29,149,.2);border:1.5px solid var(--border);position:relative;overflow:hidden;transition:background .3s, border-color .3s;}
 .header-inner::before{content:'';position:absolute;top:-60px;left:-60px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,var(--bg-2) 0%, transparent 70%);pointer-events:none;}
@@ -130,6 +135,123 @@ html.dark .balance-card{background:radial-gradient(120% 120% at 100% 0%, rgba(25
 .samadiyeh-icon{background:#ffffff;padding:0;overflow:hidden;}
 .ad-card small{font-size:9px;color:var(--muted);font-weight:700;direction:ltr;margin-top:4px;}
 
+/* ====================== MODAL خدمات ====================== */
+.services-overlay{
+  position:fixed;inset:0;z-index:90;
+  background:rgba(35,10,70,.65);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  opacity:0;pointer-events:none;transition:.3s;
+  display:flex;align-items:center;justify-content:center;
+  padding:18px;
+}
+.services-overlay.open{opacity:1;pointer-events:auto;}
+.services-card{
+  width:100%;max-width:460px;
+  background:var(--card);
+  border-radius:24px;
+  box-shadow:0 30px 80px rgba(35,10,70,.55);
+  transform:scale(.94);transition:transform .3s cubic-bezier(.2,.8,.3,1);
+  max-height:90vh;overflow-y:auto;
+  border:1.5px solid var(--border);
+}
+.services-overlay.open .services-card{transform:scale(1);}
+
+.services-hero{
+  padding:20px 20px 16px;
+  background:radial-gradient(120% 120% at 100% 0%, rgba(255,255,255,.25) 0%, transparent 45%),
+             radial-gradient(120% 120% at 0% 100%, rgba(192,38,211,.3) 0%, transparent 45%),
+             linear-gradient(135deg,#7c3aed 0%,#6d28d9 50%,#0891b2 100%);
+  color:#fff;position:relative;overflow:hidden;
+  border-radius:23px 23px 0 0;
+  display:flex;align-items:center;gap:14px;
+}
+.services-hero::after{
+  content:'';position:absolute;width:180px;height:180px;
+  border-radius:50%;background:rgba(255,255,255,.08);
+  top:-90px;left:-50px;
+}
+.services-hero .icon-wrap{
+  width:52px;height:52px;border-radius:16px;
+  background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);
+  display:grid;place-items:center;font-size:26px;flex-shrink:0;
+  backdrop-filter:blur(6px);position:relative;z-index:2;
+}
+.services-hero .hero-text{flex:1;position:relative;z-index:2;min-width:0;}
+.services-hero h2{margin:0;font-size:17px;font-weight:900;letter-spacing:-.2px;}
+.services-hero p{margin:3px 0 0;font-size:11px;opacity:.9;font-weight:600;}
+.services-hero .close-x{
+  position:absolute;top:14px;left:14px;z-index:3;
+  width:32px;height:32px;border-radius:50%;border:none;
+  background:rgba(255,255,255,.2);color:#fff;font-size:14px;
+  cursor:pointer;display:grid;place-items:center;line-height:1;
+  transition:.2s;
+}
+.services-hero .close-x:active{background:rgba(255,255,255,.35);transform:scale(.92);}
+
+.services-body{padding:16px 18px 20px;}
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.service-card{
+  position:relative;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:7px;padding:16px 8px 14px;
+  border-radius:16px;text-decoration:none;
+  color:#fff;text-align:center;overflow:hidden;
+  box-shadow:0 8px 18px -8px rgba(0,0,0,.4);
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s ease;
+}
+.service-card::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,0) 65%);
+  opacity:0;transition:opacity .3s ease;pointer-events:none;
+}
+.service-card:hover{
+  transform:translateY(-4px) scale(1.03);
+  box-shadow:0 16px 28px -12px rgba(0,0,0,.55);
+}
+.service-card:hover::after{opacity:1;}
+.service-card:active{transform:translateY(-1px) scale(1.01);}
+
+.service-card .service-icon{
+  width:44px;height:44px;display:grid;place-items:center;
+  border-radius:13px;background:rgba(255,255,255,.25);
+  border:1.3px solid rgba(255,255,255,.4);
+  backdrop-filter:blur(3px);
+  transition:transform .3s ease;
+}
+.service-card:hover .service-icon{transform:scale(1.1) rotate(-5deg);}
+.service-card span{font-size:12px;font-weight:800;line-height:1.25;}
+.service-card small{font-size:9px;opacity:.9;font-weight:600;direction:ltr;}
+
+.services-qr{
+  margin-top:14px;padding:14px;
+  border-radius:16px;
+  background:linear-gradient(135deg,var(--bg),var(--bg-2));
+  border:1.5px dashed var(--border);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.services-qr img{
+  width:120px;height:120px;border-radius:12px;
+  background:#fff;padding:6px;
+  box-shadow:0 6px 18px -6px rgba(124,58,237,.45);
+}
+.services-qr .qr-label{
+  font-size:11px;font-weight:800;color:var(--primary-dark);text-align:center;
+}
+.services-qr .qr-url{
+  font-size:9.5px;color:var(--muted);font-weight:700;
+  direction:ltr;word-break:break-all;text-align:center;
+}
+@media (max-width:380px){
+  .services-grid{grid-template-columns:1fr;}
+}
+
+/* ====================== بقیه استایل‌ها ====================== */
 .qr-box{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:8px;box-shadow:var(--shadow-sm);margin-top:10px;}
 .qr-box img{width:140px;height:140px;border-radius:12px;background:#fff;padding:6px;}
 .qr-box .qr-label{font-size:11px;font-weight:800;color:var(--primary-dark);text-align:center;}
@@ -433,6 +555,7 @@ html.dark .designer-box .role{color:#fcd34d;}
 </div>
 <button class="theme-btn" id="themeBtn" title="تغییر تم">🌙</button>
 <button class="save-btn" id="headerSaveBtn" title="ذخیره گزارش">💾</button>
+<button class="services-btn" id="servicesBtn" title="خدمات و محصولات">🛠️</button>
 <button class="help-btn" id="helpBtn" title="راهنما و پشتیبانی">❓</button>
 </div>
 </div>
@@ -467,111 +590,6 @@ html.dark .designer-box .role{color:#fcd34d;}
 <div id="dashRecent"></div>
 </div>
 
-<div class="services-overlay" id="servicesOverlay">
-<div class="services-card">
-<div class="services-hero">
-<button class="close-x" id="servicesClose">✕</button>
-<div class="icon-wrap">🌟</div>
-<div>
-<h2>خدمات و محصولات ما</h2>
-<p>سرویس‌کار · تبریزکابین · پروژه‌حساب</p>
-</div>
-</div>
-<div class="services-body">
-<div class="services-grid">
-
-  <!-- ۱. سرویس‌کار (بنفش - آیکون کابینت) -->
-  <a href="https://ghader387.github.io/serviskar/" target="_blank" class="service-card" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa);border:none;">
-    <div class="service-icon" style="background:rgba(255,255,255,.25);border:1.5px solid rgba(255,255,255,.4);">
-      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="8" y="8" width="18" height="84" rx="1" fill="none" stroke="#fff"/>
-        <rect x="30" y="8" width="18" height="84" rx="1" fill="none" stroke="#fff"/>
-        <circle cx="18" cy="50" r="2.6" fill="#fff" stroke="none"/>
-        <circle cx="40" cy="50" r="2.6" fill="#fff" stroke="none"/>
-        <rect x="54" y="8" width="42" height="38" rx="1" fill="none" stroke="#fff"/>
-        <line x1="68" y1="8" x2="68" y2="46" stroke="#fff"/>
-        <line x1="82" y1="8" x2="82" y2="46" stroke="#fff"/>
-        <line x1="54" y1="27" x2="96" y2="27" stroke="#fff"/>
-        <rect x="54" y="54" width="42" height="38" rx="1" fill="none" stroke="#fff"/>
-      </svg>
-    </div>
-    <span style="color:#fff;">سرویس‌کار</span>
-    <small style="color:rgba(255,255,255,.9);">خدمات فنی</small>
-  </a>
-
-  <!-- ۲. اینستاگرام (رنگ اینستاگرام - لوگو SVG) -->
-  <a href="https://instagram.com/tabrizcabin.ir" target="_blank" class="service-card" style="background:linear-gradient(45deg,#833ab4,#fd1d1d,#fcb045);border:none;">
-    <div class="service-icon" style="background:rgba(255,255,255,.25);border:1.5px solid rgba(255,255,255,.4);">
-      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-      </svg>
-    </div>
-    <span style="color:#fff;">اینستاگرام</span>
-    <small style="color:rgba(255,255,255,.9);">TabrizCabin</small>
-  </a>
-
-  <!-- ۳. تبریزکابین (آبی - آیکون کابینت) -->
-  <a href="https://tabrizcabin.ir" target="_blank" class="service-card" style="background:linear-gradient(135deg,#0284c7,#06b6d4);border:none;">
-    <div class="service-icon" style="background:rgba(255,255,255,.25);border:1.5px solid rgba(255,255,255,.4);">
-      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="8" y="8" width="18" height="84" rx="1" fill="none" stroke="#fff"/>
-        <rect x="30" y="8" width="18" height="84" rx="1" fill="none" stroke="#fff"/>
-        <circle cx="18" cy="50" r="2.6" fill="#fff" stroke="none"/>
-        <circle cx="40" cy="50" r="2.6" fill="#fff" stroke="none"/>
-        <rect x="54" y="8" width="42" height="38" rx="1" fill="none" stroke="#fff"/>
-        <line x1="68" y1="8" x2="68" y2="46" stroke="#fff"/>
-        <line x1="82" y1="8" x2="82" y2="46" stroke="#fff"/>
-        <line x1="54" y1="27" x2="96" y2="27" stroke="#fff"/>
-        <rect x="54" y="54" width="42" height="38" rx="1" fill="none" stroke="#fff"/>
-      </svg>
-    </div>
-    <span style="color:#fff;">تبریزکابین</span>
-    <small style="color:rgba(255,255,255,.9);">tabrizcabin.ir</small>
-  </a>
-
-  <!-- ۴. طراحی کابینت (صورتی - لوگو متر و گونیا) -->
-  <a href="https://cabinetsoz.ir" target="_blank" class="service-card" style="background:linear-gradient(135deg,#c026d3,#e879f9);border:none;">
-    <div class="service-icon" style="background:rgba(255,255,255,.25);border:1.5px solid rgba(255,255,255,.4);">
-      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M2 20h20"></path>
-        <path d="M5 20V8l7-5 7 5v12"></path>
-        <path d="M9 20v-6h6v6"></path>
-        <path d="M12 8v2"></path>
-        <path d="M14 8h2"></path>
-      </svg>
-    </div>
-    <span style="color:#fff;">طراحی کابینت</span>
-    <small style="color:rgba(255,255,255,.9);">cabinetsoz.ir</small>
-  </a>
-
-  <!-- ۵. صمدیه ۱۴۰۵ (سبز - لوگو دارو) -->
-  <a href="https://ghader387.github.io/samadiyeh-1405/" target="_blank" class="service-card" style="background:linear-gradient(135deg,#059669,#10b981);border:none;">
-    <div class="service-icon" style="background:rgba(255,255,255,.25);border:1.5px solid rgba(255,255,255,.4);">
-      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M10.5 20.5a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z"></path>
-        <path d="M10.5 8v5"></path>
-        <path d="M8 10.5h5"></path>
-      </svg>
-    </div>
-    <span style="color:#fff;">صمدیه ۱۴۰۵</span>
-    <small style="color:rgba(255,255,255,.9);">مرجع دارویی</small>
-  </a>
-
-</div>
-</div>
-</div>
-</div>
-  
-  <!-- QR کد سایت -->
-  <div class="qr-box" style="margin-top:12px;">
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://ghader387.github.io/proje-hesab/" alt="QR سایت">
-    <div class="qr-label">📱 اسکن کنید — ورود به سایت</div>
-    <div class="qr-url">ghader387.github.io/proje-hesab</div>
-  </div>
-</div>
-
 </div>
 <!-- ============ END DASHBOARD ============ -->
 
@@ -582,6 +600,7 @@ html.dark .designer-box .role{color:#fcd34d;}
 <div class="head-text"><h2>خریدها</h2><div class="sub" id="purchSub">خریدهای روزانه و خاص</div></div>
 <button class="theme-btn" onclick="toggleTheme()" title="تغییر تم">🌙</button>
 <button class="save-btn" onclick="openSaveModal()" title="ذخیره گزارش">💾</button>
+<button class="services-btn" onclick="openServices()" title="خدمات و محصولات">🛠️</button>
 <button class="help-btn" onclick="openHelp()" title="راهنما و پشتیبانی">❓</button>
 </div>
 <div class="filters" id="purchFilters">
@@ -602,6 +621,7 @@ html.dark .designer-box .role{color:#fcd34d;}
 <div class="head-text"><h2>پرداخت و دریافت</h2><div class="sub">نقدی و چکی</div></div>
 <button class="theme-btn" onclick="toggleTheme()" title="تغییر تم">🌙</button>
 <button class="save-btn" onclick="openSaveModal()" title="ذخیره گزارش">💾</button>
+<button class="services-btn" onclick="openServices()" title="خدمات و محصولات">🛠️</button>
 <button class="help-btn" onclick="openHelp()" title="راهنما و پشتیبانی">❓</button>
 </div>
 <div class="filters" id="flowFilters">
@@ -622,6 +642,7 @@ html.dark .designer-box .role{color:#fcd34d;}
 <div class="head-text"><h2>چک‌ها</h2><div class="sub" id="checksSub">—</div></div>
 <button class="theme-btn" onclick="toggleTheme()" title="تغییر تم">🌙</button>
 <button class="save-btn" onclick="openSaveModal()" title="ذخیره گزارش">💾</button>
+<button class="services-btn" onclick="openServices()" title="خدمات و محصولات">🛠️</button>
 <button class="help-btn" onclick="openHelp()" title="راهنما و پشتیبانی">❓</button>
 </div>
 <div class="filters" id="checkFilters">
@@ -641,6 +662,7 @@ html.dark .designer-box .role{color:#fcd34d;}
 <div class="head-text"><h2>گزارش‌ها</h2><div class="sub">نمودار و خروجی</div></div>
 <button class="theme-btn" onclick="toggleTheme()" title="تغییر تم">🌙</button>
 <button class="save-btn" onclick="openSaveModal()" title="ذخیره گزارش">💾</button>
+<button class="services-btn" onclick="openServices()" title="خدمات و محصولات">🛠️</button>
 <button class="help-btn" onclick="openHelp()" title="راهنما و پشتیبانی">❓</button>
 </div>
 
@@ -689,6 +711,112 @@ html.dark .designer-box .role{color:#fcd34d;}
 <button data-page="checks"><span class="ic">🧾</span>چک‌ها<span class="dotb"></span></button>
 <button data-page="reports"><span class="ic">📊</span>گزارش</button>
 </nav>
+
+<!-- ================= MODAL خدمات ================= -->
+<div class="services-overlay" id="servicesOverlay">
+<div class="services-card">
+<div class="services-hero">
+<button class="close-x" id="servicesClose" title="بستن">✕</button>
+<div class="icon-wrap">🛠️</div>
+<div class="hero-text">
+<h2>خدمات و محصولات ما</h2>
+<p>سرویس‌کار · تبریزکابین · پروژه‌حساب</p>
+</div>
+</div>
+
+<div class="services-body">
+<div class="services-grid">
+
+  <!-- ۱. سرویس‌کار -->
+  <a href="https://ghader387.github.io/serviskar/" target="_blank" rel="noopener" class="service-card" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa);">
+    <div class="service-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="8" y="8" width="18" height="84" rx="1"/>
+        <rect x="30" y="8" width="18" height="84" rx="1"/>
+        <circle cx="18" cy="50" r="2.6" fill="#fff" stroke="none"/>
+        <circle cx="40" cy="50" r="2.6" fill="#fff" stroke="none"/>
+        <rect x="54" y="8" width="42" height="38" rx="1"/>
+        <line x1="68" y1="8" x2="68" y2="46"/>
+        <line x1="82" y1="8" x2="82" y2="46"/>
+        <line x1="54" y1="27" x2="96" y2="27"/>
+        <rect x="54" y="54" width="42" height="38" rx="1"/>
+      </svg>
+    </div>
+    <span>سرویس‌کار</span>
+    <small>خدمات فنی</small>
+  </a>
+
+  <!-- ۲. اینستاگرام -->
+  <a href="https://instagram.com/tabrizcabin.ir" target="_blank" rel="noopener" class="service-card" style="background:linear-gradient(45deg,#833ab4,#fd1d1d,#fcb045);">
+    <div class="service-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+      </svg>
+    </div>
+    <span>اینستاگرام</span>
+    <small>TabrizCabin</small>
+  </a>
+
+  <!-- ۳. تبریزکابین -->
+  <a href="https://tabrizcabin.ir" target="_blank" rel="noopener" class="service-card" style="background:linear-gradient(135deg,#0284c7,#06b6d4);">
+    <div class="service-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="8" y="8" width="18" height="84" rx="1"/>
+        <rect x="30" y="8" width="18" height="84" rx="1"/>
+        <circle cx="18" cy="50" r="2.6" fill="#fff" stroke="none"/>
+        <circle cx="40" cy="50" r="2.6" fill="#fff" stroke="none"/>
+        <rect x="54" y="8" width="42" height="38" rx="1"/>
+        <line x1="68" y1="8" x2="68" y2="46"/>
+        <line x1="82" y1="8" x2="82" y2="46"/>
+        <line x1="54" y1="27" x2="96" y2="27"/>
+        <rect x="54" y="54" width="42" height="38" rx="1"/>
+      </svg>
+    </div>
+    <span>تبریزکابین</span>
+    <small>tabrizcabin.ir</small>
+  </a>
+
+  <!-- ۴. طراحی کابینت -->
+  <a href="https://cabinetsoz.ir" target="_blank" rel="noopener" class="service-card" style="background:linear-gradient(135deg,#c026d3,#e879f9);">
+    <div class="service-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 20h20"/>
+        <path d="M5 20V8l7-5 7 5v12"/>
+        <path d="M9 20v-6h6v6"/>
+        <path d="M12 8v2"/>
+        <path d="M14 8h2"/>
+      </svg>
+    </div>
+    <span>طراحی کابینت</span>
+    <small>cabinetsoz.ir</small>
+  </a>
+
+  <!-- ۵. صمدیه ۱۴۰۵ -->
+  <a href="https://ghader387.github.io/samadiyeh-1405/" target="_blank" rel="noopener" class="service-card" style="background:linear-gradient(135deg,#059669,#10b981);">
+    <div class="service-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.5 20.5a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z"/>
+        <path d="M10.5 8v5"/>
+        <path d="M8 10.5h5"/>
+      </svg>
+    </div>
+    <span>صمدیه ۱۴۰۵</span>
+    <small>مرجع دارویی</small>
+  </a>
+
+</div>
+
+<!-- QR کد -->
+<div class="services-qr">
+  <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://ghader387.github.io/proje-hesab/" alt="QR سایت">
+  <div class="qr-label">📱 اسکن کنید — ورود به سایت</div>
+  <div class="qr-url">ghader387.github.io/proje-hesab</div>
+</div>
+</div>
+</div>
+</div>
 
 <!-- SAVE MODAL -->
 <div class="save-overlay" id="saveOverlay">
@@ -752,6 +880,7 @@ html.dark .designer-box .role{color:#fcd34d;}
 <div class="row"><span class="em">➕</span><div class="txt"><div class="ttl">ثبت تراکنش جدید</div><div class="desc">با دکمه <b>+ ثبت</b> در پایین صفحه، تراکنش جدید اضافه کنید.</div></div></div>
 <div class="row"><span class="em">🌙</span><div class="txt"><div class="ttl">حالت شب</div><div class="desc">دکمه <b>🌙</b> در هدر — برای راحتی چشم در محیط کم‌نور.</div></div></div>
 <div class="row"><span class="em">💾</span><div class="txt"><div class="ttl">ذخیره گزارش</div><div class="desc">دکمه سبز <b>💾</b> در بالای همه صفحات — خروجی PDF، متنی و پشتیبان.</div></div></div>
+<div class="row"><span class="em">🛠️</span><div class="txt"><div class="ttl">خدمات و محصولات</div><div class="desc">با دکمه <b>🛠️</b> می‌توانید به همه سرویس‌های تبریزکابین و QR سایت دسترسی داشته باشید.</div></div></div>
 <div class="row"><span class="em">🛍️</span><div class="txt"><div class="ttl">خرید روزانه</div><div class="desc">برای خریدهای معمول و روزمره — با دسته‌بندی (خوراک، حمل‌ونقل، خانه و...)</div></div></div>
 <div class="row"><span class="em">⭐</span><div class="txt"><div class="ttl">خرید خاص</div><div class="desc">برای خریدهای مهم با جزئیات کامل: نام کالا، تعداد، آیکون اختصاصی</div></div></div>
 <div class="row"><span class="em">💸</span><div class="txt"><div class="ttl">پرداخت</div><div class="desc">پرداخت به دیگران — ثبت نام دریافت‌کننده و شرح پرداخت</div></div></div>
@@ -763,7 +892,6 @@ html.dark .designer-box .role{color:#fcd34d;}
 </div>
 </div>
 
-<!-- ========== بخش پشتیبانی (ویرایش‌شده) ========== -->
 <div class="help-sec">
 <div class="help-sec-title"><span class="ico">📞</span> پشتیبانی</div>
 <div class="contact-box">
@@ -1451,7 +1579,7 @@ syncForm();
 $('overlay').classList.add('open');
 document.body.classList.add('locked');
 }
-function closeSheet(){$('overlay').classList.remove('open');if(!$('helpOverlay').classList.contains('open')&&!$('saveOverlay').classList.contains('open'))document.body.classList.remove('locked');}
+function closeSheet(){$('overlay').classList.remove('open');if(!$('helpOverlay').classList.contains('open')&&!$('saveOverlay').classList.contains('open')&&!$('servicesOverlay').classList.contains('open'))document.body.classList.remove('locked');}
 
 function saveTx(){
 const raw=toEn($('amountInput').value).replace(/[^\d]/g,'');
@@ -1509,6 +1637,21 @@ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
 $('page-'+page).classList.add('active');
 document.querySelectorAll('.bnav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
 window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ========================================================
+SERVICES MODAL
+======================================================== */
+function openServices(){
+$('servicesOverlay').classList.add('open');
+document.body.classList.add('locked');
+}
+function closeServices(){
+$('servicesOverlay').classList.remove('open');
+if(!$('overlay').classList.contains('open')
+  && !$('helpOverlay').classList.contains('open')
+  && !$('saveOverlay').classList.contains('open'))
+  document.body.classList.remove('locked');
 }
 
 /* ========================================================
@@ -1854,7 +1997,7 @@ document.body.classList.add('locked');
 }
 function closeSaveModal(){
 $('saveOverlay').classList.remove('open');
-if(!$('overlay').classList.contains('open')&&!$('helpOverlay').classList.contains('open'))
+if(!$('overlay').classList.contains('open')&&!$('helpOverlay').classList.contains('open')&&!$('servicesOverlay').classList.contains('open'))
 document.body.classList.remove('locked');
 }
 
@@ -1867,7 +2010,7 @@ document.body.classList.add('locked');
 }
 function closeHelp(){
 $('helpOverlay').classList.remove('open');
-if(!$('overlay').classList.contains('open')&&!$('saveOverlay').classList.contains('open'))
+if(!$('overlay').classList.contains('open')&&!$('saveOverlay').classList.contains('open')&&!$('servicesOverlay').classList.contains('open'))
 document.body.classList.remove('locked');
 }
 function copyEmail(){
@@ -2022,9 +2165,17 @@ $('helpOverlay').addEventListener('click',e=>{if(e.target===$('helpOverlay')) cl
 $('copyEmailBtn').addEventListener('click',copyEmail);
 $('copyPhoneBtn').addEventListener('click',copyPhone);
 
+/* خدمات */
+$('servicesBtn').addEventListener('click',openServices);
+$('servicesClose').addEventListener('click',closeServices);
+$('servicesOverlay').addEventListener('click',e=>{
+if(e.target===$('servicesOverlay')) closeServices();
+});
+
 document.addEventListener('keydown',e=>{
 if(e.key==='Escape'){
-if($('helpOverlay').classList.contains('open')) closeHelp();
+if($('servicesOverlay').classList.contains('open')) closeServices();
+else if($('helpOverlay').classList.contains('open')) closeHelp();
 else if($('saveOverlay').classList.contains('open')) closeSaveModal();
 else if($('dpOverlay').classList.contains('open')) closeDatePicker();
 else closeSheet();
