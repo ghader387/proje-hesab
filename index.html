@@ -327,7 +327,7 @@ html.dark .badge.rec-type{color:#6ee7b7;}
 .chart-bar.check{background:linear-gradient(90deg,#fbbf24,#d97706);}
 .chart-bar.income{background:linear-gradient(90deg,#34d399,#059669);}
 .chart-bar.expense{background:linear-gradient(90deg,#fb7185,#dc2626);}
-.chart-val{width:66px;flex-shrink:0;text-align:left;font-weight:800;font-size:10.5px;color:var(--text-2);direction:ltr;}
+.chart-val{width:66px;flex-shrink:0;white-space:nowrap;text-align:left;font-weight:800;font-size:10.5px;color:var(--text-2);direction:ltr;}
 .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);}
 .legend span{font-size:10.5px;color:var(--muted);font-weight:700;display:flex;align-items:center;gap:6px;}
 .dot{width:9px;height:9px;border-radius:3px;display:inline-block;}
@@ -630,7 +630,7 @@ html.dark .pay-warn{background:#450a0a;border-color:#7f1d1d;color:#fecaca;}
 <div class="bc-label">موجودی کل</div>
 <div class="bc-chip">💰 حساب</div>
 </div>
-<div class="bc-value" id="balanceValue">۰ <span class="cur">تومان</span></div>
+<div class="bc-value" id="balanceValue">۰ <span class="cur">ریال</span></div>
 <div class="bc-bottom">
 <div class="bc-mini"><div class="l">📥 دریافت‌ها</div><div class="v" id="bcRec">۰</div></div>
 <div class="bc-mini"><div class="l">💸 پرداخت‌ها</div><div class="v" id="bcPay">۰</div></div>
@@ -1125,7 +1125,7 @@ html.dark .pay-warn{background:#450a0a;border-color:#7f1d1d;color:#fecaca;}
 
 <div class="amount-wrap" id="amountWrap">
 <input type="text" id="amountInput" inputmode="numeric" placeholder="۰" autocomplete="off">
-<span class="unit">تومان</span>
+<span class="unit" id="amountUnit">ریال</span>
 </div>
 
 <div class="field">
@@ -1279,7 +1279,7 @@ return 'mailto:'+PAY_EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+enco
 const EN={
 'حساب روزانه':'Daily Accounts','تبریزکابین':'Tabriz Cabin',
 'تغییر تم':'Toggle theme','ذخیره گزارش':'Save report','خدمات و محصولات':'Products & services','راهنما و پشتیبانی':'Help & support',
-'موجودی کل':'Total balance','💰 حساب':'💰 Account','۰':'0','تومان':'Toman',
+'موجودی کل':'Total balance','💰 حساب':'💰 Account','۰':'0','ریال':'USD',
 '📥 دریافت‌ها':'📥 Income','💸 پرداخت‌ها':'💸 Payments',
 'خرید امروز':"Today's purchases",'پرداخت امروز':"Today's payments",'دریافت امروز':"Today's income",
 'هشدار چک‌ها':'Cheque alerts','همه':'All','آخرین تراکنش‌ها':'Recent transactions',
@@ -1419,7 +1419,7 @@ render();syncForm();
 const dd=document.getElementById('dateDisplay');if(dd)dd.value=faDateFull(formDate||todayISO());
 const du=document.getElementById('dueDisplay');if(du)du.value=formDue?faDateFull(formDue):'';
 const ai=document.getElementById('amountInput');
-if(ai&&ai.value){const d=toEn(ai.value).replace(/[^\d]/g,'');ai.value=d?fmt(Number(d)):'';}
+if(ai){if(ai.value)ai.value=moneyInputClean(ai.value);ai.setAttribute('inputmode',LANG==='en'?'decimal':'numeric');ai.placeholder=LANG==='en'?'0.00':'۰';}
 if(document.getElementById('dpOverlay').classList.contains('open'))closeDatePicker();
 dpView=null;$('dpGrid').innerHTML='';$('dpTitle').textContent='—';
 }
@@ -1433,6 +1433,23 @@ const $=id=>document.getElementById(id);
 function toEn(s){return String(s).replace(/[۰-۹]/g,c=>FA_D.indexOf(c)).replace(/[٠-٩]/g,c=>AR_D.indexOf(c));}
 function toFa(s){return LANG==='en'?String(s):String(s).replace(/\d/g,d=>FA_D[+d]);}
 function fmt(n){return Number(n).toLocaleString(LOC());}
+/* Money: stored amounts are numbers in the app's base unit (historically Toman).
+   Persian display = Rial (stored ×10). English display = US dollars (stored value as-is, 2 decimals).
+   No USD<->Rial conversion: the currency simply follows the display language. Stored data is never rewritten. */
+const RIAL_PER_UNIT=10;
+function curName(){return L('ریال','USD');}
+function moneyNum(n){n=Number(n)||0;return LANG==='en'?n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}):Math.round(n*RIAL_PER_UNIT).toLocaleString('fa-IR');}
+function moneyS(n){return LANG==='en'?(Number(n)<0?'−':'')+'$'+moneyNum(Math.abs(n)):moneyNum(n);}
+function moneyC(n){n=Number(n)||0;const v=LANG==='en'?n:n*RIAL_PER_UNIT;const c=new Intl.NumberFormat(LANG==='en'?'en-US':'fa-IR',{notation:'compact',maximumFractionDigits:1}).format(Math.abs(v));return (v<0?'−':'')+(LANG==='en'?'$'+c:c);}
+function money(n){return LANG==='en'?(Number(n)<0?'−':'')+'$'+moneyNum(Math.abs(n)):moneyNum(n)+' ریال';}
+function moneyInputClean(v){
+ v=toEn(String(v)).replace(/[٫]/g,'.');
+ if(LANG==='en'){v=v.replace(/[^\d.]/g,'');const i=v.indexOf('.');let a=i<0?v:v.slice(0,i),b=i<0?null:v.slice(i+1).replace(/\./g,'').slice(0,2);a=a.replace(/^0+(?=\d)/,'');if(!a&&b===null)return '';return (a?Number(a).toLocaleString('en-US'):'0')+(b!==null?'.'+b:'');}
+ const d=v.replace(/[^\d]/g,'').replace(/^0+/,'');return d?Number(d).toLocaleString('fa-IR'):'';}
+function parseMoneyInput(v){
+ v=toEn(String(v)).replace(/[٫]/g,'.');
+ if(LANG==='en'){const n=parseFloat(v.replace(/[^\d.]/g,''));return isFinite(n)?Math.round(n*100)/100:0;}
+ const d=Number(v.replace(/[^\d]/g,''));return d/RIAL_PER_UNIT;}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function pad2(n){return String(n).padStart(2,'0');}
 function todayISO(){const d=new Date();return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());}
@@ -1591,13 +1608,12 @@ else if(t.type==='payment')todayPay+=t.amount;
 else todayRec+=t.amount;
 }
 }
-const CUR=L('تومان','Toman');
-$('balanceValue').innerHTML=(balance<0?'−':'')+fmt(Math.abs(balance))+' <span class="cur">'+CUR+'</span>';
-$('bcRec').textContent=fmt(totalRec)+' '+CUR;
-$('bcPay').textContent=fmt(totalPay)+' '+CUR;
-$('sTodayBuy').textContent=fmt(todayBuy);
-$('sTodayPay').textContent=fmt(todayPay);
-$('sTodayRec').textContent=fmt(todayRec);
+$('balanceValue').innerHTML=(balance<0?'−':'')+(LANG==='en'?'$'+moneyNum(Math.abs(balance))+' <span class="cur">USD</span>':moneyNum(Math.abs(balance))+' <span class="cur">ریال</span>');
+$('bcRec').textContent=money(totalRec);
+$('bcPay').textContent=money(totalPay);
+$('sTodayBuy').textContent=moneyS(todayBuy);
+$('sTodayPay').textContent=moneyS(todayPay);
+$('sTodayRec').textContent=moneyS(todayRec);
 
 const cNow=calOf(todayISO());
 $('jdDay').textContent=toFa(cNow.d);
@@ -1638,7 +1654,7 @@ return `<div class="item ${t.important?'starred':''}">
 ${qtyLine}${personLine}${checkLine}
 </div>
 <div class="item-right">
-<div class="item-amount ${cls}">${sign}${fmt(t.amount)}</div>
+<div class="item-amount ${cls}">${sign}${moneyS(t.amount)}</div>
 <div class="actions-row">
 <button class="star-btn ${t.important?'on':''}" data-star="${t.id}" title="${L('مهم','Important')}">⭐</button>
 <button class="del" data-del="${t.id}" title="${L('حذف','Delete')}">✕</button>
@@ -1663,7 +1679,7 @@ return `<div class="item ${t.important?'starred':''}">
 ${t.person?`<div class="item-person">👤 ${esc(t.person)}</div>`:''}
 </div>
 <div class="item-right">
-<div class="item-amount ${isPay?'expense':'income'}">${isPay?'−':'+'}${fmt(t.amount)}</div>
+<div class="item-amount ${isPay?'expense':'income'}">${isPay?'−':'+'}${moneyS(t.amount)}</div>
 <div class="actions-row">
 ${!t.paid?`<button class="star-btn" data-paid="${t.id}" style="filter:none;opacity:.9;font-size:13px;" title="${L('پاس شد','Mark as cleared')}">✅</button>`:''}
 <button class="del" data-del="${t.id}" title="${L('حذف','Delete')}">✕</button>
@@ -1681,8 +1697,8 @@ if(purchFilter==='cash')items=items.filter(t=>t.pay==='cash');
 if(purchFilter==='star')items=items.filter(t=>t.important);
 const total=items.reduce((s,t)=>s+t.amount,0);
 $('purchSub').textContent=LANG==='en'
-?fmt(items.length)+(items.length===1?' item':' items')+' • Total '+fmt(total)+' Toman'
-:fmt(items.length)+' مورد • جمع '+fmt(total)+' تومان';
+?fmt(items.length)+(items.length===1?' item':' items')+' • Total '+money(total)
+:fmt(items.length)+' مورد • جمع '+money(total);
 $('purchList').innerHTML=renderGrouped(items);
 }
 function renderFlow(){
@@ -1701,8 +1717,8 @@ items=items.slice().sort((a,b)=>(a.due||'9999-99-99')<(b.due||'9999-99-99')?-1:1
 const pending=tx.filter(t=>t.pay==='check'&&checkStatus(t)!=='paid');
 const totalPending=pending.reduce((s,t)=>s+t.amount,0);
 $('checksSub').textContent=LANG==='en'
-?fmt(pending.length)+(pending.length===1?' pending cheque':' pending cheques')+' • '+fmt(totalPending)+' Toman'
-:fmt(pending.length)+' چک در انتظار • '+fmt(totalPending)+' تومان';
+?fmt(pending.length)+(pending.length===1?' pending cheque':' pending cheques')+' • '+money(totalPending)
+:fmt(pending.length)+' چک در انتظار • '+money(totalPending);
 const overdue=tx.filter(t=>t.pay==='check'&&(checkStatus(t)==='overdue'||checkStatus(t)==='soon'));
 document.querySelector('.bnav button[data-page="checks"]').classList.toggle('has-alert',overdue.length>0);
 $('checksList').innerHTML=items.length
@@ -1721,7 +1737,7 @@ let net=0;
 for(const t of dayItems)net+=(t.type==='receipt'?t.amount:-t.amount);
 const cls=net>=0?'income':'expense';
 return `<div class="day">
-<div class="day-head"><span>${dayLabel(date)}</span><span class="day-net ${cls}">${net>=0?'+':'−'}${fmt(Math.abs(net))}</span></div>
+<div class="day-head"><span>${dayLabel(date)}</span><span class="day-net ${cls}">${net>=0?'+':'−'}${moneyS(Math.abs(net))}</span></div>
 ${dayItems.map(t=>itemHTML(t)).join('')}
 </div>`;
 }).join('');
@@ -1734,11 +1750,11 @@ if(t.type==='purchase')buy+=t.amount;
 else if(t.type==='payment')pay+=t.amount;
 else rec+=t.amount;
 }
-$('rBuy').textContent=fmt(buy);
-$('rPay').textContent=fmt(pay);
-$('rRec').textContent=fmt(rec);
+$('rBuy').textContent=moneyS(buy);
+$('rPay').textContent=moneyS(pay);
+$('rRec').textContent=moneyS(rec);
 const bal=rec-buy-pay;
-$('rBal').innerHTML=(bal<0?'−':'')+fmt(Math.abs(bal));
+$('rBal').innerHTML=(bal<0?'−':'')+moneyS(Math.abs(bal));
 
 const now=calOf(todayISO());
 let y=now.y,m=now.m;
@@ -1792,7 +1808,7 @@ return `<div class="chart-row">
 <div class="chart-bar cash" style="width:${wc}%"></div>
 <div class="chart-bar check" style="width:${wk}%"></div>
 </div>
-<div class="chart-val">${total?fmt(total):'—'}</div>
+<div class="chart-val">${total?moneyC(total):'—'}</div>
 </div>`;
 }).join('');
 }
@@ -1810,7 +1826,7 @@ return `<div class="chart-row" style="margin-bottom:14px;">
 <div class="chart-track" style="height:11px;"><div class="chart-bar income" style="width:${wi}%"></div></div>
 <div class="chart-track" style="height:11px;"><div class="chart-bar expense" style="width:${we}%"></div></div>
 </div>
-<div class="chart-val" style="line-height:1.9;">${income?'+'+fmt(income):'—'}<br>${expense?'−'+fmt(expense):'—'}</div>
+<div class="chart-val" style="line-height:1.9;">${income?'+'+moneyC(income):'—'}<br>${expense?'−'+moneyC(expense):'—'}</div>
 </div>`;
 }).join('');
 }
@@ -1926,8 +1942,7 @@ document.body.classList.add('locked');
 function closeSheet(){$('overlay').classList.remove('open');if(!$('helpOverlay').classList.contains('open')&&!$('saveOverlay').classList.contains('open')&&!$('servicesOverlay').classList.contains('open')&&!$('payOverlay').classList.contains('open'))document.body.classList.remove('locked');}
 
 function saveTx(){
-const raw=toEn($('amountInput').value).replace(/[^\d]/g,'');
-const amount=Number(raw);
+const amount=parseMoneyInput($('amountInput').value);
 if(!amount||amount<=0){
 const w=$('amountWrap');
 w.classList.add('error');
@@ -2014,7 +2029,7 @@ return arr.map((t,i)=>`<tr>
 <td>${esc(t.person||'—')}</td>
 <td>${payWord(t)}</td>
 <td>${t.bank?esc(t.bank):'—'}</td>
-<td style="color:#dc2626;font-weight:700;">${fmt(t.amount)}</td>
+<td style="color:#dc2626;font-weight:700;">${moneyS(t.amount)}</td>
 </tr>`).join('');
 }
 function specialRows(arr){
@@ -2028,7 +2043,7 @@ return arr.map((t,i)=>`<tr>
 <td>${payWord(t)}</td>
 <td>${esc(t.serial||'—')}</td>
 <td>${t.due?faDateShort(t.due):'—'}</td>
-<td style="color:#dc2626;font-weight:700;">${fmt(t.amount)}</td>
+<td style="color:#dc2626;font-weight:700;">${moneyS(t.amount)}</td>
 </tr>`).join('');
 }
 function flowRows(arr,isPayment){
@@ -2041,7 +2056,7 @@ return arr.map((t,i)=>`<tr>
 <td>${payWord(t)}</td>
 <td>${esc(t.serial||'—')}</td>
 <td>${t.due?faDateShort(t.due):'—'}${t.bank?' / '+esc(t.bank):''}</td>
-<td style="color:${isPayment?'#dc2626':'#059669'};font-weight:700;">${isPayment?'−':'+'}${fmt(t.amount)}</td>
+<td style="color:${isPayment?'#dc2626':'#059669'};font-weight:700;">${isPayment?'−':'+'}${moneyS(t.amount)}</td>
 </tr>`).join('');
 }
 function checkRows(arr){
@@ -2055,7 +2070,7 @@ return arr.map((t,i)=>`<tr>
 <td>${esc(t.bank||'—')}</td>
 <td>${t.due?faDateShort(t.due):'—'}</td>
 <td>${statusLabel(checkStatus(t))}</td>
-<td style="font-weight:700;">${fmt(t.amount)}</td>
+<td style="font-weight:700;">${moneyS(t.amount)}</td>
 </tr>`).join('');
 }
 
@@ -2071,10 +2086,10 @@ const totalBuy=sum(daily)+sum(special);
 const totalPay=sum(payments);
 const totalRec=sum(receipts);
 const bal=totalRec-totalBuy-totalPay;
-const CUR=L('تومان','Toman');
+const CUR='';
 const H={
 date:L('تاریخ / ساعت','Date / time'),desc:L('شرح','Description'),cat:L('دسته','Category'),seller:L('فروشنده','Seller'),
-method:L('روش','Method'),bank:L('بانک','Bank'),amountT:L('مبلغ (تومان)','Amount (Toman)'),amount:L('مبلغ','Amount'),
+method:L('روش','Method'),bank:L('بانک','Bank'),amountT:L('مبلغ (ریال)','Amount (USD)'),amount:L('مبلغ','Amount'),
 item:L('نام کالا','Item'),qty:L('تعداد','Qty'),serial:L('سری چک','Cheque no.'),due:L('سررسید','Due date'),
 reason:L('بابت','For'),payee:L('دریافت‌کننده','Payee'),payer:L('پرداخت‌کننده','Payer'),dueBank:L('سررسید / بانک','Due / bank'),
 regDate:L('تاریخ ثبت','Recorded'),person:L('نام شخص','Person'),status:L('وضعیت','Status')
@@ -2086,47 +2101,47 @@ body+=`<h2>🛒 ${L('جدول ۱: خریدهای روزانه','Table 1: Daily p
 <table>
 <thead><tr><th>#</th><th>${H.date}</th><th>${H.desc}</th><th>${H.cat}</th><th>${H.seller}</th><th>${H.method}</th><th>${H.bank}</th><th>${H.amountT}</th></tr></thead>
 <tbody>${dailyRows(daily)}</tbody>
-<tfoot><tr><td colspan="7">${L('جمع خریدهای روزانه','Total daily purchases')}</td><td>${fmt(sum(daily))}</td></tr></tfoot>
+<tfoot><tr><td colspan="7">${L('جمع خریدهای روزانه','Total daily purchases')}</td><td>${money(sum(daily))}</td></tr></tfoot>
 </table>`;
 }
 if(section==='all'||section==='special'){
 body+=`<h2>⭐ ${L('جدول ۲: خریدهای خاص','Table 2: Special purchases')}</h2>
 <table>
-<thead><tr><th>#</th><th>${H.date}</th><th>${H.item}</th><th>${H.qty}</th><th>${H.seller}</th><th>${H.method}</th><th>${H.serial}</th><th>${H.due}</th><th>${H.amount}</th></tr></thead>
+<thead><tr><th>#</th><th>${H.date}</th><th>${H.item}</th><th>${H.qty}</th><th>${H.seller}</th><th>${H.method}</th><th>${H.serial}</th><th>${H.due}</th><th>${H.amountT}</th></tr></thead>
 <tbody>${specialRows(special)}</tbody>
-<tfoot><tr><td colspan="8">${L('جمع خریدهای خاص','Total special purchases')}</td><td>${fmt(sum(special))}</td></tr></tfoot>
+<tfoot><tr><td colspan="8">${L('جمع خریدهای خاص','Total special purchases')}</td><td>${money(sum(special))}</td></tr></tfoot>
 </table>`;
 }
 if(section==='all'||section==='payments'){
 body+=`<h2>💸 ${L('جدول ۳: پرداخت‌ها','Table 3: Payments')}</h2>
 <table>
-<thead><tr><th>#</th><th>${H.date}</th><th>${H.reason}</th><th>${H.payee}</th><th>${H.method}</th><th>${H.serial}</th><th>${H.dueBank}</th><th>${H.amount}</th></tr></thead>
+<thead><tr><th>#</th><th>${H.date}</th><th>${H.reason}</th><th>${H.payee}</th><th>${H.method}</th><th>${H.serial}</th><th>${H.dueBank}</th><th>${H.amountT}</th></tr></thead>
 <tbody>${flowRows(payments,true)}</tbody>
-<tfoot><tr><td colspan="7">${L('جمع پرداخت‌ها','Total payments')}</td><td>${fmt(totalPay)}</td></tr></tfoot>
+<tfoot><tr><td colspan="7">${L('جمع پرداخت‌ها','Total payments')}</td><td>${money(totalPay)}</td></tr></tfoot>
 </table>`;
 }
 if(section==='all'||section==='receipts'){
 body+=`<h2>📥 ${L('جدول ۴: دریافت‌ها','Table 4: Income')}</h2>
 <table>
-<thead><tr><th>#</th><th>${H.date}</th><th>${H.reason}</th><th>${H.payer}</th><th>${H.method}</th><th>${H.serial}</th><th>${H.dueBank}</th><th>${H.amount}</th></tr></thead>
+<thead><tr><th>#</th><th>${H.date}</th><th>${H.reason}</th><th>${H.payer}</th><th>${H.method}</th><th>${H.serial}</th><th>${H.dueBank}</th><th>${H.amountT}</th></tr></thead>
 <tbody>${flowRows(receipts,false)}</tbody>
-<tfoot><tr><td colspan="7">${L('جمع دریافت‌ها','Total income')}</td><td>${fmt(totalRec)}</td></tr></tfoot>
+<tfoot><tr><td colspan="7">${L('جمع دریافت‌ها','Total income')}</td><td>${money(totalRec)}</td></tr></tfoot>
 </table>`;
 }
 if(section==='all'||section==='checks'){
 body+=`<h2>🧾 ${L('جدول ۵: چک‌ها','Table 5: Cheques')}</h2>
 <table>
-<thead><tr><th>#</th><th>${H.regDate}</th><th>${H.desc}</th><th>${H.person}</th><th>${H.serial}</th><th>${H.bank}</th><th>${H.due}</th><th>${H.status}</th><th>${H.amount}</th></tr></thead>
+<thead><tr><th>#</th><th>${H.regDate}</th><th>${H.desc}</th><th>${H.person}</th><th>${H.serial}</th><th>${H.bank}</th><th>${H.due}</th><th>${H.status}</th><th>${H.amountT}</th></tr></thead>
 <tbody>${checkRows(checks)}</tbody>
 </table>`;
 }
 
 const summaryBox=section==='all'?`
 <div class="summary">
-<div><span>${L('جمع کل خریدها','Total purchases')}</span><b>${fmt(totalBuy)} ${CUR}</b></div>
-<div><span>${L('جمع کل پرداخت‌ها','Total payments')}</span><b>${fmt(totalPay)} ${CUR}</b></div>
-<div><span>${L('جمع کل دریافت‌ها','Total income')}</span><b>${fmt(totalRec)} ${CUR}</b></div>
-<div><span>${L('مانده نهایی','Final balance')}</span><b style="color:${bal>=0?'#059669':'#dc2626'}">${fmt(Math.abs(bal))} ${CUR}${bal<0?L(' بدهکار',' (deficit)'):''}</b></div>
+<div><span>${L('جمع کل خریدها','Total purchases')}</span><b>${money(totalBuy)}</b></div>
+<div><span>${L('جمع کل پرداخت‌ها','Total payments')}</span><b>${money(totalPay)}</b></div>
+<div><span>${L('جمع کل دریافت‌ها','Total income')}</span><b>${money(totalRec)}</b></div>
+<div><span>${L('مانده نهایی','Final balance')}</span><b style="color:${bal>=0?'#059669':'#dc2626'}">${money(Math.abs(bal))}${bal<0?L(' بدهکار',' (deficit)'):''}</b></div>
 </div>`:'';
 
 const titleMap=LANG==='en'
@@ -2220,7 +2235,7 @@ const totalBuy=sum(daily)+sum(special);
 const totalPay=sum(payments);
 const totalRec=sum(receipts);
 const bal=totalRec-totalBuy-totalPay;
-const CUR=' '+L('تومان','Toman');
+
 const items=n=>LANG==='en'?fmt(n)+(n===1?' item':' items'):fmt(n)+' مورد';
 const none=L('— موردی ثبت نشده —','— No entries —');
 
@@ -2246,12 +2261,12 @@ out+='🕐 '+L('ساعت','Time')+': '+nowT+'\n';
 out+='📋 '+L('تعداد کل تراکنش‌ها','Total transactions')+': '+fmt(all.length)+'\n\n';
 
 out+='┌─── '+L('خلاصه مالی','Financial summary')+' ───┐\n';
-out+=L('جمع خریدهای روزانه','Daily purchases')+': '+fmt(sum(daily))+CUR+'\n';
-out+=L('جمع خریدهای خاص','Special purchases')+': '+fmt(sum(special))+CUR+'\n';
-out+=L('جمع کل خریدها','Total purchases')+': '+fmt(totalBuy)+CUR+'\n';
-out+=L('جمع پرداخت‌ها','Total payments')+': '+fmt(totalPay)+CUR+'\n';
-out+=L('جمع دریافت‌ها','Total income')+': '+fmt(totalRec)+CUR+'\n';
-out+=L('مانده نهایی','Final balance')+': '+fmt(Math.abs(bal))+CUR+(bal<0?L(' (بدهکار)',' (deficit)'):'')+'\n';
+out+=L('جمع خریدهای روزانه','Daily purchases')+': '+money(sum(daily))+'\n';
+out+=L('جمع خریدهای خاص','Special purchases')+': '+money(sum(special))+'\n';
+out+=L('جمع کل خریدها','Total purchases')+': '+money(totalBuy)+'\n';
+out+=L('جمع پرداخت‌ها','Total payments')+': '+money(totalPay)+'\n';
+out+=L('جمع دریافت‌ها','Total income')+': '+money(totalRec)+'\n';
+out+=L('مانده نهایی','Final balance')+': '+money(Math.abs(bal))+(bal<0?L(' (بدهکار)',' (deficit)'):'')+'\n';
 out+='└──────────────────┘\n\n';
 
 out+=sep+'\n🛒 '+L('جدول ۱: خریدهای روزانه','Table 1: Daily purchases')+' ('+items(daily.length)+')\n'+sep+'\n';
@@ -2262,10 +2277,10 @@ out+=' '+W.desc+': '+(t.title||'—')+(t.important?' ⭐':'')+'\n';
 out+=' '+W.cat+': '+catOf(t).name+'\n';
 out+=' '+W.seller+': '+(t.person||'—')+'\n';
 out+=' '+W.method+': '+pw(t)+(t.bank?' - '+t.bank:'')+'\n';
-out+=' '+W.amount+': '+fmt(t.amount)+CUR+'\n';
+out+=' '+W.amount+': '+money(t.amount)+'\n';
 out+=thin+'\n';
 });
-out+='🔹 '+L('جمع خریدهای روزانه','Total daily purchases')+': '+fmt(sum(daily))+CUR+'\n\n';
+out+='🔹 '+L('جمع خریدهای روزانه','Total daily purchases')+': '+money(sum(daily))+'\n\n';
 } else out+=none+'\n\n';
 
 out+=sep+'\n⭐ '+L('جدول ۲: خریدهای خاص','Table 2: Special purchases')+' ('+items(special.length)+')\n'+sep+'\n';
@@ -2279,10 +2294,10 @@ out+=' '+W.method+': '+pw(t);
 if(t.serial) out+=' - '+W.serial+': '+t.serial;
 if(t.due) out+=' - '+W.due+': '+faDateShort(t.due);
 out+='\n';
-out+=' '+W.amount+': '+fmt(t.amount)+CUR+'\n';
+out+=' '+W.amount+': '+money(t.amount)+'\n';
 out+=thin+'\n';
 });
-out+='🔹 '+L('جمع خریدهای خاص','Total special purchases')+': '+fmt(sum(special))+CUR+'\n\n';
+out+='🔹 '+L('جمع خریدهای خاص','Total special purchases')+': '+money(sum(special))+'\n\n';
 } else out+=none+'\n\n';
 
 out+=sep+'\n💸 '+L('جدول ۳: پرداخت‌ها','Table 3: Payments')+' ('+items(payments.length)+')\n'+sep+'\n';
@@ -2296,10 +2311,10 @@ if(t.serial) out+=' - '+W.serial+': '+t.serial;
 if(t.due) out+=' - '+W.due+': '+faDateShort(t.due);
 if(t.bank) out+=' - '+W.bank+': '+t.bank;
 out+='\n';
-out+=' '+W.amount+': −'+fmt(t.amount)+CUR+'\n';
+out+=' '+W.amount+': −'+money(t.amount)+'\n';
 out+=thin+'\n';
 });
-out+='🔹 '+L('جمع پرداخت‌ها','Total payments')+': '+fmt(totalPay)+CUR+'\n\n';
+out+='🔹 '+L('جمع پرداخت‌ها','Total payments')+': '+money(totalPay)+'\n\n';
 } else out+=none+'\n\n';
 
 out+=sep+'\n📥 '+L('جدول ۴: دریافت‌ها','Table 4: Income')+' ('+items(receipts.length)+')\n'+sep+'\n';
@@ -2313,10 +2328,10 @@ if(t.serial) out+=' - '+W.serial+': '+t.serial;
 if(t.due) out+=' - '+W.due+': '+faDateShort(t.due);
 if(t.bank) out+=' - '+W.bank+': '+t.bank;
 out+='\n';
-out+=' '+W.amount+': +'+fmt(t.amount)+CUR+'\n';
+out+=' '+W.amount+': +'+money(t.amount)+'\n';
 out+=thin+'\n';
 });
-out+='🔹 '+L('جمع دریافت‌ها','Total income')+': '+fmt(totalRec)+CUR+'\n\n';
+out+='🔹 '+L('جمع دریافت‌ها','Total income')+': '+money(totalRec)+'\n\n';
 } else out+=none+'\n\n';
 
 out+=sep+'\n🧾 '+L('جدول ۵: چک‌ها','Table 5: Cheques')+' ('+items(checks.length)+')\n'+sep+'\n';
@@ -2325,7 +2340,7 @@ checks.forEach((t,i)=>{
 out+=fmt(i+1)+'. '+itemTitle(t)+' — '+(t.person||'—')+'\n';
 out+=' '+W.serial+': '+(t.serial||'—')+' | '+W.bank+': '+(t.bank||'—')+'\n';
 out+=' '+W.due+': '+(t.due?faDateShort(t.due):'—')+' | '+W.status+': '+statusLabel(checkStatus(t))+'\n';
-out+=' '+W.amount+': '+fmt(t.amount)+CUR+'\n';
+out+=' '+W.amount+': '+money(t.amount)+'\n';
 out+=thin+'\n';
 });
 } else out+=none+'\n\n';
@@ -2457,9 +2472,9 @@ reader.readAsText(file);
 /* ========================================================
 EVENTS
 ======================================================== */
+(function(){const ai=$('amountInput');ai.setAttribute('inputmode',LANG==='en'?'decimal':'numeric');ai.placeholder=LANG==='en'?'0.00':'۰';})();
 $('amountInput').addEventListener('input',e=>{
-const digits=toEn(e.target.value).replace(/[^\d]/g,'').replace(/^0+/,'');
-e.target.value=digits?fmt(Number(digits)):'';
+e.target.value=moneyInputClean(e.target.value);
 $('amountWrap').classList.remove('error');
 });
 
