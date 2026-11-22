@@ -592,6 +592,7 @@ html.dark .pay-warn{background:#450a0a;border-color:#7f1d1d;color:#fecaca;}
 ::-webkit-scrollbar{width:5px;height:5px;}
 ::-webkit-scrollbar-thumb{background:var(--primary-light);border-radius:3px;}
 ::-webkit-scrollbar-track{background:transparent;}
+html[lang="fa"] .buy-banner,html[lang="fa"] .buy-btn-wide{display:none !important;}
 </style>
 </head>
 <body>
@@ -2418,6 +2419,7 @@ document.body.removeChild(ta);
 PAY MODAL (Trust Wallet · USDT TRC-20) — manual verification only
 ======================================================== */
 function openPay(){
+if(LANG!=='en')return;
 if($('helpOverlay').classList.contains('open'))closeHelp();
 if($('servicesOverlay').classList.contains('open'))closeServices();
 $('twLink').href=trustWalletLink();
